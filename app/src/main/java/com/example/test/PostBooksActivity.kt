@@ -22,13 +22,13 @@ class PostBooksActivity: AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.post_books) // You can set the layout file here
+        setContentView(R.layout.post_books) // we can set the layout file here
 
 
 
         val addButton = findViewById<Button>(R.id.postBookButton)
         addButton.setOnClickListener {
-            // Replace these with actual data or retrieve from user input
+
             val bookNameEditText = findViewById<EditText>(R.id.etTitle)
             val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
             val bookDateEditText = findViewById<EditText>(R.id.etDate)
@@ -64,7 +64,7 @@ class PostBooksActivity: AppCompatActivity(){
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
             Response.Listener { response ->
-                // Handle the response from the server
+                // Handling the response from the server
                 Log.d("VolleyExample", "Book added successfully. Response: $response")
             },
             Response.ErrorListener { error ->

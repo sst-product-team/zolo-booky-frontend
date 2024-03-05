@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.test" />
+                  <option name="mobileSdkAppId" value="1:425300887726:android:2ff5029d1c9e85985b453f" />
+                  <option name="projectId" value="zolo-booky-1" />
+                  <option name="projectNumber" value="425300887726" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
