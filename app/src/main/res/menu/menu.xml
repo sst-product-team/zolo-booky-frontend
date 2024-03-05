@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactionsFragment"
+        android:title="Transactions"
+        android:icon="@drawable/list_ui"
+        android:iconTint="@color/black"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/homeFragment"
+        android:title="Home"
+        android:icon="@drawable/house_solid"
+        android:iconTint="@color/black"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/myBooksFragment"
+        android:title="My Books"
+        android:icon="@drawable/book_solid"
+        android:iconTint="@color/black"/>
+</menu>

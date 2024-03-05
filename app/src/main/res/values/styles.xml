@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="gradient">
+        <item name="android:background">@drawable/fade_overlay</item>
+    </style>
+
+    <style name="fadeShapeAppearanceOverlay">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="overlay">@drawable/fade_overlay</item>
+    </style>
+
+
+
+
+
+
+</resources>

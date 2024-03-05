@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425300887726",
+    "project_id": "zolo-booky-1",
+    "storage_bucket": "zolo-booky-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425300887726:android:2ff5029d1c9e85985b453f",
+        "android_client_info": {
+          "package_name": "com.example.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARa4jCYkDNygSMIV6mMEDyNq25O6IpJ6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
