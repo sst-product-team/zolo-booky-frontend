@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@color/onlyBlack" />
+    </item>
+    <item android:bottom="1dp">
+        <color android:color="@color/onlyWhite" /> </item>
+</layer-list>

@@ -1,9 +1,12 @@
 package com.example.test.activity
 
+import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.Response
@@ -12,7 +15,11 @@ import com.android.volley.toolbox.Volley
 import com.example.test.Constants
 import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.datepicker.MaterialDatePicker
 import org.json.JSONObject
+import java.time.Instant
+import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
@@ -24,7 +31,6 @@ class BookInfoActivity : AppCompatActivity() {
     private var author: String? = ""
     private var owner_id: Int? = 0
     private var book_next_available: String? = ""
-    private var count: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,37 +58,71 @@ class BookInfoActivity : AppCompatActivity() {
             textAuthor.text = author
             tvGenre.text = "Ratings: $ratings"
             tvAllGenre.text = book_next_available
-            tvCount.text = count.toString() // Setting the initial count
 
-            bIncrement.setOnClickListener {
-                incrementQuantity()
-            }
-
-            bDecrement.setOnClickListener {
-                decrementQuantity()
-            }
             binding.bBorrowBook.setOnClickListener {
-                showBorrowConfirmationDialog(bookId, count)
+                datePicker(bookId)
             }
         }
     }
+    private fun datePicker(bookId: Int) {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        picker.show(supportFragmentManager, "TAG")
 
+        picker.addOnPositiveButtonClickListener {
+            val selectedDate = picker.selection!!
 
-    private fun showBorrowConfirmationDialog(bookId :Int, count: Int) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirm Borrow")
-            .setMessage("Are you sure you want to borrow the book for ${count} days?")
-            .setPositiveButton("Borrow") { dialog, which ->
+            val borrowedDays = calculateBorrowedDays(selectedDate)
 
-                borrowDataToDatabase(bookId , count)
+            Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
+            showCustomDialog(bookId, borrowedDays.toInt()+1)
+        }
 
-                Log.d("BookInfoActivity", "Borrowing for ${count} days confirmed!")
-            }
-            .setNegativeButton("Cancel") { dialog, which ->
-                dialog.dismiss()
-            }
-            .show()
+        picker.addOnNegativeButtonClickListener {
+            picker.dismiss()
+        }
     }
+    private fun showCustomDialog(bookId: Int, daysBorrowed: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.custom_dialog_box, null)
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogView)
+
+        val dialog = builder.create()
+
+        val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
+        val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
+        val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
+
+        tvBorrowDateText.text = "Borrow the book for $daysBorrowed days?"
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnConfirm.setOnClickListener {
+            borrowDataToDatabase(bookId, daysBorrowed)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
+    private fun calculateBorrowedDays(selectedDate: Long): Long {
+        val midnightToday = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
+        return (selectedDate - midnightToday) / (1000 * 60 * 60 * 24)
+    }
+
+
     private fun borrowDataToDatabase(bookId: Int, count: Int) {
         val url = "${Constants.BASE_URL}/v0/appeals"
 
@@ -135,15 +175,4 @@ class BookInfoActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(jsonObjectRequest)
     }
 
-    private fun incrementQuantity() {
-        count++
-        binding.tvCount.text = count.toString()
-    }
-
-    private fun decrementQuantity() {
-        if (count > 1) {
-            count--
-            binding.tvCount.text = count.toString()
-        }
-    }
 }
