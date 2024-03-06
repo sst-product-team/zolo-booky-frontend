@@ -87,8 +87,8 @@ class BookInfoActivity : AppCompatActivity() {
         val url = "${Constants.BASE_URL}/v0/appeals"
 
         val jsonBody = JSONObject().apply {
-            put("book-id", bookId)
-            put("number_of_days", count)
+            put("book_id", bookId)
+            put("borrower_id", count)//only for test
 //            put("requested_by", owner_id)
         }
 
@@ -141,7 +141,7 @@ class BookInfoActivity : AppCompatActivity() {
     }
 
     private fun decrementQuantity() {
-        if (count >= 1) {
+        if (count > 1) {
             count--
             binding.tvCount.text = count.toString()
         }
