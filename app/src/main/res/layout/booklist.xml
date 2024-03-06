@@ -9,40 +9,46 @@
     >
 
     <androidx.cardview.widget.CardView
-        app:cardElevation="-4dp"
+        app:cardElevation="4dp"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="10dp"
         app:circularflow_defaultRadius="20dp"
         tools:ignore="MissingConstraints"
         tools:context=".fragment.homeFragment"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="8dp"
-        android:padding="4dp">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            >
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="120dp"
-                android:layout_height="191dp"
-                android:src="@drawable/image1"
-                tools:layout_editor_absoluteY="-5dp" />
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/image2"
+
+                app:layout_constraintBaseline_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/blBkTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_marginStart="16dp"
-                android:fontFamily="sans-serif-black"
+
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
                 android:text="BookTitle"
-                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:textStyle="bold"
+
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,28 +56,32 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="BookOwner"
-                android:layout_margin="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/blBkTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <TextView
                 android:id="@+id/blBkStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Available"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_green_dark"
+                android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
+
                 app:layout_constraintTop_toTopOf="@+id/textView3" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="author"
+                android:layout_margin="8dp"
+                android:text="Author"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/blBkTitle" />
 
