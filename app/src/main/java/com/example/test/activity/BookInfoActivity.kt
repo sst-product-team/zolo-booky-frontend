@@ -141,7 +141,7 @@ class BookInfoActivity : AppCompatActivity() {
     }
 
     private fun decrementQuantity() {
-        if (count > 0) {
+        if (count >= 1) {
             count--
             binding.tvCount.text = count.toString()
         }
