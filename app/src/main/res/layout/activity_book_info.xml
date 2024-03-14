@@ -75,17 +75,15 @@
 
             <TextView
                 android:id="@+id/tvBookName"
-                android:layout_width="250dp"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
                 android:text="The Spirit This is a long title that will wrap"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/cvBookImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/cvBookImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/cvBookImage" />
 
             <TextView
                 android:id="@+id/textAuthor"
