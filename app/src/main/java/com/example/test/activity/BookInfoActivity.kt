@@ -134,12 +134,12 @@ class BookInfoActivity : AppCompatActivity() {
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
-            Response.Listener { response ->
+            { response ->
                 // Handle successful response
                 Log.d("BookInfoActivity", "Book borrowed successfully. Response: $response")
                 // Update UI or perform further actions if needed
             },
-            Response.ErrorListener { error ->
+            { error ->
                 // Handle errors
                 Log.e("BookInfoActivity", "Error borrowing book: $error")
                 // Display error message or perform other error handling steps
