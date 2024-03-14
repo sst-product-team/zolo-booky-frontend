@@ -1,5 +1,6 @@
 package com.example.test.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -38,9 +39,10 @@ class HomeFragment : Fragment() {
                 Constants.USER_ID = userId
                 Constants.USER_NAME = userName
                 Constants.USER_FCM = fcmToken
+                Log.d("FCM SUCCESS", "Firebase token saved successfully")
             },
             { error ->
-                Log.e("API Error", error.toString())
+                Log.e("FCM API Error", error.toString())
                 Log.e("VolleyExample", "Error: $error")
             }
         )
@@ -61,6 +63,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -89,6 +92,7 @@ class HomeFragment : Fragment() {
             { response ->
                 Log.d("API Response", response.toString())
                 val books = mutableListOf<ListBookEntity>()
+                Log.d("BOOKS", books.toString())
                 for (i in 0 until response.length()) {
                     val bookObject = response.getJSONObject(i)
 
