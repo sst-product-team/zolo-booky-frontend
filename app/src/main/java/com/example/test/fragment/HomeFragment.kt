@@ -3,10 +3,10 @@ package com.example.test.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -16,9 +16,9 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.adapter.BookListAdapter
-import com.example.test.entity.ListBookEntity
 import com.example.test.databinding.FragmentHomeBinding
-import com.example.test.Constants
+import com.example.test.entity.ListBookEntity
+import com.example.test.globalContexts.Constants
 import com.google.firebase.messaging.FirebaseMessaging
 
 
@@ -57,9 +57,9 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -70,13 +70,13 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
         val queue = Volley.newRequestQueue(requireContext())
 
-        val url = "${Constants.BASE_URL}/v0/books"
+        val url = "${Constants.BASE_URL}/v0/books?size=100"
 
 
         var token: String
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-            token = task.result
+                token = task.result
                 Log.d("FCM", token)
                 sendTokenToServer(token, queue)
             } else {
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
 
             },
             { error ->
-                Log.e("API Error", error.toString())
+                Log.e("API Error", "${error.toString()} | ${url}")
                 Log.e("VolleyExample", "Error: $error")
             }
         )

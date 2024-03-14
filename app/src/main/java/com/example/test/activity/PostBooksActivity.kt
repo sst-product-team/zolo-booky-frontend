@@ -1,19 +1,18 @@
-package com.example.test
+package com.example.test.activity
 
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.content.Context
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.test.R
+import com.example.test.globalContexts.Constants
 import org.json.JSONObject
-import com.example.test.Constants
 
 class PostBooksActivity: AppCompatActivity(){
 
@@ -57,8 +56,8 @@ class PostBooksActivity: AppCompatActivity(){
         val jsonBody = JSONObject().apply {
             put("name", bookName)
             put("description", bookDescription)
-            put("availability",bookAvailability)
-            put("owner",1)
+            put("availability", bookAvailability)
+            put("owner", Constants.USER_ID)
         }
 
         val jsonObjectRequest = JsonObjectRequest(

@@ -1,25 +1,22 @@
 package com.example.test.activity
 
 import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.DatePicker
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.test.Constants
 import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
+import com.example.test.globalContexts.Constants
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.json.JSONObject
-import java.time.Instant
-import java.util.Date
+import java.time.LocalDate
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
@@ -124,18 +121,22 @@ class BookInfoActivity : AppCompatActivity() {
 
 
     private fun borrowDataToDatabase(bookId: Int, count: Int) {
-        val url = "${Constants.BASE_URL}/v0/appeals"
-
+        val url = "https://api-zolo.onrender.com/v0/appeals"
+        val localDate = LocalDate.now()
+        val addedDate = localDate.plusDays(count.toLong())
+        val completionDate = addedDate.toString()
         val jsonBody = JSONObject().apply {
             put("book_id", bookId)
-            put("borrower_id", count)//only for test
-//            put("requested_by", owner_id)
+            put("borrower_id", Constants.USER_ID)
+            put("initiation_date", localDate.toString())
+            put("expected_completion_date", completionDate)
         }
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
             { response ->
                 // Handle successful response
+                Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 Log.d("BookInfoActivity", "Book borrowed successfully. Response: $response")
                 // Update UI or perform further actions if needed
             },
