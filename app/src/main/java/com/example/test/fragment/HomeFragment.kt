@@ -1,12 +1,11 @@
 package com.example.test.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -16,8 +15,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.adapter.BookListAdapter
-import com.example.test.databinding.FragmentHomeBinding
 import com.example.test.entity.ListBookEntity
+import com.example.test.databinding.FragmentHomeBinding
 import com.example.test.globalContexts.Constants
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -39,10 +38,9 @@ class HomeFragment : Fragment() {
                 Constants.USER_ID = userId
                 Constants.USER_NAME = userName
                 Constants.USER_FCM = fcmToken
-                Log.d("FCM SUCCESS", "Firebase token saved successfully")
             },
             { error ->
-                Log.e("FCM API Error", error.toString())
+                Log.e("API Error", error.toString())
                 Log.e("VolleyExample", "Error: $error")
             }
         )
@@ -57,20 +55,19 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
-    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
         val queue = Volley.newRequestQueue(requireContext())
 
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/books"
 
 
         var token: String
@@ -92,7 +89,6 @@ class HomeFragment : Fragment() {
             { response ->
                 Log.d("API Response", response.toString())
                 val books = mutableListOf<ListBookEntity>()
-                Log.d("BOOKS", books.toString())
                 for (i in 0 until response.length()) {
                     val bookObject = response.getJSONObject(i)
 
@@ -114,7 +110,7 @@ class HomeFragment : Fragment() {
 
             },
             { error ->
-                Log.e("API Error", "${error.toString()} | ${url}")
+                Log.e("API Error", error.toString())
                 Log.e("VolleyExample", "Error: $error")
             }
         )

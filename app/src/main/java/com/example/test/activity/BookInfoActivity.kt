@@ -13,10 +13,13 @@ import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
 import com.example.test.globalContexts.Constants
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.json.JSONObject
 import java.time.LocalDate
+import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
@@ -28,6 +31,7 @@ class BookInfoActivity : AppCompatActivity() {
     private var author: String? = ""
     private var owner_id: Int? = 0
     private var book_next_available: String? = ""
+    private var book_available_till: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,7 @@ class BookInfoActivity : AppCompatActivity() {
         thumbnail = intent.getStringExtra("thumbnail")
         author = intent.getStringExtra("author")
         owner_id = intent.getIntExtra("owner_id", 0)
+        book_available_till = intent.getSerializableExtra("availability") as Date?
 
         with (binding) {
             tvBookName.text = name
@@ -62,10 +67,18 @@ class BookInfoActivity : AppCompatActivity() {
         }
     }
     private fun datePicker(bookId: Int) {
+        val constraintsBuilder = CalendarConstraints.Builder()
+        constraintsBuilder.setStart(MaterialDatePicker.todayInUtcMilliseconds())
+
+        val bookAvailableTillMillis = book_available_till?.time ?: MaterialDatePicker.todayInUtcMilliseconds()
+        constraintsBuilder.setEnd(bookAvailableTillMillis)
+
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setCalendarConstraints(constraintsBuilder.build())
             .build()
+
         picker.show(supportFragmentManager, "TAG")
 
         picker.addOnPositiveButtonClickListener {
@@ -76,17 +89,15 @@ class BookInfoActivity : AppCompatActivity() {
             Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
             showCustomDialog(bookId, borrowedDays.toInt()+1)
         }
-
         picker.addOnNegativeButtonClickListener {
             picker.dismiss()
         }
     }
-    private fun showCustomDialog(bookId: Int, daysBorrowed: Int) {
-        val dialogView = layoutInflater.inflate(R.layout.custom_dialog_box, null)
-        val builder = AlertDialog.Builder(this)
-            .setView(dialogView)
 
-        val dialog = builder.create()
+    private fun showCustomDialog(bookId: Int, daysBorrowed: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(dialogView)
 
         val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
         val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
@@ -105,7 +116,6 @@ class BookInfoActivity : AppCompatActivity() {
 
         dialog.show()
     }
-
 
 
     private fun calculateBorrowedDays(selectedDate: Long): Long {

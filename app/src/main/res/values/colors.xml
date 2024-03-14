@@ -5,5 +5,8 @@
     <color name="onlyBlack">#000000</color>
     <color name="onlyWhite">#FFFFFF</color>
     <color name="netflixred">#E50914</color>
+    <color name="greyRed">#FDE1E1</color>
+    <color name="greyBlue">#C7E6FF</color>
+    <color name="greyLight">#C7C7C7</color>
 
 </resources>

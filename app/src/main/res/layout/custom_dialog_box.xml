@@ -5,27 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardElevation="10dp"
     android:background="@drawable/custom_dialog_bg"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="20dp">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvTitleDialogBox"
+            android:id="@+id/tvTitleDialogBoxOld"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Confirm borrow date"
             android:textColor="@color/onlyBlack"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvBorrowDateText"
+            android:id="@+id/tvBorrowDateTextOld"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Borrow date"
@@ -34,7 +35,7 @@
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleDialogBox" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleDialogBoxOld" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,13 +46,13 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvBorrowDateText">
+            app:layout_constraintTop_toBottomOf="@+id/tvBorrowDateTextOld">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/greyRed"
                 android:text="Cancel"
                 android:layout_marginRight="8dp"
                 android:textColor="@color/onlyBlack"
@@ -63,7 +64,7 @@
                 android:id="@+id/btnConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/netflixred"
+                android:backgroundTint="@color/greyBlue"
                 android:text="Confirm"
                 android:layout_marginLeft="8dp"
                 android:textColor="@color/onlyBlack"
