@@ -4,14 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/onlyWhite"
+    >
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/onlyWhite">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -71,10 +74,10 @@
 
             <TextView
                 android:id="@+id/tvBookName"
-                android:layout_width="251dp"
-                android:layout_height="35dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="18dp"
-                android:text="The Spirit"
+                android:text="The Spirit This is a long title that will wrap"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -84,12 +87,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.503" />
 
+
             <TextView
                 android:id="@+id/textAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginStart="16dp"
                 android:text="Yogi"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -103,23 +106,31 @@
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
+            android:elevation="0dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="The Spirit is a book about the spirit of the human being by Yogi. It is a great book to read and understand the human spirit. Is a great book to understand your Spirit"
-            android:textSize="15sp"
-            android:translationY="-30dp" />
+            android:textAlignment="viewStart"
+            android:textSize="16sp"
+            android:translationY="-30dp"
+            android:maxLines="6" android:lines="4"
+        />
+
 
         <TextView
             android:id="@+id/tvPostedBy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
+            android:layout_marginTop="10dp"
+            android:elevation="0dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Posted by: "
             android:textSize="16sp"
-            android:translationY="-20dp" />
+            android:translationY="-20dp"
+
+            />
+
 
         <TextView
             android:id="@+id/tvBookOwner"
@@ -131,7 +142,10 @@
             android:text="Aatmik"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:translationY="-20dp" />
+            android:translationY="-20dp"
+
+            />
+
 
         <TextView
             android:id="@+id/tvGenre"
@@ -140,9 +154,11 @@
             android:elevation="8dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:layout_marginTop="10dp"
             android:text="Genre: "
             android:textSize="16sp"
             android:translationY="-10dp" />
+
 
         <TextView
             android:id="@+id/tvAllGenre"
@@ -151,10 +167,11 @@
             android:elevation="8dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:textStyle="bold"
             android:text="Mystery"
             android:textSize="16sp"
-            android:translationY="-10dp" />
-
+            android:translationY="-10dp"
+/>
 
     </LinearLayout>
 
@@ -166,53 +183,18 @@
         tools:layout_editor_absoluteX="0dp">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/bBorrowBook"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/bIncrement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvCount"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:text="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/bIncrement"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/bDecrement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvCount"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <Button
             android:id="@+id/bBorrowBook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:layout_margin="16dp"
+            android:background="@drawable/button_style_one"
             android:onClick="openNumberPickerPopup"
             android:text="Borrow This Book"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
 

@@ -54,29 +54,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="290dp"
         android:layout_height="52dp"
         android:layout_margin="8dp"
+        android:addStatesFromChildren="true"
         android:background="@drawable/bg_search_bar"
         app:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_app_bar"
+        app:queryBackground="@null"
         app:queryHint="Search Here..." />
 
     <TextView
         android:id="@+id/filterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:padding="8dp"
-        android:text="Filter"
+        android:text="@string/filter"
         android:textColor="@color/black"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/BookRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/search_view"
         app:layout_constraintTop_toBottomOf="@+id/top_app_bar" />
 

@@ -63,11 +63,11 @@ class PostBooksActivity: AppCompatActivity(){
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
-            Response.Listener { response ->
+            { response ->
                 // Handling the response from the server
                 Log.d("VolleyExample", "Book added successfully. Response: $response")
             },
-            Response.ErrorListener { error ->
+            { error ->
                 // Handle errors
                 Log.e("VolleyExample", "Error adding book: $error")
             }

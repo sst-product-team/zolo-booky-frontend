@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#59FFFFFF</color>
+    <color name="white">#000000</color>
+    <color name="onlyBlack">#ffffff</color>
+    <color name="onlyWhite">#000000</color>
+    <color name="netflixred">#E50914</color>
+
+</resources>
