@@ -8,5 +8,7 @@
     <color name="greyRed">#796262</color>
     <color name="greyBlue">#6489A5</color>
     <color name="greyLight">#313131</color>
+    <color name="darkGrey">#1E1E1E</color>
+
 
 </resources>
