@@ -28,9 +28,9 @@ class PostBooksActivity: AppCompatActivity(){
         val addButton = findViewById<Button>(R.id.postBookButton)
         addButton.setOnClickListener {
 
-            val bookNameEditText = findViewById<EditText>(R.id.etTitle)
+            val bookNameEditText = findViewById<EditText>(R.id.etBookName)
             val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
-            val bookDateEditText = findViewById<EditText>(R.id.etDate)
+            val bookDateEditText = findViewById<EditText>(R.id.etBookName)
 
             val bookName = bookNameEditText.text.toString()
             val bookDescription = bookDescriptionEditText.text.toString()
