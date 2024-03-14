@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import java.util.logging.Handler
@@ -16,5 +17,10 @@ class SplashScreen : AppCompatActivity() {
             startActivity(intent)
             finish()
         },2000)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
+        }
     }
 }

@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:text="My Books"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

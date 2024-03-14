@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/transactionsFragment"
         android:title="Transactions"
-        android:icon="@drawable/list_ui"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_collections_bookmark_24"
         android:iconTint="@color/black"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/homeFragment"
+        app:showAsAction="ifRoom"
         android:title="Home"
-        android:icon="@drawable/house_solid"
+        android:icon="@drawable/baseline_home_24"
         android:iconTint="@color/black"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myBooksFragment"
+        app:showAsAction="ifRoom"
         android:title="My Books"
-        android:icon="@drawable/book_solid"
+        android:icon="@drawable/baseline_auto_stories_24"
         android:iconTint="@color/black"/>
 </menu>
