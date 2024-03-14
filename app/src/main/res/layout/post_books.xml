@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/onlyWhite"
+    android:id="@+id/post_books"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 >
@@ -162,8 +163,18 @@
                     android:textStyle="italic"
                     android:textColor="@color/onlyBlack"
                     android:maxLines="2" android:lines="2"/>
-            </LinearLayout>
 
+            </LinearLayout>
+            <Button
+                android:id="@+id/chooseDateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Date"
+                android:layout_marginTop="16dp"
+                android:onClick="openDatePicker"
+                app:layout_constraintTop_toBottomOf="@id/clButtonLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>
     </LinearLayout>
@@ -177,7 +188,7 @@
 
 
         <Button
-            android:id="@+id/bPostBook"
+            android:id="@+id/postBookButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
