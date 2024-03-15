@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
         val queue = Volley.newRequestQueue(requireContext())
 
-        val url = "${Constants.BASE_URL}/v0/books"
+        val url = "${Constants.BASE_URL}/v0/books?size=100"
 
 
         var token: String
