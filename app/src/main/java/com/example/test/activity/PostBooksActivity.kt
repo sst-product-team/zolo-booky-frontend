@@ -29,59 +29,48 @@ class PostBooksActivity: AppCompatActivity(){
     private val apiUrl = "${Constants.BASE_URL}/v0/books"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        binding = PostBooksBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.post_books)
 
-//        val addButton = findViewById<Button>(R.id.postBookButton)
+        val chooseDateButton = findViewById<Button>(R.id.chooseDateButton)
+        val selectedDateText = findViewById<TextView>(R.id.selectedDateText)
 
-//        addButton.setOnClickListener {
+        chooseDateButton.setOnClickListener {
+            Log.d("PostBooksActivity", "chooseDateButton clicked")
 
-            val bookNameEditText = findViewById<EditText>(R.id.etBookName)
-            val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
 
-            val bookName = bookNameEditText.text.toString()
-            val bookDescription = bookDescriptionEditText.text.toString()
+            picker.show(supportFragmentManager, "TAG")
+            picker.addOnPositiveButtonClickListener {
+                val selectedDate = picker.selection!!
 
-            val chooseDateButton = findViewById<Button>(R.id.chooseDateButton)
-            val selectedDateText = findViewById<TextView>(R.id.selectedDateText)
+                val borrowedDays = calculateBorrowedDays(selectedDate)
 
-            chooseDateButton.setOnClickListener {
-                Log.d("PostBooksActivity", "chooseDateButton clicked")
+                Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
 
-                val picker = MaterialDatePicker.Builder.datePicker()
-                    .setTitleText("Select date")
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                    .build()
+                // Update the TextView with the selected date
+                val date = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()
+                selectedDateText.text = "Selected date: $date"
 
-                picker.show(supportFragmentManager, "TAG")
-                picker.addOnPositiveButtonClickListener {
-                    val selectedDate = picker.selection!!
+                val addButton = findViewById<Button>(R.id.postBookButton)
+                addButton.setOnClickListener {
+                    val bookNameEditText = findViewById<EditText>(R.id.etBookName)
+                    val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
 
-                    val borrowedDays = calculateBorrowedDays(selectedDate)
+                    val bookName = bookNameEditText.text.toString()
+                    val bookDescription = bookDescriptionEditText.text.toString()
 
-                    Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
-
-
-                    // Update the TextView with the selected date
-                    val date = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()
-                    selectedDateText.text = "Selected date: $date" // Add this line
-
-                    val addButton = findViewById<Button>(R.id.postBookButton)
-                    addButton.setOnClickListener {
-                        showCustomDialog( bookName,bookDescription,borrowedDays.toInt()+1,selectedDate)
-                    }
-
+                    showCustomDialog( bookName,bookDescription,borrowedDays.toInt()+1,selectedDate)
                 }
-                picker.addOnNegativeButtonClickListener {
-                    picker.dismiss()
-                }
-//                bookNameEditText.text.clear()
-//                bookDescriptionEditText.text.clear()
+            }
+            picker.addOnNegativeButtonClickListener {
+                picker.dismiss()
             }
         }
-//    }
+    }
 
     private fun showCustomDialog(bookName: String, bookDescription: String ,daysBorrowed: Int,selectedDate: Long) {
         val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
@@ -124,9 +113,13 @@ class PostBooksActivity: AppCompatActivity(){
 
         val jsonBody = JSONObject().apply {
             put("name", bookName)
+            Log.d("PostBooksActivity", "Book name: $bookName")
             put("description", bookDescription)
+            Log.d("PostBooksActivity", "Book description: $bookDescription")
             put("availability", bookAvailability)
+            Log.d("PostBooksActivity", "Book availability: $bookAvailability")
             put("owner", Constants.USER_ID)
+            Log.d("PostBooksActivity", "Book owner: ${Constants.USER_ID}")
         }
 
         val jsonObjectRequest = JsonObjectRequest(
