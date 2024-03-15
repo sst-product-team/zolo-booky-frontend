@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -133,10 +134,15 @@ class PostBooksActivity: AppCompatActivity(){
             { response ->
                 // Handling the response from the server
                 Log.d("VolleyExample", "Book added successfully. Response: $response")
+                Toast.makeText(this@PostBooksActivity, "The book is successfully added", Toast.LENGTH_LONG).show()
             },
             { error ->
                 // Handle errors
                 Log.e("VolleyExample", "Error adding book: $error")
+                val networkResponse = error.networkResponse
+                if (networkResponse != null && networkResponse.statusCode == 409) {
+                    Toast.makeText(this@PostBooksActivity, "The book already exists", Toast.LENGTH_LONG).show()
+                }
             }
         )
 
