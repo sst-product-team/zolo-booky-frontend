@@ -1,25 +1,26 @@
 package com.example.test.tabs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 import com.example.test.R
+import com.example.test.adapter.BookBorrowAdapter
+import com.example.test.adapter.BookListAdapter
+import com.example.test.databinding.FragmentTabBorrowedBinding
+import com.example.test.entity.ListBookEntity
+import com.example.test.globalContexts.Constants
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TabBorrowed.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TabBorrowed : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    private lateinit var binding:FragmentTabBorrowedBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
     }
 
@@ -27,24 +28,55 @@ class TabBorrowed : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_borrowed, container, false)
+        binding = FragmentTabBorrowedBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView = binding.rvBorrowBookList
+
+        val queue = Volley.newRequestQueue(requireContext())
+
+        val url = "${Constants.BASE_URL}/v0/books?size=100"
+
+        var token: String
+
+        Log.d("API Request URL", url)
+
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                Log.d("API Response", response.toString())
+                val books = mutableListOf<ListBookEntity>()
+                for (i in 0 until response.length()) {
+                    val bookObject = response.getJSONObject(i)
+
+                    val bookId = bookObject.getInt("id")
+                    val bookTitle = bookObject.getString("name")
+                    val bookStatus = bookObject.getString("status")
+
+                    books.add(ListBookEntity(bookId, bookTitle, bookStatus))
+                }
+                Log.d("Parsed Books", "Number of books fetched: ${books.size}")
+
+
+                val adapter = BookBorrowAdapter(requireContext(), books)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
+
+            },
+            { error ->
+                Log.e("API Error", error.toString())
+                Log.e("VolleyExample", "Error: $error")
+            }
+        )
+
+        queue.add(jsonArrayRequest)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TabBorrowed.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TabBorrowed().apply {
-
-            }
     }
 }
