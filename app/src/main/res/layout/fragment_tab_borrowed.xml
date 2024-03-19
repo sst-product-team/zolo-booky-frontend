@@ -11,4 +11,14 @@
         android:layout_height="match_parent"
         android:text="Hello Borrowed" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBorrowBookList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:divider="@android:color/transparent"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
+        android:paddingTop="0dp" />
+
 </FrameLayout>
