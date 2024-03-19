@@ -27,8 +27,8 @@ class HomeFragment : Fragment() {
     private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
         Log.d("FCM Upload", generatedToken)
         if(generatedToken == Constants.USER_FCM) return
-        val url = "${Constants.BASE_URL}/v0/users/token/${generatedToken}"
-        Log.d("API Request URL", url)
+        val url = "${Constants.BASE_URL}/v0/users/${Constants.USER_ID}/token/${generatedToken}"
+
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->

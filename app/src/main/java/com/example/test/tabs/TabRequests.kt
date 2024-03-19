@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley
 
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
+import com.example.test.adapter.BookListAdapter
 import com.example.test.adapter.BookRequestsAdapter
 import com.example.test.databinding.FragmentTabRequestsBinding
 import com.example.test.entity.ListBookEntity
@@ -59,49 +60,6 @@ class TabRequests : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
                 adapter.notifyDataSetChanged() // Ensures the adapter knows the data has changed
-
-            },
-            { error ->
-                Log.e("API Error", error.toString())
-                Log.e("VolleyExample", "Error: $error")
-            }
-        )
-
-        queue.add(jsonArrayRequest)
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val recyclerView = binding.rvRequestsBookList
-
-        val queue = Volley.newRequestQueue(requireContext())
-
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
-
-        var token: String
-
-        Log.d("API Request URL", url)
-
-        val jsonArrayRequest = JsonArrayRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                Log.d("API Response", response.toString())
-                val books = mutableListOf<ListBookEntity>()
-                for (i in 0 until response.length()) {
-                    val bookObject = response.getJSONObject(i)
-
-                    val bookId = bookObject.getInt("id")
-                    val bookTitle = bookObject.getString("name")
-                    val bookStatus = bookObject.getString("status")
-
-                    books.add(ListBookEntity(bookId, bookTitle, bookStatus))
-                }
-                Log.d("Parsed Books", "Number of books fetched: ${books.size}")
-
-
-                val adapter = BookRequestsAdapter(requireContext(), books)
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
-                adapter.notifyDataSetChanged()
 
             },
             { error ->

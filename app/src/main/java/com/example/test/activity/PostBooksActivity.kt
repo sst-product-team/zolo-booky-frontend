@@ -113,25 +113,21 @@ class PostBooksActivity: AppCompatActivity(){
 
         val jsonBody = JSONObject().apply {
             put("name", bookName)
-            Log.d("PostBooksActivity", "Book name: $bookName")
             put("description", bookDescription)
-            Log.d("PostBooksActivity", "Book description: $bookDescription")
             put("availability", bookAvailability)
-            Log.d("PostBooksActivity", "Book availability: $bookAvailability")
             put("owner", Constants.USER_ID)
-            Log.d("PostBooksActivity", "Book owner: ${Constants.USER_ID}")
         }
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
             { response ->
                 // Handling the response from the server
-                Log.d("VolleyExample", "Book added successfully. Response: $response")
+                Log.d("POST BOOK SUCCESS", "Book added successfully. Response: $response")
                 Toast.makeText(this@PostBooksActivity, "The book is successfully added", Toast.LENGTH_LONG).show()
             },
             { error ->
                 // Handle errors
-                Log.e("VolleyExample", "Error adding book: $error")
+                Log.e("POST BOOK ERROR", "Error adding book: $error")
                 val networkResponse = error.networkResponse
                 if (networkResponse != null && networkResponse.statusCode == 409) {
                     Toast.makeText(this@PostBooksActivity, "The book already exists", Toast.LENGTH_LONG).show()
