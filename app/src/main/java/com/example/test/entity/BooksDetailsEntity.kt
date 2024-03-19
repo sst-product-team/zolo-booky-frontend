@@ -11,5 +11,6 @@ data class BooksDetailsEntity (
     var thumbnail: String = "",
     var author: String = "",
     var owner_id: Int = 0,
+    var owner: String="",
     var book_next_available : Date = Date(),
 ):java.io.Serializable

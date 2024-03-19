@@ -1,238 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/onlyWhite"
-    >
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/onlyWhite">
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/zolo_bg_main"
+        app:layout_constraintBottom_toTopOf="@+id/bBorrowBook"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/ivBackImage"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="247dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
+                android:layout_height="350dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/image1"
-                app:shapeAppearanceOverlay="@style/fadeShapeAppearanceOverlay"
-                />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                style="@style/gradient"
-                android:layout_width="match_parent"
-                android:layout_height="247dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:translationY="-50dp">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cvBookImage"
-                android:layout_width="130dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="20dp"
-                app:cardCornerRadius="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5">
 
                 <ImageView
-                    android:id="@+id/ivBookImage"
+                    android:id="@+id/cover_big"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:alpha="0.1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/image1" />
+                    android:src="@drawable/image2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/cover_smol"
+                    android:layout_width="162dp"
+                    android:layout_height="230dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cover_big"
+                    app:srcCompat="@drawable/image2" />
 
 
-            <TextView
-                android:id="@+id/tvBookName"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:text="The Spirit This is a long title that will wrap"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/cvBookImage"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:id="@+id/constraintLayout2"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:layout_marginStart="15dp"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/constraintLayout"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/constraintLayout"-->
+            <!--                app:layout_constraintTop_toTopOf="parent">-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/back_bttn"-->
+            <!--                    android:layout_width="25dp"-->
+            <!--                    android:layout_height="25dp"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:srcCompat="@drawable/baseline_arrow_back_24" />-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginLeft="15dp"-->
+            <!--                    android:text="Book Details"-->
+            <!--                    android:textColor="@color/onlyBlack"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/back_bttn"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@drawable/bg_shadow"
+                app:layout_constraintBottom_toBottomOf="@id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cvBookImage"
-                app:layout_constraintTop_toTopOf="@+id/cvBookImage" />
+                app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/textAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Yogi"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/cvBookImage"
-                app:layout_constraintTop_toBottomOf="@+id/tvBookName" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:translationY="-35dp"
-            >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/button_style_one"
-                >
                 <TextView
-                    android:id="@+id/tvDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="0dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="8dp"
-                    android:text="The Spirit is a book about the spirit of the human being by Yogi. It is a great book to read and understand the human spirit. Is a great book to understand your Spirit"
-                    android:textAlignment="viewStart"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    android:textColor="@color/onlyBlack"
-                    android:maxLines="4" android:lines="4"
-                    />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_style_one"
-                >
-                <TextView
-                    android:id="@+id/tvPostedBy"
+                    android:id="@+id/tvBookName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="0dp"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/onlyBlack"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="Posted by: "
-                    android:textSize="16sp"
-                    />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="24dp"
 
+                    android:text="Harry Potter"
+                    android:textColor="@color/onlyBlack"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Kev Freeman"
+                    android:textColor="#ADADAD"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBookName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/desc_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="35dp"
+                android:text="Description"
+                android:textColor="@color/onlyBlack"
+
+                android:textSize="14dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:lineHeight="20dp"
+                android:text="vgjnkjn bkn klb kngklnb k gkb knjkgnbjgjbjgbinnn nvgjnjgnbjngnjjlnfglkjnklgfjnjk jngbjnjgf igiogf iogfomgf oofgjoigf oijfoijoijfgv "
+                android:textColor="#ADADAD"
+                android:textSize="11dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/desc_heading" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/rounded_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDescription">
+
+                <TextView
+                    android:id="@+id/owner_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:text="OWNER"
+                    android:textColor="@color/onlyBlack"
+                    android:textSize="12dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvBookOwner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/onlyBlack"
-
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="8dp"
-                    android:text="Aatmik"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_style_one"
-                >
-                <TextView
-                    android:id="@+id/tvGenre"
-                    android:textColor="@color/onlyBlack"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="8dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Genre: "
-                    android:textSize="16sp"
-                    />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Pradyut"
+                    android:textColor="#ADADAD"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    android:id="@+id/tvAllGenre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/onlyBlack"
-                    android:elevation="8dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textStyle="bold"
-                    android:text="Mystery"
-                    android:textSize="16sp"
-                    />
-            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </ScrollView>
 
-        </LinearLayout>
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clButtonLayout"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bBorrowBook"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="17dp"
+
+
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/zolo_btn_dark"
+        app:cornerRadius="5dp"
+
+        android:onClick="openNumberPickerPopup"
+        android:text="Request this Book"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
-
-
-        <Button
-            android:id="@+id/bBorrowBook"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_style_one"
-            android:onClick="openNumberPickerPopup"
-            android:text="Borrow This Book"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

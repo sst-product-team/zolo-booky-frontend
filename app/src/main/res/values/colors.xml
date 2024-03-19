@@ -9,4 +9,12 @@
     <color name="greyBlue">#C7E6FF</color>
     <color name="greyLight">#E8E7E7</color>
     <color name="darkGrey">#D8D7D7</color>
+
+    <color name="zolo_bg_main">#F5F5F5</color>
+    <color name="zolo_fade_main">#4aF5F5F5</color>
+    <color name="zolo_secondary">#18191C</color>
+
+    <color name="zolo_btn_dark">#1F2026</color>
+    <color name="zolo_btmsheet">#131315</color>
+
 </resources>
