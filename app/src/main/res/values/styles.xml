@@ -15,7 +15,7 @@
     </style>
 
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- other theme attributes -->
         <item name="android:statusBarColor">@android:color/white</item>
     </style>

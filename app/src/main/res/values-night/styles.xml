@@ -2,4 +2,10 @@
 <resources>
 
     <style name="fadeShapeAppearanceOverlay"></style>
+
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- other theme attributes -->
+        <item name="android:statusBarColor">@color/zolo_bg_main</item>
+    </style>
 </resources>

@@ -11,6 +11,8 @@ import java.util.logging.Handler
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_splash_screen)
         android.os.Handler().postDelayed({
             val intent = Intent(this,MainActivity::class.java)
@@ -18,9 +20,8 @@ class SplashScreen : AppCompatActivity() {
             finish()
         },2000)
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
+//        }
     }
 }

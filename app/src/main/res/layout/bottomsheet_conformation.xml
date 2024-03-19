@@ -6,6 +6,7 @@
     app:layoutDescription="@xml/bottomsheet_conformation_scene"
     android:background="@drawable/custom_dialog_bg"
     android:orientation="vertical"
+
     >
     <TextView
         android:id="@+id/tvTitleDialogBox"
@@ -14,9 +15,10 @@
         android:layout_marginTop="16dp"
         android:text="Confirm borrow date"
         android:textColor="@color/onlyBlack"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:paddingTop="20dp"
         />
 
     <LinearLayout
@@ -30,12 +32,11 @@
             android:id="@+id/tvBorrowDateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Borrow date"
             android:textAlignment="center"
             android:textColor="@color/onlyBlack"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:maxLines="6"
             android:lines="2"
             />
@@ -47,6 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         >
 
         <com.google.android.material.button.MaterialButton
@@ -54,10 +57,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:backgroundTint="@color/greyRed"
+            android:backgroundTint="@color/zolo_btn_dark"
+            app:cornerRadius="5dp"
             android:text="Cancel"
-            android:textColor="@color/onlyBlack"
+            android:textColor="@color/netflixred"
             app:strokeColor="@color/onlyBlack"
+
+
 
             />
 
@@ -66,9 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:backgroundTint="@color/greyBlue"
+            app:cornerRadius="5dp"
+            android:backgroundTint="@color/zolo_btn_dark"
             android:text="Confirm"
-            android:textColor="@color/onlyBlack"
+            android:textColor="@android:color/holo_blue_dark"
             app:strokeColor="@color/onlyBlack"
 
             />

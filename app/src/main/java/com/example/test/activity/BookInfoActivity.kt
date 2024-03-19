@@ -1,6 +1,7 @@
 package com.example.test.activity
 
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -30,11 +31,16 @@ class BookInfoActivity : AppCompatActivity() {
     private var thumbnail: String? = ""
     private var author: String? = ""
     private var owner_id: Int? = 0
+    private var owner: String? = ""
     private var book_next_available: String? = ""
     private var book_available_till: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.system_background_dark));
+        }
 
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,15 +58,16 @@ class BookInfoActivity : AppCompatActivity() {
         thumbnail = intent.getStringExtra("thumbnail")
         author = intent.getStringExtra("author")
         owner_id = intent.getIntExtra("owner_id", 0)
+        owner = intent.getStringExtra("owner")
         book_available_till = intent.getSerializableExtra("availability") as Date?
 
         with (binding) {
             tvBookName.text = name
             tvDescription.text = description
             textAuthor.text = author
-            tvGenre.text = "Ratings: $ratings"
-            tvAllGenre.text = book_next_available
-
+//            tvGenre.text = "Ratings: $ratings"
+//            tvAllGenre.text = book_next_available
+            tvBookOwner.text = owner
             binding.bBorrowBook.setOnClickListener {
                 datePicker(bookId)
             }
@@ -172,11 +179,13 @@ class BookInfoActivity : AppCompatActivity() {
                 val name = response.optString("name")
                 val description = response.optString("description")
                 val author = response.optString("author")
+                val owner = response.optString("owner.name")
 
 
                 binding.tvBookName.text = name
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
+                binding.tvBookOwner.text = owner
             },
             { error ->
                 Log.e("BookInfoActivity", "Error fetching book details: $error")
