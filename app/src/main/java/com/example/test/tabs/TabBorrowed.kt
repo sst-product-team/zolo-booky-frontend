@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
+import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
@@ -80,34 +81,38 @@ class TabBorrowed : Fragment() {
             Request.Method.GET, url, null,
             { response ->
                 Log.d("API Response", response.toString())
-                val books = mutableListOf<ListBookEntity>()
+                val books = mutableListOf<ListAppealEntity>()
                 val borrowerData = mutableListOf<AppealEntity>()
 
                 for (i in 0 until response.length()){
-                    val bookObject = response.getJSONObject(i)
-                    if (borrowerData[i].borrower_id==USER_ID){
-                        Log.d("Borrowed Book", "Borrowed Book: ${borrowerData[i]}")
+                    val appealObject = response.getJSONObject(i)
+                    val borrowerObject = appealObject.getJSONObject("borrower_id")
+                    val borrowerId = borrowerObject.getInt("id")
+                    val trans_status = appealObject.getString("trans_status")
+                    if (borrowerId == USER_ID){
 
-                        val bookId = bookObject.getInt("book_id")
-                        val bookTitle = bookObject.getString("name")
-                        val bookStatus = bookObject.getString("status")
-                        val bookThumbnail = bookObject.getString("thumbnail")
-                        val bookOwner = bookObject.getJSONObject("owner")
+
+                        val bookIdObject = appealObject.getJSONObject("book_id")
+                        val bookId = bookIdObject.getInt("id")
+                        val bookTitle = bookIdObject.getString("name")
+                        val bookStatus = bookIdObject.getString("status")
+                        val bookThumbnail = bookIdObject.getString("thumbnail")
+                        val bookOwner = bookIdObject.getJSONObject("owner")
                         val ownerName = bookOwner.getString("name")
-                        val bookAuthor = bookObject.getString("author")
+                        val bookAuthor = bookIdObject.getString("author")
 
                         books.add(
-                            ListBookEntity(
+                            ListAppealEntity(
                                 bookId,
                                 bookTitle,
                                 bookStatus,
                                 bookThumbnail,
                                 ownerName,
-                                bookAuthor
+                                bookAuthor,
+                                trans_status
                             )
                         )
                     }
-
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 
