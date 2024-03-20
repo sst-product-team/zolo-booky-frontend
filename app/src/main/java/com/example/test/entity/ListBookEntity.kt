@@ -6,4 +6,5 @@ data class ListBookEntity (
     var status: String = "",
     var thumbnail: String = "",
     var owner: Int = 0,
+    var author: String = "",
 ):java.io.Serializable

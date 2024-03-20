@@ -14,8 +14,10 @@ import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
 import com.example.test.databinding.FragmentTabBorrowedBinding
+import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
+import com.example.test.globalContexts.Constants.USER_ID
 
 class TabBorrowed : Fragment() {
     private lateinit var binding:FragmentTabBorrowedBinding
@@ -39,25 +41,65 @@ class TabBorrowed : Fragment() {
 
         val queue = Volley.newRequestQueue(requireContext())
 
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/appeals"
 
         var token: String
 
         Log.d("API Request URL", url)
 
+//        val jsonArrayRequest = JsonArrayRequest(
+//            Request.Method.GET, url, null,
+//            { response ->
+//                Log.d("API Response", response.toString())
+//                val books = mutableListOf<ListBookEntity>()
+//                for (i in 0 until response.length()) {
+//                    val bookObject = response.getJSONObject(i)
+//
+//                    val bookId = bookObject.getInt("id")
+//                    val bookTitle = bookObject.getString("name")
+//                    val bookStatus = bookObject.getString("status")
+//                    val bookThumbnail = bookObject.getString("thumbnail")
+//                    val bookOwner = bookObject.getInt("owner_id")
+//                    val bookAuthor = bookObject.getString("author")
+//
+//                    books.add(ListBookEntity(bookId, bookTitle, bookStatus , bookThumbnail, bookOwner, bookAuthor
+//                }
+//                Log.d("Parsed Books", "Number of books fetched: ${books.size}")
+//
+//
+//                val adapter = BookBorrowAdapter(requireContext(), books)
+//                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//                recyclerView.adapter = adapter
+//                adapter.notifyDataSetChanged()
+//
+//            },
+//            { error ->
+//                Log.e("API Error", error.toString())
+//                Log.e("VolleyExample", "Error: $error")
+//            }
+//        )
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
                 Log.d("API Response", response.toString())
                 val books = mutableListOf<ListBookEntity>()
-                for (i in 0 until response.length()) {
+                val borrowerData = mutableListOf<AppealEntity>()
+
+                for (i in 0 until response.length()){
                     val bookObject = response.getJSONObject(i)
+                    if (borrowerData[i].borrower_id==USER_ID){
+                        Log.d("Borrowed Book", "Borrowed Book: ${borrowerData[i]}")
 
-                    val bookId = bookObject.getInt("id")
-                    val bookTitle = bookObject.getString("name")
-                    val bookStatus = bookObject.getString("status")
+                        val bookId = bookObject.getInt("book_id")
+                        val bookTitle = bookObject.getString("name")
+                        val bookStatus = bookObject.getString("status")
+                        val bookThumbnail = bookObject.getString("thumbnail")
+                        val bookOwner = bookObject.getInt("owner_id")
+                        val bookAuthor = bookObject.getString("author")
 
-                    books.add(ListBookEntity(bookId, bookTitle, bookStatus))
+                        books.add(ListBookEntity(bookId, bookTitle, bookStatus , bookThumbnail, bookOwner, bookAuthor))
+                    }
+
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 
@@ -66,7 +108,6 @@ class TabBorrowed : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
-
             },
             { error ->
                 Log.e("API Error", error.toString())
