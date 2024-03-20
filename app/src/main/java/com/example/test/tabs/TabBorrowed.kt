@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
-import com.example.test.adapter.BookListAdapter
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListBookEntity
@@ -94,10 +92,20 @@ class TabBorrowed : Fragment() {
                         val bookTitle = bookObject.getString("name")
                         val bookStatus = bookObject.getString("status")
                         val bookThumbnail = bookObject.getString("thumbnail")
-                        val bookOwner = bookObject.getInt("owner_id")
+                        val bookOwner = bookObject.getJSONObject("owner")
+                        val ownerName = bookOwner.getString("name")
                         val bookAuthor = bookObject.getString("author")
 
-                        books.add(ListBookEntity(bookId, bookTitle, bookStatus , bookThumbnail, bookOwner, bookAuthor))
+                        books.add(
+                            ListBookEntity(
+                                bookId,
+                                bookTitle,
+                                bookStatus,
+                                bookThumbnail,
+                                ownerName,
+                                bookAuthor
+                            )
+                        )
                     }
 
                 }

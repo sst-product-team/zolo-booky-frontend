@@ -4,10 +4,10 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -65,8 +65,9 @@ class BookInfoActivity : AppCompatActivity() {
         description = intent.getStringExtra("description")
         thumbnail = intent.getStringExtra("thumbnail")
         author = intent.getStringExtra("author")
-        owner_id = intent.getIntExtra("owner_id", 0)
         owner = intent.getStringExtra("owner")
+
+//        if()
 
         with(binding) {
             tvBookName.text = name
@@ -117,6 +118,7 @@ class BookInfoActivity : AppCompatActivity() {
         val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
         val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
         val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
+
 
         tvBorrowDateText.text = "Borrow the book for $daysBorrowed days?"
 
@@ -191,6 +193,12 @@ class BookInfoActivity : AppCompatActivity() {
 
                 val coverBig = findViewById<ImageView>(R.id.cover_big)
                 val coverSmall = findViewById<ImageView>(R.id.cover_smol)
+
+                var requestBookBtn: MaterialButton = findViewById(R.id.bBorrowBook)
+
+                if (owner.getInt("id") == Constants.USER_ID) {
+                    requestBookBtn.visibility = View.GONE
+                }
 
                 Glide.with(this)
                     .load(thumbnail)

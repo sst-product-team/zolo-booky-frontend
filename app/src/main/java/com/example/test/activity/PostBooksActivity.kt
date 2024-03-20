@@ -19,7 +19,7 @@ import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.databinding.PostBooksBinding
 import com.example.test.globalContexts.Constants
-import com.google.android.gms.cast.framework.media.ImagePicker
+//import com.google.android.gms.cast.framework.media.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -89,12 +89,22 @@ class PostBooksActivity: AppCompatActivity(){
                 val addButton = findViewById<Button>(R.id.postBookButton)
                 addButton.setOnClickListener {
                     val bookNameEditText = findViewById<EditText>(R.id.etBookName)
+                    val bookAuthorEditText = findViewById<EditText>(R.id.etAuthor)
                     val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
 
                     val bookName = bookNameEditText.text.toString()
+                    val bookAuthor = bookAuthorEditText.text.toString()
                     val bookDescription = bookDescriptionEditText.text.toString()
 
-                    showCustomDialog( bookName,bookDescription,borrowedDays.toInt()+1,selectedDate)
+                    showCustomDialog(
+                        bookName,
+                        bookAuthor,
+                        bookDescription,
+                        borrowedDays.toInt() + 1,
+                        selectedDate,
+                        ""
+                    )
+
                 }
             }
             picker.addOnNegativeButtonClickListener {
@@ -110,7 +120,14 @@ class PostBooksActivity: AppCompatActivity(){
     }
     //
 
-    private fun showCustomDialog(bookName: String, bookDescription: String ,daysBorrowed: Int,selectedDate: Long) {
+    private fun showCustomDialog(
+        bookName: String,
+        bookAuthor: String,
+        bookDescription: String,
+        daysBorrowed: Int,
+        selectedDate: Long,
+        thumbnail: String
+    ) {
         val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogView)
@@ -127,7 +144,14 @@ class PostBooksActivity: AppCompatActivity(){
 
         btnConfirm.setOnClickListener {
             dialog.dismiss()
-            addBookToDatabase(bookName, bookDescription,daysBorrowed, selectedDate.toString())
+            addBookToDatabase(
+                bookName,
+                bookAuthor,
+                bookDescription,
+                daysBorrowed,
+                selectedDate.toString(),
+                thumbnail
+            )
         }
 
         dialog.show()
@@ -144,18 +168,23 @@ class PostBooksActivity: AppCompatActivity(){
     }
 
 
-
-
-    private fun addBookToDatabase(bookName: String, bookDescription: String,daysBorrowed :Int,bookAvailability: String) {
+    private fun addBookToDatabase(
+        bookName: String,
+        bookAuthor: String,
+        bookDescription: String,
+        daysBorrowed: Int,
+        bookAvailability: String,
+        thumbnail: String
+    ) {
         val url = apiUrl
+
+        Log.d("USERU", Constants.USER_ID.toString())
 
         val jsonBody = JSONObject().apply {
             put("name", bookName)
+            put("author", bookAuthor)
             put("description", bookDescription)
             put("availability", bookAvailability)
-            Log.d("PostBooksActivity", "Book availability: $bookAvailability")
-
-            // user context needs to be implemented.
             put("owner", Constants.USER_ID)
         }
 
