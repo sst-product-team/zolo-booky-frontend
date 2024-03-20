@@ -2,23 +2,19 @@ package com.example.test.tabs
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-
-import com.example.test.R
-import com.example.test.adapter.BookBorrowAdapter
-import com.example.test.adapter.BookListAdapter
 import com.example.test.adapter.BookRequestsAdapter
 import com.example.test.databinding.FragmentTabRequestsBinding
-import com.example.test.entity.ListBookEntity
+import com.example.test.entity.ListAppealEntity
 import com.example.test.globalContexts.Constants
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 
 class TabRequests : Fragment() {
     private lateinit var binding: FragmentTabRequestsBinding
@@ -40,7 +36,7 @@ class TabRequests : Fragment() {
         val recyclerView = binding.rvRequestsBookList
         val queue = Volley.newRequestQueue(requireContext())
 
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/appeals"
 
         Log.d("API Request URL", url)
 
@@ -48,15 +44,37 @@ class TabRequests : Fragment() {
             Request.Method.GET, url, null,
             { response ->
                 Log.d("API Response", response.toString())
-                val books = mutableListOf<ListBookEntity>()
+                val books = mutableListOf<ListAppealEntity>()
                 for (i in 0 until response.length()) {
-                    val bookObject = response.getJSONObject(i)
+                    val appealObject = response.getJSONObject(i)
 
-                    val bookId = bookObject.getInt("id")
-                    val bookTitle = bookObject.getString("name")
+                    val bookObject = appealObject.getJSONObject("book_id")
+                    val transId = appealObject.getInt("trans_id")
+                    val bookId = bookObject.getString("id")
+                    val bookName = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
-
-                    books.add(ListBookEntity(bookId, bookTitle, bookStatus))
+                    val bookAuthor = bookObject.getString("author")
+                    val bookOwner = bookObject.getJSONObject("owner").getInt("id")
+                    val bookBorrower = appealObject.getJSONObject("borrower_id").getString("name")
+                    val bookThumnail = bookObject.getString("thumbnail")
+                    val trans_status = appealObject.getString("trans_status")
+                    val expected_completion_date =
+                        appealObject.getString("expected_completion_date")
+                    val dates: String = expected_completion_date.split(" ")[0]
+                    if (bookOwner == Constants.USER_ID) {
+                        books.add(
+                            ListAppealEntity(
+                                transId,
+                                bookName,
+                                bookStatus,
+                                bookThumnail,
+                                bookBorrower,
+                                bookAuthor,
+                                trans_status,
+                                dates
+                            )
+                        )
+                    }
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 
@@ -77,4 +95,13 @@ class TabRequests : Fragment() {
 
     companion object {
     }
+
+    public fun StringToDate(s: String): String {
+        val pattern = "dd/MM/yyyy"
+        val formatter = SimpleDateFormat(pattern, Locale.ENGLISH)
+        val date = formatter.parse(s)
+        return formatter.format(date).toString()
+
+    }
 }
+
