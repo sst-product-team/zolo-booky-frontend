@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.BooklistBinding
+import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
-class BookBorrowAdapter(private val context: Context, private val books: List<ListBookEntity>) : RecyclerView.Adapter<BookBorrowAdapter.ViewHolder>() {
+class BookBorrowAdapter(private val context: Context, private val books: List<ListAppealEntity>) : RecyclerView.Adapter<BookBorrowAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = BooklistBinding.bind(view)
@@ -27,9 +29,23 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val book = books[position]
         holder.binding.blBkTitle.text = book.name
-        holder.binding.blBkStatus.text = book.status
-        holder.itemView.setOnClickListener {
-            showCustomDialog()
+        holder.binding.blBkStatus.text = book.trans_status
+        holder.binding.tvBlAuthor.text = book.author
+        holder.binding.tvBlOwner.text = book.owner
+
+        Glide.with(context)
+            .load(book.thumbnail)
+            .into(holder.binding.imageView)
+
+        if (book.status == "AVAILABLE") {
+            holder.itemView.setOnClickListener(View.OnClickListener {
+                Toast.makeText(context, "Book Borrow approval by Owner Pending", Toast.LENGTH_SHORT).show()
+            })
+
+        } else {
+            holder.itemView.setOnClickListener {
+                showCustomDialog()
+            }
         }
     }
 
