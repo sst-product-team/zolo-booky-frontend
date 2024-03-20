@@ -97,14 +97,15 @@ class HomeFragment : Fragment() {
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
-
+                    val bookThumbnail = bookObject.getString("thumbnail")
                     val ownerName = ownerObject.getString("name")
 
 
                     if(bookStatus=="AVAILABLE"){
-                    books.add(ListBookEntity(bookId, bookTitle, bookStatus, ownerName)
+                        books.add(
+                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName)
 
-                )}
+                        )}
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 

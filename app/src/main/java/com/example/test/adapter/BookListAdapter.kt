@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.test.activity.BookInfoActivity
-import com.example.test.entity.ListBookEntity
 import com.example.test.databinding.BooklistBinding
+import com.example.test.entity.ListBookEntity
 
 class BookListAdapter(private val books: MutableList<ListBookEntity>) :
     RecyclerView.Adapter<BookListAdapter.RowViewHolder>() {
@@ -19,7 +19,8 @@ class BookListAdapter(private val books: MutableList<ListBookEntity>) :
 
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
         val book = books[position]
-        holder.bind(book.name, book.status,book.author,book.thumbnail)
+        Log.d("BLU", book.toString())
+        holder.bind(book.name, book.status, book.author, book.thumbnail, book.owner)
 
         holder.itemView.setOnClickListener {
             val bookId = book.id
@@ -35,10 +36,11 @@ class BookListAdapter(private val books: MutableList<ListBookEntity>) :
 
     class RowViewHolder(private val binding: BooklistBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(title: String, status: String,author:String,thumbnail:String){
+        fun bind(title: String, status: String, author: String, thumbnail: String, owner: String) {
             binding.blBkTitle.text = title
             binding.blBkStatus.text = status
             binding.tvBlAuthor.text = author
+            binding.tvBlOwner.text = owner
 
             Glide.with(itemView.context)
                 .load(thumbnail)

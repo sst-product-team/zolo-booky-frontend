@@ -3,14 +3,20 @@ package com.example.test.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.test.databinding.BooklistBinding
 import com.example.test.entity.MyBookEntity
-import com.example.test.databinding.MybooklistBinding
 
 
 class MyBooksAdapter(private val books: MutableList<MyBookEntity>) : RecyclerView.Adapter<MyBooksAdapter.RowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowViewHolder {
-        return RowViewHolder(MybooklistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return RowViewHolder(
+            BooklistBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
@@ -28,11 +34,11 @@ class MyBooksAdapter(private val books: MutableList<MyBookEntity>) : RecyclerVie
         notifyDataSetChanged()
     }
 
-    class RowViewHolder(private val binding: MybooklistBinding) : RecyclerView.ViewHolder(binding.root) {
+    class RowViewHolder(private val binding: BooklistBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(title: String) {
-            binding.mbBkTitle.text = title
-
+            binding.blBkTitle.text = title
         }
     }
 }

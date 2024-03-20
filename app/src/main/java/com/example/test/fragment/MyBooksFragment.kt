@@ -18,6 +18,7 @@ import com.example.test.activity.PostBooksActivity
 import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.FragmentMyBooksBinding
 import com.example.test.entity.MyBookEntity
+import com.example.test.entity.UserEntity
 import com.example.test.globalContexts.Constants
 
 class MyBooksFragment : Fragment() {
@@ -54,10 +55,26 @@ class MyBooksFragment : Fragment() {
                     val bookObject = response.getJSONObject(i)
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
+                    val bookStatus = bookObject.getString("status")
+                    val bookThumbnail = bookObject.getString("thumbnail")
                     val owner = bookObject.getJSONObject("owner")
+                    var ownerEntity = UserEntity(
+                        owner.getInt("id"),
+                        owner.getString("name"),
+                        owner.getString("fcmToken")
+                    )
+
                     Log.d("GUCCI", Constants.USER_ID.toString())
                     if (Constants.USER_ID == owner.getInt("id")) {
-                        books.add(MyBookEntity(bookId, bookTitle))
+                        books.add(
+                            MyBookEntity(
+                                bookId,
+                                bookTitle,
+                                bookStatus,
+                                bookThumbnail,
+                                ownerEntity
+                            )
+                        )
                     }
                 }
 
