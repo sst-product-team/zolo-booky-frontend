@@ -4,15 +4,17 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
+import com.example.test.entity.BooksDetailsEntity
 import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -24,22 +26,21 @@ import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
+    private var book: BooksDetailsEntity = BooksDetailsEntity()
     private var id: Int? = null
     private var name: String? = ""
     private var description: String? = ""
-    private var ratings: Double? = 0.0
     private var thumbnail: String? = ""
     private var author: String? = ""
     private var owner_id: Int? = 0
     private var owner: String? = ""
-    private var book_next_available: String? = ""
     private var book_available_till: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.system_background_dark));
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.background_dark));
         }
 
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
@@ -59,19 +60,28 @@ class BookInfoActivity : AppCompatActivity() {
         author = intent.getStringExtra("author")
         owner_id = intent.getIntExtra("owner_id", 0)
         owner = intent.getStringExtra("owner")
-        book_available_till = intent.getSerializableExtra("availability") as Date?
 
-        with (binding) {
+        with(binding) {
             tvBookName.text = name
             tvDescription.text = description
             textAuthor.text = author
-//            tvGenre.text = "Ratings: $ratings"
-//            tvAllGenre.text = book_next_available
             tvBookOwner.text = owner
             binding.bBorrowBook.setOnClickListener {
                 datePicker(bookId)
             }
         }
+        val coverimageView = findViewById<ImageView>(R.id.cover_big)
+        val bookImageView = findViewById<ImageView>(R.id.cover_smol)
+        val url = "https://i.postimg.cc/TYL145xx/cover-web.jpg"
+        Glide.with(this)
+            .load(thumbnail)
+            .into(coverimageView)
+
+        Glide.with(this)
+            .load(thumbnail)
+            .into(bookImageView)
+
+
     }
     private fun datePicker(bookId: Int) {
         val constraintsBuilder = CalendarConstraints.Builder()
@@ -171,21 +181,26 @@ class BookInfoActivity : AppCompatActivity() {
 
     private fun fetchBookDetails(bookId: Int) {
         val url = "${Constants.BASE_URL}/v0/books/$bookId"
-
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
                 // Using optString instead of getString
-                val name = response.optString("name")
-                val description = response.optString("description")
+                val name = response.getString("name")
+                val description = response.getString("description")
                 val author = response.optString("author")
-                val owner = response.optString("owner.name")
-
-
+                val owner = response.getJSONObject("owner")
+                val thumbnail = response.getString("thumbnail")
+                book = BooksDetailsEntity(
+                    id = response.getInt("id"),
+                    name = name,
+                    description = description,
+                    owner = owner.getString("name"),
+                    thumbnail = thumbnail
+                )
                 binding.tvBookName.text = name
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
-                binding.tvBookOwner.text = owner
+                binding.tvBookOwner.text = owner.getString("name")
             },
             { error ->
                 Log.e("BookInfoActivity", "Error fetching book details: $error")
