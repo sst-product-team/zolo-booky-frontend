@@ -84,13 +84,13 @@ class BookInfoActivity : AppCompatActivity() {
         val constraintsBuilder = CalendarConstraints.Builder()
         constraintsBuilder.setStart(MaterialDatePicker.todayInUtcMilliseconds())
 
-        val bookAvailableTillMillis = book_available_till?.time ?: MaterialDatePicker.todayInUtcMilliseconds()
-        constraintsBuilder.setEnd(bookAvailableTillMillis)
+//        val bookAvailableTillMillis = book_available_till?.time ?: MaterialDatePicker.todayInUtcMilliseconds()
+//        constraintsBuilder.setEnd(bookAvailableTillMillis)
 
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-            .setCalendarConstraints(constraintsBuilder.build())
+//            .setCalendarConstraints(constraintsBuilder.build())
             .build()
 
         picker.show(supportFragmentManager, "TAG")
