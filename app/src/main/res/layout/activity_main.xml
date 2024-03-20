@@ -17,7 +17,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu"
-        android:background="@color/white"
+        android:background="@color/zolo_bg_main"
+
+        app:itemActiveIndicatorStyle="@color/netflixred"
+        app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
        />
 

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -46,7 +47,7 @@ class BookInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.background_dark));
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
         }
 
         binding = ActivityBookInfoBinding.inflate(layoutInflater)

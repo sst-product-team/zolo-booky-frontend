@@ -20,8 +20,8 @@ class SplashScreen : AppCompatActivity() {
             finish()
         },2000)
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setStatusBarColor(getResources().getColor(android.R.color.white));
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.white));
+        }
     }
 }

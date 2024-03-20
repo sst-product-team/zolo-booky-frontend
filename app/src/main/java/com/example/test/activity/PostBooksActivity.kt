@@ -1,11 +1,14 @@
 package com.example.test.activity
 
 
+import android.content.Intent
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +19,11 @@ import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.databinding.PostBooksBinding
 import com.example.test.globalContexts.Constants
+import com.google.android.gms.cast.framework.media.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
 import java.time.Instant
 import java.time.ZoneId
@@ -28,9 +33,35 @@ class PostBooksActivity: AppCompatActivity(){
     private val requestQueue: RequestQueue by lazy {Volley.newRequestQueue(this)}
     private val apiUrl = "${Constants.BASE_URL}/v0/books"
 
+
+    //image picker
+    private lateinit var imageView: ImageView
+    private lateinit var button: FloatingActionButton
+    //
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
+        }
+
         setContentView(R.layout.post_books)
+
+        //img picker
+        imageView = findViewById(R.id.edi_cover_smol)
+        button = findViewById(R.id.floatingActionButton)
+
+//        button.setOnClickListener{
+//            ImagePicker.with(this)
+//                .crop()	    			//Crop image(Optional), Check Customization for more option
+//                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+//                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+//                .start()
+//        }
+
+
+        //
 
         val chooseDateButton = findViewById<Button>(R.id.chooseDateButton)
         val selectedDateText = findViewById<TextView>(R.id.selectedDateText)
@@ -53,7 +84,7 @@ class PostBooksActivity: AppCompatActivity(){
 
                 // Update the TextView with the selected date
                 val date = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()
-                selectedDateText.text = "Selected date: $date"
+                selectedDateText.text = "$date"
 
                 val addButton = findViewById<Button>(R.id.postBookButton)
                 addButton.setOnClickListener {
@@ -71,6 +102,13 @@ class PostBooksActivity: AppCompatActivity(){
             }
         }
     }
+
+//img picker
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        imageView.setImageURI(data?.data)
+    }
+    //
 
     private fun showCustomDialog(bookName: String, bookDescription: String ,daysBorrowed: Int,selectedDate: Long) {
         val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
@@ -115,6 +153,9 @@ class PostBooksActivity: AppCompatActivity(){
             put("name", bookName)
             put("description", bookDescription)
             put("availability", bookAvailability)
+            Log.d("PostBooksActivity", "Book availability: $bookAvailability")
+
+            // user context needs to be implemented.
             put("owner", Constants.USER_ID)
         }
 

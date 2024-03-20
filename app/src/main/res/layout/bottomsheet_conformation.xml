@@ -62,9 +62,6 @@
             android:text="Cancel"
             android:textColor="@color/netflixred"
             app:strokeColor="@color/onlyBlack"
-
-
-
             />
 
         <com.google.android.material.button.MaterialButton
@@ -75,7 +72,7 @@
             app:cornerRadius="5dp"
             android:backgroundTint="@color/zolo_btn_dark"
             android:text="Confirm"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/zolo_bluey"
             app:strokeColor="@color/onlyBlack"
 
             />

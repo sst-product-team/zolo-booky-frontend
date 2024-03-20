@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="0dp"
         android:paddingVertical="20dp"
         android:paddingTop="0dp" />
 

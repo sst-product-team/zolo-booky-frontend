@@ -8,22 +8,21 @@
         android:id="@+id/transactionsFragment"
         android:title="Transactions"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/baseline_collections_bookmark_24"
-        android:iconTint="@color/black"/>
+        android:icon="@drawable/ic_mybooks_transactions"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/homeFragment"
         app:showAsAction="ifRoom"
         android:title="Home"
-        android:icon="@drawable/baseline_home_24"
-        android:iconTint="@color/black"/>
+        android:icon="@drawable/selector_home"
+      />
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myBooksFragment"
         app:showAsAction="ifRoom"
         android:title="My Books"
-        android:icon="@drawable/baseline_auto_stories_24"
-        android:iconTint="@color/black"/>
+        android:icon="@drawable/ic_mybooks_selected"
+        />
 </menu>

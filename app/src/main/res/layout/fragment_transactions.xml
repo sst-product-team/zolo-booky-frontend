@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        app:tabSelectedTextColor="@android:color/holo_blue_dark"
+        app:tabSelectedTextColor="@color/zolo_bluey"
         app:tabMode="fixed"
         app:tabIndicatorAnimationMode="elastic"
         app:tabBackground="@color/white"
