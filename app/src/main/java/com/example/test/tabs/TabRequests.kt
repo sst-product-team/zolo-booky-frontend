@@ -2,16 +2,13 @@ package com.example.test.tabs
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
@@ -20,19 +17,27 @@ import com.example.test.databinding.FragmentTabRequestsBinding
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 
-class TabRequests : Fragment() {
+class TabRequests() : Fragment() {
     private lateinit var binding: FragmentTabRequestsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: android.view.LayoutInflater, container: android.view.ViewGroup?,
+        savedInstanceState: android.os.Bundle?
+    ): android.view.View? {
+        binding = FragmentTabRequestsBinding.inflate(inflater, container, false)
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
+        val recyclerView = binding.rvRequestsBookList
         val queue = Volley.newRequestQueue(requireContext())
 
         val url = "${Constants.BASE_URL}/v0/books?size=100"
-
 
         Log.d("API Request URL", url)
 
@@ -48,18 +53,14 @@ class TabRequests : Fragment() {
                     val bookTitle = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
 
-                    if(bookStatus=="AVAILABLE"){
-                        books.add(
-                            ListBookEntity(bookId, bookTitle, bookStatus)
-                        )}
+                    books.add(ListBookEntity(bookId, bookTitle, bookStatus))
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 
-
-                val adapter = BookListAdapter(books)
+                val adapter = BookRequestsAdapter(requireContext(), books)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
-                adapter.notifyDataSetChanged() // Ensures the adapter knows the data has changed
+                adapter.notifyDataSetChanged()
 
             },
             { error ->
@@ -73,4 +74,5 @@ class TabRequests : Fragment() {
 
     companion object {
     }
+
 }
