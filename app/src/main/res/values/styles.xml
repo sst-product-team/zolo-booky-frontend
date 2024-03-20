@@ -15,9 +15,15 @@
     </style>
 
 
-    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- other theme attributes -->
         <item name="android:statusBarColor">@android:color/white</item>
+    </style>
+
+    <style name="ActiveIndicatorStyle">
+        <item name="android:background">@drawable/bottomnav_colorselector</item>
+        <item name="android:color">@drawable/bottomnav_colorselector</item>
+        <item name="android:iconTint">@drawable/bottomnav_colorselector</item>
     </style>
 
 

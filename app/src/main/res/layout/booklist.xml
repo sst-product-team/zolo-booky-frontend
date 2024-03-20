@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="7dp"
     android:clipToPadding="false"
     >
 
@@ -13,8 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="5dp"
         app:circularflow_defaultRadius="20dp"
+        android:background="@color/zolo_secondary"
+        android:backgroundTint="@color/zolo_secondary"
         tools:ignore="MissingConstraints"
         tools:context=".fragment.homeFragment"
         >
@@ -27,10 +30,9 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="80dp"
+                android:layout_width="79dp"
                 android:layout_height="0dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/image2"
+                android:layout_margin="11dp"
 
                 app:layout_constraintBaseline_toBottomOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -42,12 +44,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginStart="8dp"
                 android:text="BookTitle"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+
 
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="BookOwner"
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlAuthor" />
@@ -68,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:text="Available"
                 android:textSize="10sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/holo_green_dark"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_card_blue"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvBlOwner"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="Author"
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/blBkTitle" />
 

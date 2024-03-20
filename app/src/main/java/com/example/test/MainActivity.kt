@@ -74,11 +74,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.background_dark))
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.white));
         }
-
 
 
 

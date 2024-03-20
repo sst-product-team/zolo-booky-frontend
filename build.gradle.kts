@@ -8,6 +8,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+//        maven ( url = "https://jiitpack.io")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")

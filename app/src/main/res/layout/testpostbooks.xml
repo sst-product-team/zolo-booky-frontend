@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         android:background="@color/zolo_bg_main"
-        app:layout_constraintBottom_toTopOf="@+id/bBorrowBook"
+        app:layout_constraintBottom_toTopOf="@+id/postBookButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="360dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -37,6 +37,7 @@
                     android:layout_height="match_parent"
                     android:alpha="0.1"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/image2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -52,7 +53,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/cover_big"
-                     />
+                    app:srcCompat="@drawable/image2" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,34 +98,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/tvBookName"
+                <EditText
+                    android:id="@+id/etBookName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="92dp"
 
-                    android:text="Harry Potter"
+                    android:layout_marginEnd="15dp"
+                    android:hint="Add Book Title"
                     android:textColor="@color/onlyBlack"
                     android:textSize="17dp"
+                    android:textAlignment="center"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <EditText
+                    android:id="@+id/etAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Add Book Author"
+                    android:textColor="#ADADAD"
+                    android:textSize="12dp"
+                    android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/textAuthor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Kev Freeman"
-                    android:textColor="@color/zolo_sec_text"
-                    android:textSize="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBookName" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -134,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="35dp"
-                android:text="Description"
+                android:text="Add Description"
                 android:textColor="@color/onlyBlack"
 
                 android:textSize="14dp"
@@ -143,13 +144,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-            <TextView
-                android:id="@+id/tvDescription"
+            <EditText
+                android:id="@+id/etDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:lineHeight="20dp"
-                android:text="vgjnkjn bkn klb kngklnb k gkb knjkgnbjgjbjgbinnn nvgjnjgnbjngnjjlnfglkjnklgfjnjk jngbjnjgf igiogf iogfomgf oofgjoigf oijfoijoijfgv "
                 android:textColor="#ADADAD"
                 android:textSize="11dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +157,65 @@
                 app:layout_constraintTop_toBottomOf="@id/desc_heading" />
 
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/button_ui"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etDescription"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/rounded_card">
+                <TextView
+                    android:id="@+id/date_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Available Till"
+                    android:textColor="@color/onlyBlack"
+                    android:textSize="12dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/selectedDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="yyyy/mm/dd"
+                    android:textColor="#ADADAD"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/chooseDateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Pick Date"
+                    android:textSize="10dp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="15dp"
+
+
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    app:cornerRadius="5dp">
+
+                </com.google.android.material.button.MaterialButton>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginStart="15dp"
@@ -166,7 +224,7 @@
                 android:background="@drawable/rounded_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDescription">
+                app:layout_constraintTop_toBottomOf="@id/button_ui">
 
                 <TextView
                     android:id="@+id/owner_head"
@@ -187,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Pradyut"
+                    android:text="You"
                     android:textColor="#ADADAD"
                     android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -195,12 +253,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/bBorrowBook"
+        android:id="@+id/postBookButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -214,10 +277,10 @@
         app:cornerRadius="5dp"
 
         android:onClick="openNumberPickerPopup"
-        android:text="Request this Book"
-        android:textColor="@color/zolo_bluey"
+        android:text="Post Book"
+        android:textColor="@android:color/holo_blue_dark"
         app:rippleColor="@color/greyLight"
-        android:textSize="12dp"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -2,13 +2,16 @@ package com.example.test.tabs
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
@@ -17,7 +20,7 @@ import com.example.test.databinding.FragmentTabRequestsBinding
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 
-class TabRequests() : Fragment() {
+class TabRequests : Fragment() {
     private lateinit var binding: FragmentTabRequestsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,5 +77,4 @@ class TabRequests() : Fragment() {
 
     companion object {
     }
-
 }

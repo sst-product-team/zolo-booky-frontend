@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#59FFFFFF</color>
+    <color name="black">#FFFFFF</color>
     <color name="white">#000000</color>
     <color name="onlyBlack">#ffffff</color>
     <color name="onlyWhite">#000000</color>
@@ -13,6 +13,8 @@
     <color name="zolo_bg_main">#131315</color>
     <color name="zolo_fade_main">#4a131315</color>
     <color name="zolo_secondary">#18191C</color>
+    <color name="zolo_secondary_light">#4a18191C</color>
+    <color name="zolo_sec_text">#ADADAD</color>
 
     <color name="zolo_btn_dark">#1F2026</color>
     <color name="zolo_btmsheet">#131315</color>
