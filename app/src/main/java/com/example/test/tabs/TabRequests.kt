@@ -10,6 +10,8 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
+import com.example.test.adapter.BookBorrowAdapter
+import com.example.test.adapter.BookListAdapter
 import com.example.test.adapter.BookRequestsAdapter
 import com.example.test.databinding.FragmentTabRequestsBinding
 import com.example.test.entity.ListBookEntity
@@ -29,7 +31,6 @@ class TabRequests() : Fragment() {
         binding = FragmentTabRequestsBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -52,12 +52,12 @@ class MyBooksFragment : Fragment() {
                 val books = mutableListOf<MyBookEntity>()
                 for (i in 0 until response.length()) {
                     val bookObject = response.getJSONObject(i)
-
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
-                    val owner = bookObject.getInt("owner")
-                    if (Constants.USER_ID == owner)
+                    val owner = bookObject.getJSONObject("owner")
+                    if (Constants.USER_ID == owner.getInt("id")) {
                         books.add(MyBookEntity(bookId, bookTitle))
+                    }
                 }
 
                 val adapter = MyBooksAdapter(books)

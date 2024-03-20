@@ -2,50 +2,24 @@ package com.example.test.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.adapter.BookListAdapter
-import com.example.test.entity.ListBookEntity
 import com.example.test.databinding.FragmentHomeBinding
+import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
-import com.google.firebase.messaging.FirebaseMessaging
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
-    private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
-        Log.d("FCM Upload", generatedToken)
-        if(generatedToken == Constants.USER_FCM) return
-        val url = "${Constants.BASE_URL}/v0/users/token/${generatedToken}"
-        Log.d("API Request URL", url)
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                val userId = response.getInt("userId")
-                val userName = response.getString("userName")
-                val fcmToken = response.getString("fcmToken")
-                Constants.USER_ID = userId
-                Constants.USER_NAME = userName
-                Constants.USER_FCM = fcmToken
-            },
-            { error ->
-                Log.e("API Error", error.toString())
-                Log.e("VolleyExample", "Error: $error")
-            }
-        )
-        queue.add(jsonObjectRequest)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,18 +43,6 @@ class HomeFragment : Fragment() {
 
         val url = "${Constants.BASE_URL}/v0/books?size=100"
 
-
-        var token: String
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                token = task.result
-                Log.d("FCM", token)
-                sendTokenToServer(token, queue)
-            } else {
-                token = "Token not generated"
-                Log.d("FCM Error: ", token)
-            }
-        }
 
         Log.d("API Request URL", url)
 
