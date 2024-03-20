@@ -21,18 +21,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var booksView: TextView
 
     private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
-        Log.d("FCM Upload", generatedToken)
         val sharedPreferences = this.getSharedPreferences("Booky", Context.MODE_PRIVATE)
         Constants.USER_FCM = sharedPreferences.getString("USER_FCM", "").toString()
-        Log.d("LOCAL FCM", Constants.USER_FCM)
         Constants.USER_ID = sharedPreferences.getInt("USER_ID", -1)
         Constants.USER_NAME = sharedPreferences.getString("USER_NAME", "").toString()
         if (generatedToken == Constants.USER_FCM) {
             Log.d("FCM", "UPLOAD NOT REQUIRED")
             return
         }
-        val url = "${Constants.BASE_URL}/v0/users/${Constants.USER_ID}/token/${generatedToken}"
-        Log.d("FCM URL", url)
+        val url = "${Constants.BASE_URL}/v0/users/token/${Constants.USER_ID}/${generatedToken}"
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
@@ -47,6 +44,9 @@ class MainActivity : AppCompatActivity() {
                 editor.putInt("USER_ID", userId)
                 editor.putString("USER_NAME", userName)
                 editor.putString("USER_FCM", fcmToken)
+                Constants.USER_ID = userId
+                Constants.USER_NAME = userName
+                Constants.USER_FCM = fcmToken
             },
             { error ->
                 Log.e("FCM UPLOAD ERROR", error.toString())
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.background_dark));
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.background_dark))
         }
 
 
@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity() {
 
         HomeFragment()
 
-        var NavController = findNavController(R.id.fragmentContainerView4)
-        var bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView2)
+        val NavController = findNavController(R.id.fragmentContainerView4)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView2)
         bottomNav.setupWithNavController(NavController)
 
     }
