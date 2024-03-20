@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val url = "${Constants.BASE_URL}/v0/users/${Constants.USER_ID}/token/${generatedToken}"
+        Log.d("FCM URL", url)
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,

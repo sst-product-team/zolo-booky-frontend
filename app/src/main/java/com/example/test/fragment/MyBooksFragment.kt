@@ -55,6 +55,7 @@ class MyBooksFragment : Fragment() {
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
                     val owner = bookObject.getJSONObject("owner")
+                    Log.d("GUCCI", Constants.USER_ID.toString())
                     if (Constants.USER_ID == owner.getInt("id")) {
                         books.add(MyBookEntity(bookId, bookTitle))
                     }

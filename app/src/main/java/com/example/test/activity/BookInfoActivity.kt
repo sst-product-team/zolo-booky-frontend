@@ -26,7 +26,13 @@ import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
-    private var book: BooksDetailsEntity = BooksDetailsEntity()
+    private var book: BooksDetailsEntity = BooksDetailsEntity(
+        id = -1,
+        name = "",
+        description = "",
+        owner = "",
+        thumbnail = ""
+    )
     private var id: Int? = null
     private var name: String? = ""
     private var description: String? = ""
@@ -70,16 +76,7 @@ class BookInfoActivity : AppCompatActivity() {
                 datePicker(bookId)
             }
         }
-        val coverimageView = findViewById<ImageView>(R.id.cover_big)
-        val bookImageView = findViewById<ImageView>(R.id.cover_smol)
-        val url = "https://i.postimg.cc/TYL145xx/cover-web.jpg"
-        Glide.with(this)
-            .load(thumbnail)
-            .into(coverimageView)
 
-        Glide.with(this)
-            .load(thumbnail)
-            .into(bookImageView)
 
 
     }
@@ -190,13 +187,19 @@ class BookInfoActivity : AppCompatActivity() {
                 val author = response.optString("author")
                 val owner = response.getJSONObject("owner")
                 val thumbnail = response.getString("thumbnail")
-                book = BooksDetailsEntity(
-                    id = response.getInt("id"),
-                    name = name,
-                    description = description,
-                    owner = owner.getString("name"),
-                    thumbnail = thumbnail
-                )
+
+                val coverBig = findViewById<ImageView>(R.id.cover_big)
+                val coverSmall = findViewById<ImageView>(R.id.cover_smol)
+
+                Glide.with(this)
+                    .load(thumbnail)
+                    .into(coverBig)
+
+                Glide.with(this)
+                    .load(thumbnail)
+                    .into(coverSmall)
+
+
                 binding.tvBookName.text = name
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
