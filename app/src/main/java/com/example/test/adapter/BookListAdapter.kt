@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.test.activity.BookInfoActivity
 import com.example.test.entity.ListBookEntity
 import com.example.test.databinding.BooklistBinding
@@ -17,9 +18,8 @@ class BookListAdapter(private val books: MutableList<ListBookEntity>) :
 
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
         val book = books[position]
-        holder.bind(book.name, book.status)
+        holder.bind(book.name, book.status,book.author,book.thumbnail)
 
-        // Add click listener to the book item
         holder.itemView.setOnClickListener {
             val bookId = book.id
 
@@ -34,9 +34,14 @@ class BookListAdapter(private val books: MutableList<ListBookEntity>) :
 
     class RowViewHolder(private val binding: BooklistBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(title: String, status: String) {
+        fun bind(title: String, status: String,author:String,thumbnail:String){
             binding.blBkTitle.text = title
             binding.blBkStatus.text = status
+            binding.tvBlAuthor.text = author
+
+            Glide.with(itemView.context)
+                .load(thumbnail)
+                .into(binding.imageView)
         }
     }
 }
