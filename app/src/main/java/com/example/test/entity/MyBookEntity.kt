@@ -6,5 +6,6 @@ data class MyBookEntity (
     var status: String = "",
     var thumbnail: String = "",
     var owner: UserEntity = UserEntity(),
+    var author: String = ""
 ):java.io.Serializable
 
