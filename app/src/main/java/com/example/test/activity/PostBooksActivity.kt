@@ -3,16 +3,20 @@ package com.example.test.activity
 
 import android.content.Intent
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
+
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -24,9 +28,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import okhttp3.Call
+import okhttp3.Callback
 import org.json.JSONObject
 import java.time.Instant
 import java.time.ZoneId
+
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.Response
+import java.io.File
+import java.io.IOException
+import java.util.UUID
+
 
 class PostBooksActivity: AppCompatActivity(){
     private lateinit var binding: PostBooksBinding
@@ -37,6 +53,10 @@ class PostBooksActivity: AppCompatActivity(){
     //image picker
     private lateinit var imageView: ImageView
     private lateinit var button: FloatingActionButton
+    private var bookImagePart: MultipartBody.Part? = null
+    private var thumbnailString: String? = null
+
+    //lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
     //
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,17 +68,19 @@ class PostBooksActivity: AppCompatActivity(){
 
         setContentView(R.layout.post_books)
 
+
+
         //img picker
         imageView = findViewById(R.id.edi_cover_smol)
         button = findViewById(R.id.floatingActionButton)
 
-//        button.setOnClickListener{
-//            ImagePicker.with(this)
-//                .crop()	    			//Crop image(Optional), Check Customization for more option
-//                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-//                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-//                .start()
-//        }
+//
+        button.setOnClickListener {
+            // calling intent on below line.
+            val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
+            // starting activity on below line.
+            startActivityForResult(intent, 1)
+        }
 
 
         //
@@ -96,6 +118,8 @@ class PostBooksActivity: AppCompatActivity(){
                     val bookAuthor = bookAuthorEditText.text.toString()
                     val bookDescription = bookDescriptionEditText.text.toString()
 
+                    Log.d("PRADYUT", Constants.USER_FCM)
+
                     showCustomDialog(
                         bookName,
                         bookAuthor,
@@ -114,11 +138,117 @@ class PostBooksActivity: AppCompatActivity(){
     }
 
 //img picker
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        imageView.setImageURI(data?.data)
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (resultCode == RESULT_OK) {
+        when (requestCode) {
+            1 -> {
+
+                val selectedImageUri: Uri? = data?.data
+                selectedImageUri?.let { uri ->
+                    // Convert URI to File
+                    val file = File(getRealPathFromURI(uri))
+
+                    imageView.setImageURI(uri)
+
+                    // Create request body for file
+                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+                    // Create MultipartBody.Part from file request body
+                    bookImagePart = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+                    // Now you can send 'body' to your backend API
+                    // Make sure to use Retrofit or similar library for network requests
+                }
+            }
+        }
+    }
+}
+
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        val columnIndex = cursor?.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        val realPath = cursor?.getString(columnIndex!!)
+        cursor?.close()
+        return realPath ?: ""
     }
     //
+
+
+    private fun uploadImageAndGetThumbnail(
+        bookName: String,
+        bookAuthor: String,
+        bookDescription: String,
+        daysBorrowed: Int,
+        selectedDate: Long
+    ) {
+        val url = "${Constants.BASE_URL}/v0/images"
+
+        // Create a RequestBody for the image file
+        val requestFile = bookImagePart?.body
+
+        //randomness or file name
+        val randomString = UUID.randomUUID().toString()
+        val fileName = bookImagePart?.headers?.get("Content-Disposition")
+            ?.split(";")
+            ?.find { it.trim().startsWith("filename=") }
+            ?.substringAfter("filename=")
+            ?.trim()
+            ?.removeSurrounding("\"")
+        val fileNameWithExtension = fileName ?: "${UUID.randomUUID()}"
+
+        // Create the multipart request body with the image file
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("multipartFile", fileNameWithExtension, bookImagePart!!.body!!)
+            .build()
+
+        // Create the POST request to upload the image
+        val request = okhttp3.Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        // Execute the request asynchronously
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    // Image uploaded successfully, parse the response to get the thumbnail string
+                    val responseBody = response.body?.string()
+                    val thumbnailString = parseThumbnailString(responseBody)
+
+                    // Add book to database with the obtained thumbnail string
+                    thumbnailString?.let {
+                        Log.d("yupp",thumbnailString)
+                        addBookToDatabase(bookName, bookAuthor, bookDescription, daysBorrowed, selectedDate.toString(), thumbnailString)
+                        Log.d("yuppo",thumbnailString)
+                    } ?: run {
+                        Log.e("UPLOAD IMAGE", "Failed to parse thumbnail string from response body")
+                    }
+                } else {
+                    Log.e("UPLOAD IMAGE", "Failed to upload image: ${response.code}")
+                }
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("UPLOAD IMAGE", "Failed to upload image: ${e.message}")
+            }
+        })
+    }
+
+    private fun parseThumbnailString(responseBody: String?): String? {
+        // Implement parsing logic here based on the response body structure
+        // For example, if the response is a JSON object {"thumbnail": "thumbnail_value"}
+        // You can parse it like this:
+        // val jsonObject = JSONObject(responseBody)
+        // return jsonObject.optString("thumbnail")
+
+        // Replace this with your actual parsing logic
+        return responseBody
+    }
 
     private fun showCustomDialog(
         bookName: String,
@@ -136,6 +266,8 @@ class PostBooksActivity: AppCompatActivity(){
         val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
         val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
 
+
+
         tvBorrowDateText.text = "Lend the book for $daysBorrowed days?"
 
         btnCancel.setOnClickListener {
@@ -144,18 +276,23 @@ class PostBooksActivity: AppCompatActivity(){
 
         btnConfirm.setOnClickListener {
             dialog.dismiss()
-            addBookToDatabase(
-                bookName,
-                bookAuthor,
-                bookDescription,
-                daysBorrowed,
-                selectedDate.toString(),
-                thumbnail
-            )
+            uploadImageAndGetThumbnail(bookName,bookAuthor,bookDescription,daysBorrowed, selectedDate)
+
+//            addBookToDatabase(
+//                bookName,
+//                bookAuthor,
+//                bookDescription,
+//                daysBorrowed,
+//                selectedDate.toString(),
+//                thumbnail
+//            )
         }
 
         dialog.show()
     }
+
+
+
     private fun calculateBorrowedDays(selectedDate: Long): Long {
         val midnightToday = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
@@ -186,10 +323,11 @@ class PostBooksActivity: AppCompatActivity(){
             put("description", bookDescription)
             put("availability", bookAvailability)
             put("owner", Constants.USER_ID)
+            put("thumbnail",thumbnail)
         }
 
         val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, jsonBody,
+            com.android.volley.Request.Method.POST, url, jsonBody,
             { response ->
                 // Handling the response from the server
                 Log.d("POST BOOK SUCCESS", "Book added successfully. Response: $response")

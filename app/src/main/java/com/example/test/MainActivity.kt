@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         }
         val url = "${Constants.BASE_URL}/v0/users/token/${Constants.USER_ID}/${generatedToken}"
 
+        Log.d("SENDING TO SERVER", url)
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
