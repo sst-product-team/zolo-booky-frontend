@@ -50,7 +50,7 @@ class TabRequests : Fragment() {
 
                     val bookObject = appealObject.getJSONObject("book_id")
                     val transId = appealObject.getInt("trans_id")
-                    val bookId = bookObject.getString("id")
+                    val bookId = bookObject.getInt("id")
                     val bookName = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
                     val bookAuthor = bookObject.getString("author")
@@ -58,6 +58,7 @@ class TabRequests : Fragment() {
                     val bookBorrower = appealObject.getJSONObject("borrower_id").getString("name")
                     val bookThumnail = bookObject.getString("thumbnail")
                     val trans_status = appealObject.getString("trans_status")
+                    val status_change_date = appealObject.getString("status_change_date")
                     val expected_completion_date =
                         appealObject.getString("expected_completion_date")
                     val dates: String = expected_completion_date.split(" ")[0]
@@ -71,7 +72,9 @@ class TabRequests : Fragment() {
                                 bookBorrower,
                                 bookAuthor,
                                 trans_status,
-                                dates
+                                dates,
+                                bookId,
+                                status_change_date
                             )
                         )
                     }
