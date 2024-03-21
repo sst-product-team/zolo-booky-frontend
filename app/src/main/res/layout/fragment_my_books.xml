@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:text="My Books"
+        android:layout_marginLeft="15dp"
         android:paddingTop="10dp"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -27,7 +28,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
 
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="0dp"
         android:paddingVertical="10dp"
         app:layout_constraintBottom_toTopOf="@+id/addbooksButton"
         app:layout_constraintEnd_toEndOf="parent"

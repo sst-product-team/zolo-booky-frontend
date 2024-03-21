@@ -48,13 +48,16 @@ class PostBooksActivity: AppCompatActivity(){
     private lateinit var binding: PostBooksBinding
     private val requestQueue: RequestQueue by lazy {Volley.newRequestQueue(this)}
     private val apiUrl = "${Constants.BASE_URL}/v0/books"
-
+    private var isImg = false;
 
     //image picker
     private lateinit var imageView: ImageView
     private lateinit var button: FloatingActionButton
     private var bookImagePart: MultipartBody.Part? = null
     private var thumbnailString: String? = null
+
+    private var borrowedDays :Long= 0;
+    private var selectedDate :Long= 0;
 
     //lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
     //
@@ -84,6 +87,31 @@ class PostBooksActivity: AppCompatActivity(){
 
 
         //
+        val addButton = findViewById<Button>(R.id.postBookButton)
+        addButton.setOnClickListener {
+            val bookNameEditText = findViewById<EditText>(R.id.etBookName)
+            val bookAuthorEditText = findViewById<EditText>(R.id.etAuthor)
+            val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
+
+            val bookName = bookNameEditText.text.toString()
+            val bookAuthor = bookAuthorEditText.text.toString()
+            val bookDescription = bookDescriptionEditText.text.toString()
+
+            if (isImg != false && bookName.isNotEmpty() && bookAuthor.isNotEmpty() && bookDescription.isNotEmpty() && borrowedDays > 0) {
+                Log.d("PRADYUT", Constants.USER_FCM)
+                showCustomDialog(
+                    bookName,
+                    bookAuthor,
+                    bookDescription,
+                    borrowedDays.toInt() + 1,
+                    selectedDate,
+                    ""
+                )
+            } else {
+                Toast.makeText(this@PostBooksActivity, "Please select an image and fill all the fields", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
         val chooseDateButton = findViewById<Button>(R.id.chooseDateButton)
         val selectedDateText = findViewById<TextView>(R.id.selectedDateText)
@@ -98,9 +126,9 @@ class PostBooksActivity: AppCompatActivity(){
 
             picker.show(supportFragmentManager, "TAG")
             picker.addOnPositiveButtonClickListener {
-                val selectedDate = picker.selection!!
+                 selectedDate = picker.selection!!
 
-                val borrowedDays = calculateBorrowedDays(selectedDate)
+                 borrowedDays = calculateBorrowedDays(selectedDate)
 
                 Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
 
@@ -108,28 +136,7 @@ class PostBooksActivity: AppCompatActivity(){
                 val date = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()
                 selectedDateText.text = "$date"
 
-                val addButton = findViewById<Button>(R.id.postBookButton)
-                addButton.setOnClickListener {
-                    val bookNameEditText = findViewById<EditText>(R.id.etBookName)
-                    val bookAuthorEditText = findViewById<EditText>(R.id.etAuthor)
-                    val bookDescriptionEditText = findViewById<EditText>(R.id.etDescription)
 
-                    val bookName = bookNameEditText.text.toString()
-                    val bookAuthor = bookAuthorEditText.text.toString()
-                    val bookDescription = bookDescriptionEditText.text.toString()
-
-                    Log.d("PRADYUT", Constants.USER_FCM)
-
-                    showCustomDialog(
-                        bookName,
-                        bookAuthor,
-                        bookDescription,
-                        borrowedDays.toInt() + 1,
-                        selectedDate,
-                        ""
-                    )
-
-                }
             }
             picker.addOnNegativeButtonClickListener {
                 picker.dismiss()
@@ -150,6 +157,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                     val file = File(getRealPathFromURI(uri))
 
                     imageView.setImageURI(uri)
+                    isImg = true
 
                     // Create request body for file
                     val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
@@ -278,14 +286,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
             dialog.dismiss()
             uploadImageAndGetThumbnail(bookName,bookAuthor,bookDescription,daysBorrowed, selectedDate)
 
-//            addBookToDatabase(
-//                bookName,
-//                bookAuthor,
-//                bookDescription,
-//                daysBorrowed,
-//                selectedDate.toString(),
-//                thumbnail
-//            )
+//
         }
 
         dialog.show()
@@ -332,6 +333,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 // Handling the response from the server
                 Log.d("POST BOOK SUCCESS", "Book added successfully. Response: $response")
                 Toast.makeText(this@PostBooksActivity, "The book is successfully added", Toast.LENGTH_LONG).show()
+                finish()
             },
             { error ->
                 // Handle errors
