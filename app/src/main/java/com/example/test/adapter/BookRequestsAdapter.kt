@@ -57,6 +57,8 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
 
         tvTitleDialogBox.text = "Approve the Requested Book"
         tvBorrowDateText.text = "Approve the book now"
+        btnCancel.text = "Reject"
+        btnConfirm.text = "Accept"
 
         btnCancel.setOnClickListener {
             dialog.dismiss()

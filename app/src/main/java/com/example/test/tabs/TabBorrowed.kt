@@ -46,37 +46,6 @@ class TabBorrowed : Fragment() {
 
         Log.d("API Request URL", url)
 
-//        val jsonArrayRequest = JsonArrayRequest(
-//            Request.Method.GET, url, null,
-//            { response ->
-//                Log.d("API Response", response.toString())
-//                val books = mutableListOf<ListBookEntity>()
-//                for (i in 0 until response.length()) {
-//                    val bookObject = response.getJSONObject(i)
-//
-//                    val bookId = bookObject.getInt("id")
-//                    val bookTitle = bookObject.getString("name")
-//                    val bookStatus = bookObject.getString("status")
-//                    val bookThumbnail = bookObject.getString("thumbnail")
-//                    val bookOwner = bookObject.getInt("owner_id")
-//                    val bookAuthor = bookObject.getString("author")
-//
-//                    books.add(ListBookEntity(bookId, bookTitle, bookStatus , bookThumbnail, bookOwner, bookAuthor
-//                }
-//                Log.d("Parsed Books", "Number of books fetched: ${books.size}")
-//
-//
-//                val adapter = BookBorrowAdapter(requireContext(), books)
-//                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//                recyclerView.adapter = adapter
-//                adapter.notifyDataSetChanged()
-//
-//            },
-//            { error ->
-//                Log.e("API Error", error.toString())
-//                Log.e("VolleyExample", "Error: $error")
-//            }
-//        )
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
