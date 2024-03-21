@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
 
 
@@ -41,7 +43,8 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".activity.PostBooksActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".notifications.NotificationService"

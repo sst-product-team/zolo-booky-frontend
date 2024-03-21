@@ -24,29 +24,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
-    private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
-        Log.d("FCM Upload", generatedToken)
-        if(generatedToken == Constants.USER_FCM) return
-        val url = "${Constants.BASE_URL}/v0/users/token/${generatedToken}"
-        Log.d("API Request URL", url)
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                val userId = response.getInt("userId")
-                val userName = response.getString("userName")
-                val fcmToken = response.getString("fcmToken")
-                Constants.USER_ID = userId
-                Constants.USER_NAME = userName
-                Constants.USER_FCM = fcmToken
-            },
-            { error ->
-                Log.e("API Error", error.toString())
-                Log.e("VolleyExample", "Error: $error")
-            }
-        )
-        queue.add(jsonObjectRequest)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,18 +46,6 @@ class HomeFragment : Fragment() {
 
         val url = "${Constants.BASE_URL}/v0/books?size=100"
 
-
-        var token: String
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                token = task.result
-                Log.d("FCM", token)
-                sendTokenToServer(token, queue)
-            } else {
-                token = "Token not generated"
-                Log.d("FCM Error: ", token)
-            }
-        }
 
         Log.d("API Request URL", url)
 

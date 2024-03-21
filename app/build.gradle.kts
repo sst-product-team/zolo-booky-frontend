@@ -59,6 +59,11 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("io.coil-kt:coil-compose:2.1.0")
+
+    //implementation("com.theartofdev.edmodo:android-image-cropper:2.8.+")
+
 //    implementation ("com.github.dhaval2404:imagepicker:2.1")
 //    implementation ("com.github.dhaval2404:imagepicker-support:1.7.1")
 
