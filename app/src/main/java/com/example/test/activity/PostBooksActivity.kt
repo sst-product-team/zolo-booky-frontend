@@ -199,13 +199,13 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
         //randomness or file name
         val randomString = UUID.randomUUID().toString()
-        val fileName = bookImagePart?.headers?.get("Content-Disposition")
-            ?.split(";")
-            ?.find { it.trim().startsWith("filename=") }
-            ?.substringAfter("filename=")
-            ?.trim()
-            ?.removeSurrounding("\"")
-        val fileNameWithExtension = fileName ?: "${UUID.randomUUID()}"
+//        val fileName = bookImagePart?.headers?.get("Content-Disposition")
+//            ?.split(";")
+//            ?.find { it.trim().startsWith("filename=") }
+//            ?.substringAfter("filename=")
+//            ?.trim()
+//            ?.removeSurrounding("\"")
+        val fileNameWithExtension = "${UUID.randomUUID()}"
 
         // Create the multipart request body with the image file
         val requestBody = MultipartBody.Builder()
