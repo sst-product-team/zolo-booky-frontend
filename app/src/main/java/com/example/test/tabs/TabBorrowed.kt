@@ -14,7 +14,6 @@ import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListAppealEntity
-import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
 
@@ -60,7 +59,7 @@ class TabBorrowed : Fragment() {
                     val trans_status = appealObject.getString("trans_status")
                     if (borrowerId == USER_ID){
 
-
+                        val transId = appealObject.getInt("trans_id")
                         val bookIdObject = appealObject.getJSONObject("book_id")
                         val bookId = bookIdObject.getInt("id")
                         val bookTitle = bookIdObject.getString("name")
@@ -69,16 +68,22 @@ class TabBorrowed : Fragment() {
                         val bookOwner = bookIdObject.getJSONObject("owner")
                         val ownerName = bookOwner.getString("name")
                         val bookAuthor = bookIdObject.getString("author")
-
+                        val status_change_date = appealObject.getString("status_change_date")
+                        val expected_completion_date =
+                            appealObject.getString("expected_completion_date")
+                        val dates: String = expected_completion_date.split(" ")[0]
                         books.add(
                             ListAppealEntity(
-                                bookId,
+                                transId,
                                 bookTitle,
                                 bookStatus,
                                 bookThumbnail,
                                 ownerName,
                                 bookAuthor,
-                                trans_status
+                                trans_status,
+                                dates,
+                                bookId,
+                                status_change_date
                             )
                         )
                     }
