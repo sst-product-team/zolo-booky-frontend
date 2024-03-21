@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -128,6 +129,7 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             Request.Method.PATCH, url, newStatus,
             { response ->
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
+                Toast.makeText(context, "Request rejected.", Toast.LENGTH_SHORT).show()
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
@@ -146,6 +148,7 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             Request.Method.PATCH, url, newStatus,
             { response ->
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
+                Toast.makeText(context, "Request approved.", Toast.LENGTH_SHORT).show()
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
