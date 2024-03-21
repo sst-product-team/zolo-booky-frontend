@@ -80,7 +80,7 @@ class MyBooksFragment : Fragment() {
                     }
                 }
 
-                val adapter = MyBooksAdapter(books)
+                val adapter = MyBooksAdapter(requireContext(), books)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
             },
