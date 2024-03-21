@@ -64,11 +64,12 @@ class HomeFragment : Fragment() {
                     val bookStatus = bookObject.getString("status")
                     val bookThumbnail = bookObject.getString("thumbnail")
                     val ownerName = ownerObject.getString("name")
+                    val bookAuthor = bookObject.getString("author")
 
 
                     if(bookStatus=="AVAILABLE"){
                         books.add(
-                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName)
+                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
 
                         )}
                 }

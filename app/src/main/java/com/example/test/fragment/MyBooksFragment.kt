@@ -56,6 +56,7 @@ class MyBooksFragment : Fragment() {
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
+                    val author = bookObject.getString("author")
                     val bookThumbnail = bookObject.getString("thumbnail")
                     val owner = bookObject.getJSONObject("owner")
                     var ownerEntity = UserEntity(
@@ -72,7 +73,8 @@ class MyBooksFragment : Fragment() {
                                 bookTitle,
                                 bookStatus,
                                 bookThumbnail,
-                                ownerEntity
+                                ownerEntity,
+                                author
                             )
                         )
                     }
