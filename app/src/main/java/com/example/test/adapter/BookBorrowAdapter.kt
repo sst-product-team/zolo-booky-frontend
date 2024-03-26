@@ -1,6 +1,7 @@
 package com.example.test.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,19 +41,57 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
         holder.binding.tvBlAuthor.text = book.author
         holder.binding.tvBlOwner.text = book.owner
 
+        Log.d("hi bor", "onBindViewHolder: " + book.thumbnail)
+        Log.d("hi bor", "onBindViewHolder: " + book.name)
+        Log.d("hi bor", "onBindViewHolder: " + book.status)
+
+        Log.d(
+            "BookBorrowAdapter",
+            "Displayed book status at position $position: ${holder.binding.blBkStatus.text}"
+        )
+
         Glide.with(context)
             .load(book.thumbnail)
             .into(holder.binding.imageView)
 
         if (book.status == "AVAILABLE") {
-            holder.itemView.setOnClickListener(View.OnClickListener {
-                Toast.makeText(context, "Book Borrow approval by Owner Pending", Toast.LENGTH_SHORT).show()
-            })
-
+            if (book.trans_status == "PENDING") {
+                holder.itemView.setOnClickListener(View.OnClickListener {
+                    Toast.makeText(
+                        context,
+                        "Book Borrow approval by Owner Pending",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+            } else if (book.trans_status == "REJECTED") {
+                holder.itemView.setOnClickListener(View.OnClickListener {
+                    Toast.makeText(
+                        context,
+                        "Book Borrow approval by Owner Rejected",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+            } else if (book.trans_status == "COMPLETED") {
+                holder.itemView.setOnClickListener(View.OnClickListener {
+                    Toast.makeText(context, "Book Borrow ", Toast.LENGTH_SHORT).show()
+                })
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+            }
         } else {
             holder.itemView.setOnClickListener {
                 showCustomDialog(book)
             }
+            val statusTextView = holder.binding.blBkStatus
+            val status = book.trans_status
+            updateButtonColor(status, statusTextView)
         }
     }
 
@@ -76,6 +115,7 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
 
         btnConfirm.setOnClickListener {
             returnBook(appeal)
+            dialog.dismiss()
         }
 
         dialog.show()
@@ -99,6 +139,32 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
         )
         queue.add(jsonObjectRequest)
 
+    }
+
+    fun updateButtonColor(status: String, button: TextView) {
+        Log.d("hi v", "updateButtonColor: " + status)
+
+        when (status) {
+            "PENDING" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.pending_yellow))
+            )
+
+            "REJECTED" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.rejected_red))
+            )
+
+            "COMPLETED" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.completed_green))
+            )
+
+            else -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.zolo_bluey))
+            )
+        }
     }
 
     override fun getItemCount() = books.size

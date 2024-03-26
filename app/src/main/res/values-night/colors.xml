@@ -15,6 +15,10 @@
     <color name="zolo_secondary">#18191C</color>
     <color name="zolo_secondary_light">#4a18191C</color>
     <color name="zolo_sec_text">#ADADAD</color>
+    <color name="pending_yellow">#F59C17</color>
+    <color name="rejected_red">#FF4A31</color>
+    <color name="completed_green">#58C75A</color>
+
 
     <color name="zolo_btn_dark">#1F2026</color>
     <color name="zolo_btmsheet">#131315</color>

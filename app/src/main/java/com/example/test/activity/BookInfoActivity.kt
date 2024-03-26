@@ -166,11 +166,14 @@ class BookInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 Log.d("BookInfoActivity", "Book borrowed successfully. Response: $response")
                 // Update UI or perform further actions if needed
+                finish()
             },
             { error ->
                 // Handle errors
+                Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 Log.e("BookInfoActivity", "Error borrowing book: $error")
                 // Display error message or perform other error handling steps
+                finish()
             }
         )
 
