@@ -2,6 +2,7 @@ package com.example.test.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -38,19 +39,52 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
         return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BookRequestsAdapter.ViewHolder, position: Int) {
         val book = books[position]
         holder.binding.blBkTitle.text = book.name
         holder.binding.blBkStatus.text = book.trans_status
         holder.binding.tvBlAuthor.text = "requested by " + book.owner
         holder.binding.tvBlOwner.text = "requested till " + book.expected_completion_date
-        holder.itemView.setOnClickListener {
-            showCustomDialog(book)
-        }
+
         Glide.with(context)
             .load(book.thumbnail)
             .into(holder.binding.imageView)
+        if (book.status == "AVAILABLE") {
+            if (book.trans_status == "PENDING") {
+                holder.itemView.setOnClickListener {
+                    showCustomDialog(book)
+                }
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+
+            } else if (book.trans_status == "REJECTED") {
+                holder.itemView.setOnClickListener(View.OnClickListener {
+                    Toast.makeText(
+                        context,
+                        "You Rejected this book request",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+            } else if (book.trans_status == "COMPLETED") {
+                holder.itemView.setOnClickListener(View.OnClickListener {
+                    Toast.makeText(context, "Book Borrow ", Toast.LENGTH_SHORT).show()
+                })
+                val statusTextView = holder.binding.blBkStatus
+                val status = book.trans_status
+                updateButtonColor(status, statusTextView)
+            }
+        } else {
+            holder.itemView.setOnClickListener {
+                showCustomDialog(book)
+            }
+            val statusTextView = holder.binding.blBkStatus
+            val status = book.trans_status
+            updateButtonColor(status, statusTextView)
+        }
     }
 
 
@@ -73,11 +107,11 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             btnConfirm.text = "Accept"
             btnCancel.setOnClickListener {
                 dialog.dismiss()
-                rejectAppeal(appeal)
+                rejectAppeal(appeal,dialog)
             }
 
             btnConfirm.setOnClickListener {
-                acceptaAppeal(appeal)
+                acceptaAppeal(appeal,dialog)
             }
         } else if (appealStatus == "ONGOING") {
             tvBorrowDateText.text = "Update request for " + appeal.owner
@@ -85,42 +119,33 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             btnConfirm.text = "Complete"
             btnCancel.setOnClickListener {
                 dialog.dismiss()
-//                remindBorrower(appeal)
             }
 
             btnConfirm.setOnClickListener {
-//                completeAppeal(appeal)
+                dialog.dismiss()
             }
         } else if (appealStatus == "REJECTED") {
             tvBorrowDateText.text = "Request rejected on " + appeal.stats_change_date
             btnCancel.visibility = View.GONE
             btnConfirm.visibility = View.GONE
-//            btnCancel.setOnClickListener {
-//                dialog.dismiss()
-////                remindBorrower(appeal)
-//            }
-//
-//            btnConfirm.setOnClickListener {
-////                completeAppeal(appeal)
-//            }
 
         } else if (appealStatus == "COMPLETED") {
             tvBorrowDateText.text = "Request completed on " + appeal.stats_change_date
             btnCancel.visibility = View.GONE
             btnConfirm.visibility = View.GONE
             btnCancel.setOnClickListener {
-//                remindBorrower(appeal)
+                dialog.dismiss()
             }
 
             btnConfirm.setOnClickListener {
-//                completeAppeal(appeal)
+                dialog.dismiss()
             }
         }
 
         dialog.show()
     }
 
-    fun rejectAppeal(appeal: ListAppealEntity) {
+    fun rejectAppeal(appeal: ListAppealEntity ,dialog: BottomSheetDialog) {
         val url = "${Constants.BASE_URL}/v0/appeals/${appeal.trans_id}"
         val newStatus = JSONObject().apply {
             put("trans_status", "REJECTED")
@@ -130,6 +155,7 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             { response ->
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
                 Toast.makeText(context, "Request rejected.", Toast.LENGTH_SHORT).show()
+
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
@@ -138,7 +164,8 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
         queue.add(jsonObjectRequest)
     }
 
-    fun acceptaAppeal(appeal: ListAppealEntity) {
+
+    fun acceptaAppeal(appeal: ListAppealEntity ,dialog: BottomSheetDialog) {
         val url = "${Constants.BASE_URL}/v0/appeals/${appeal.trans_id}"
         Log.d("ACCEPT URL", url)
         val newStatus = JSONObject().apply {
@@ -155,6 +182,31 @@ class BookRequestsAdapter(private val context: Context, private val books: List<
             }
         )
         queue.add(jsonObjectRequest)
+    }
+    fun updateButtonColor(status: String, button: TextView) {
+        Log.d("hi v", "updateButtonColor: " + status)
+
+        when (status) {
+            "PENDING" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.pending_yellow))
+            )
+
+            "REJECTED" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.rejected_red))
+            )
+
+            "COMPLETED" -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.completed_green))
+            )
+
+            else -> button.backgroundTintList = ColorStateList(
+                arrayOf(intArrayOf(0)),
+                intArrayOf(context.resources.getColor(R.color.zolo_bluey))
+            )
+        }
     }
 
     override fun getItemCount() = books.size

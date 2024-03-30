@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/shimmer_view_container_book_list"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="7dp"
+    android:clipToPadding="false"
+    >
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="5dp"
+        app:circularflow_defaultRadius="20dp"
+        android:background="@color/zolo_secondary"
+        android:backgroundTint="@color/zolo_secondary"
+        tools:ignore="MissingConstraints"
+        tools:context=".fragment.homeFragment"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:background="@color/greyLight"
+            >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="79dp"
+                android:background="@color/shimmer_color"
+                android:layout_height="0dp"
+                android:layout_margin="11dp"
+
+                app:layout_constraintBaseline_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/blBkTitle1"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:background="@color/shimmer_color"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="8dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp"
+
+
+                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBlOwner1"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text=""
+                android:background="@color/shimmer_color"
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                app:layout_constraintTop_toBottomOf="@+id/tvBlAuthor1" />
+
+            <TextView
+                android:id="@+id/blBkStatus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available"
+                android:textSize="20sp"
+
+                android:textColor="@color/shimmer_color"
+                android:background="@color/shimmer_color"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvBlOwner1"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintTop_toTopOf="@+id/tvBlOwner1" />
+
+            <TextView
+                android:id="@+id/tvBlAuthor1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/shimmer_color"
+                android:text=""
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="11sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                app:layout_constraintTop_toBottomOf="@+id/blBkTitle1" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

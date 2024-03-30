@@ -12,7 +12,6 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.test.fragment.HomeFragment
 import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
@@ -81,7 +80,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        HomeFragment()
 
         val NavController = findNavController(R.id.fragmentContainerView4)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView2)
