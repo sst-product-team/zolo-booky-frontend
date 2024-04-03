@@ -13,7 +13,8 @@
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/textView1"
@@ -30,6 +31,33 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+
+            android:layout_width="match_parent"
+            android:id="@+id/shimmer_view_container_book_list"
+            android:layout_height="match_parent"
+            app:shimmer_duration="3000">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp">
+
+                <include
+                    android:id="@+id/include"
+                    layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+
+
+                <include layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <TextView
             android:id="@+id/view_history_btn"
             android:layout_width="wrap_content"
@@ -44,6 +72,7 @@
             android:paddingBottom="5dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/rvBorrowBookList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -56,6 +85,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1"
             android:overScrollMode="never"/>
+
+        <androidx.cardview.widget.CardView
+            android:visibility="gone"
+            android:id="@+id/msg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/zolo_secondary"
+            android:backgroundTint="@color/zolo_secondary"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="4dp"
+            app:circularflow_defaultRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            tools:context=".fragment.homeFragment"
+            tools:ignore="MissingConstraints"
+           >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No currently Borrowed Books by you"
+                android:layout_gravity="center"
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="12sp"/>
+        </androidx.cardview.widget.CardView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -136,6 +194,32 @@
 <!--            app:layout_constraintBottom_toBottomOf="@+id/search_view"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintTop_toTopOf="@+id/search_view" />-->
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/shimmer_view_container_book_list2"
+            android:layout_height="match_parent"
+            app:shimmer_duration="3000">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp">
+                <include layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <include layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <include layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <include layout="@layout/booklist_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
 

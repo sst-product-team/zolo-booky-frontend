@@ -20,4 +20,6 @@
     <color name="zolo_btn_dark">#FFFFFF</color>
     <color name="zolo_btmsheet">#D8D7D7</color>
 
+    <color name="shimmer_color">#C2C2C2</color>
+
 </resources>
