@@ -14,8 +14,10 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+
 import com.example.test.adapter.TabAdapter
 import com.example.test.fragment.HomeFragment
+
 import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
