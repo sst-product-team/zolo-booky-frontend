@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.test.tabs.TabBorrowed
-import com.example.test.tabs.TabRequests
+import com.example.test.tabs.TabYourBooks
 
 class TabAdapter (fragmentManager: FragmentManager,
                   lifecycle: Lifecycle
@@ -18,6 +18,6 @@ class TabAdapter (fragmentManager: FragmentManager,
         return if (position==0)
             TabBorrowed()
         else
-            TabRequests()
+            TabYourBooks()
     }
 }

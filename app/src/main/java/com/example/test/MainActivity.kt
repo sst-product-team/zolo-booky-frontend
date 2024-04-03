@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -8,17 +9,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.test.adapter.TabAdapter
 import com.example.test.fragment.HomeFragment
 import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var booksView: TextView
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var tabAdapter: TabAdapter
 
     private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
         val sharedPreferences = this.getSharedPreferences("Booky", Context.MODE_PRIVATE)
@@ -58,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -76,16 +84,51 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(this.getResources().getColor(R.color.white));
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
         }
 
 
 
-        HomeFragment()
 
-        val NavController = findNavController(R.id.fragmentContainerView4)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView2)
-        bottomNav.setupWithNavController(NavController)
+
+        tabLayout = findViewById(R.id.tabLayout)
+        viewPager2 = findViewById(R.id.viewPager2)
+
+
+        tabAdapter= TabAdapter( supportFragmentManager,lifecycle)
+
+
+        tabLayout.addTab(tabLayout.newTab().setText("Borrowed"))
+        tabLayout.addTab(tabLayout.newTab().setText("Your Books"))
+
+
+        viewPager2.adapter = tabAdapter
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    viewPager2.currentItem = tab.position
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
+
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.selectTab(tabLayout.getTabAt(position))
+            }
+        })
+
 
     }
 }
