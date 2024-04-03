@@ -9,32 +9,49 @@
 
     tools:context=".MainActivity">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView2"
+
+    <TextView
+        android:id="@+id/maintext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Books Section"
+        android:gravity="center_vertical"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/zolo_bg_main"
+        android:textSize="18sp"
+        android:textColor="@color/black">
+
+    </TextView>
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/maintext"
+        app:tabTextColor="@color/zolo_sec_text"
+        app:tabSelectedTextColor="@color/zolo_bluey"
+        app:tabMode="fixed"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabBackground="@color/zolo_bg_main"
+        app:tabIndicatorColor="@android:color/holo_blue_dark"
+        app:tabIndicatorFullWidth="true"
+        />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
         android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_height="0dp"
+        app:flow_horizontalBias="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu"
-        android:background="@color/zolo_bg_main"
-
-        app:itemActiveIndicatorStyle="@color/netflixred"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"
-       />
-
-    <fragment
-        android:id="@+id/fragmentContainerView4"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navGraph="@navigation/navigation" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
