@@ -65,6 +65,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
     //implementation("com.theartofdev.edmodo:android-image-cropper:2.8.+")
 
 //    implementation ("com.github.dhaval2404:imagepicker:2.1")

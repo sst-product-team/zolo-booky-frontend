@@ -1,11 +1,15 @@
 package com.example.test.tabs
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+
+import androidx.constraintlayout.widget.ConstraintLayout
+
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +29,12 @@ import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
 
+
 class TabBorrowed : Fragment() {
-    private lateinit var binding: FragmentTabBorrowedBinding
+
+    private lateinit var binding:FragmentTabBorrowedBinding
+
+
     private lateinit var searchView: SearchView
     private val books = mutableListOf<ListBookEntity>()
     private lateinit var recyclerView: RecyclerView
@@ -69,7 +77,9 @@ class TabBorrowed : Fragment() {
         var token: String
 
         Log.d("API Request URL", url)
-        var count = 0
+
+        var count =0
+
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
@@ -120,9 +130,27 @@ class TabBorrowed : Fragment() {
                 shimmerFrameLayout.visibility = View.GONE
 
 
+
+                Log.d("Count", count.toString())
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+
+
+
+//// need to implement something here...
                 if(count==0){
-                    binding.constraintLayout4.visibility = View.GONE
+
+                    val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
+                    val heightInDp = 200 // desired height in dp
+                    val density = resources.displayMetrics.density
+                    val heightInPixels = (heightInDp * density).toInt()
+                    layoutParams.height = heightInPixels
+                    binding.constraintLayout4.layoutParams = layoutParams
+
+                    binding.msg.visibility = View.VISIBLE
+
                 }
+
 
                 val adapter = BookBorrowAdapter(requireContext(), booksB)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -172,6 +200,10 @@ class TabBorrowed : Fragment() {
                         )}
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
+
+                shimmerFrameLayout2.stopShimmer()
+                shimmerFrameLayout2.visibility = View.GONE
+
 
                 shimmerFrameLayout2.stopShimmer()
                 shimmerFrameLayout2.visibility = View.GONE
