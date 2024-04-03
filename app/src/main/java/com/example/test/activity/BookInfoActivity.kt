@@ -3,12 +3,15 @@ package com.example.test.activity
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -28,6 +31,8 @@ import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private lateinit var mainLayout: LinearLayout
     private var book: BooksDetailsEntity = BooksDetailsEntity(
         id = -1,
         name = "",
@@ -53,12 +58,16 @@ class BookInfoActivity : AppCompatActivity() {
 
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        shimmerFrameLayout = binding.shimmerViewContainerBookInfo
+        mainLayout = binding.mainLayoutBookInfo
+
         val bookId = intent.getIntExtra("bookId", 0)
         if (bookId == 0) {
             finish()
             return
         } else {
-            fetchBookDetails(bookId)
+            fetchBookDetails(bookId )
         }
 
         id = intent.getIntExtra("id", 3)
@@ -185,12 +194,14 @@ class BookInfoActivity : AppCompatActivity() {
             },
             { error ->
                 // Handle errors
+                Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 Log.e("BookInfoActivity", "Error borrowing book: $error")
                 Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 
                 // Update UI or perform further actions if needed
                 finish()
                 // Display error message or perform other error handling steps
+                finish()
             }
         )
 
@@ -199,13 +210,18 @@ class BookInfoActivity : AppCompatActivity() {
     }
 
 
-    private fun fetchBookDetails(bookId: Int) {
-        val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container3)
+
+    private fun fetchBookDetails(bookId: Int ) {
+        shimmerFrameLayout.visibility = View.VISIBLE
         shimmerFrameLayout.startShimmer()
+
         val url = "${Constants.BASE_URL}/v0/books/$bookId"
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
+                Log.d("BookInfoActivity", "API Response: $response")
+
+                //
                 // Using optString instead of getString
                 val name = response.getString("name")
                 val description = response.getString("description")
@@ -235,12 +251,17 @@ class BookInfoActivity : AppCompatActivity() {
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
                 binding.tvBookOwner.text = owner.getString("name")
+
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmer()
+//                mainLayout.visibility = View.VISIBLE
             },
             { error ->
                 Log.e("BookInfoActivity", "Error fetching book details: $error")
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmer()
+//                mainLayout.visibility = View.VISIBLE
             })
-
-        // Adding the request to the RequestQueue.
         Volley.newRequestQueue(this).add(jsonObjectRequest)
     }
 

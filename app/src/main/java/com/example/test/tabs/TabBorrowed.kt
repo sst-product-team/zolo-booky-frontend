@@ -17,6 +17,7 @@ import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
 import com.example.test.databinding.FragmentHomeBinding
+
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListAppealEntity
@@ -54,6 +55,7 @@ class TabBorrowed : Fragment() {
         // Starting the shimmer effect before making the API request
         shimmerFrameLayout.startShimmer()
         shimmerFrameLayout2.startShimmer()
+
 
 
         ///// for borrowed books by borrower.
@@ -117,6 +119,7 @@ class TabBorrowed : Fragment() {
                 shimmerFrameLayout.stopShimmer()
                 shimmerFrameLayout.visibility = View.GONE
 
+
                 if(count==0){
                     binding.constraintLayout4.visibility = View.GONE
                 }
@@ -138,7 +141,7 @@ class TabBorrowed : Fragment() {
         //////// for all books
 
         val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
-        val url2 = "${Constants.BASE_URL}/v0/books"
+        val url2 = "${Constants.BASE_URL}/v0/books?size=100"
 
 
 
@@ -172,6 +175,7 @@ class TabBorrowed : Fragment() {
 
                 shimmerFrameLayout2.stopShimmer()
                 shimmerFrameLayout2.visibility = View.GONE
+
 
                 val adapter = BookListAdapter(books)
                 recyclerView2.layoutManager = LinearLayoutManager(requireContext())
@@ -281,6 +285,7 @@ class TabBorrowed : Fragment() {
         )
 
         queue.add(jsonArrayRequest)
+
     }
 
     companion object {
