@@ -25,7 +25,7 @@ import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
 
 class TabBorrowed : Fragment() {
-    private lateinit var
+    private lateinit var binding: FragmentTabBorrowedBinding
     private lateinit var searchView: SearchView
     private val books = mutableListOf<ListBookEntity>()
     private lateinit var recyclerView: RecyclerView
