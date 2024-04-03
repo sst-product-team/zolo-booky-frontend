@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_dialog_bg"
+    android:orientation="vertical"
+    app:layoutDescription="@xml/bottomsheet_conformation_scene"
+
+    >
+
+    <TextView
+        android:id="@+id/tvTitleDialogBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Select number of days"
+        android:textAlignment="center"
+        android:textColor="@color/onlyBlack"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tvBorrowDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="23dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/onlyBlack"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitleDialogBox"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/tvTitleDialogBox"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleDialogBox" />
+
+    <TextView
+        android:id="@+id/btnAdd"
+        style="@style/CustomButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rect_btn"
+        android:text="+"
+        android:textColor="@color/zolo_bluey"
+        android:textSize="24sp"
+        android:layout_marginLeft="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBorrowDateText"
+        app:layout_constraintStart_toEndOf="@+id/tvBorrowDateText"
+        app:layout_constraintTop_toTopOf="@+id/tvBorrowDateText" />
+        />
+
+    <TextView
+        android:id="@+id/btnSub"
+        style="@style/CustomButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rect_btn"
+        android:text="-"
+        android:layout_marginRight="30dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBorrowDateText"
+        app:layout_constraintEnd_toStartOf="@+id/tvBorrowDateText"
+        app:layout_constraintTop_toTopOf="@+id/tvBorrowDateText" />
+    />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirmRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cornerRadius="5dp"
+        android:backgroundTint="@color/zolo_btn_dark"
+        android:text="Confirm Request"
+        android:textColor="@color/zolo_bluey"
+        app:layout_constraintEnd_toEndOf="@+id/btnAdd"
+        android:layout_marginTop="40dp"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/btnSub"
+        app:layout_constraintTop_toBottomOf="@+id/tvBorrowDateText"
+        app:rippleColor="@color/greyLight" />
+</androidx.constraintlayout.widget.ConstraintLayout>

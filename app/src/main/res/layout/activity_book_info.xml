@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:shimmer="http://schemas.android.com/tools"
+    android:orientation="vertical">
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container3"
         android:layout_width="match_parent"
-        android:id="@+id/shimmer_view_container_book_info"
         android:layout_height="match_parent"
-        app:shimmer_duration="3000">
+        shimmer:shimmer_color="#DDDDDD">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <include layout="@layout/activity_book_info_shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
+
         android:id="@+id/main_layout_book_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -185,11 +186,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </FrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bBorrowBook"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -205,8 +208,10 @@
             android:textColor="@color/zolo_bluey"
             android:textSize="12dp"
             app:cornerRadius="5dp"
+            android:layout_alignParentBottom="true"
             app:rippleColor="@color/greyLight" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </FrameLayout>

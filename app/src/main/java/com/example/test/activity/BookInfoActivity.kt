@@ -85,7 +85,7 @@ class BookInfoActivity : AppCompatActivity() {
             textAuthor.text = author
             tvBookOwner.text = owner
             binding.bBorrowBook.setOnClickListener {
-                datePicker(bookId)
+                showCustomDialog(bookId)
             }
         }
 
@@ -113,35 +113,49 @@ class BookInfoActivity : AppCompatActivity() {
             val borrowedDays = calculateBorrowedDays(selectedDate)
 
             Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
-            showCustomDialog(bookId, borrowedDays.toInt()+1)
+//            showCustomDialog(bookId, borrowedDays.toInt()+1)
         }
         picker.addOnNegativeButtonClickListener {
             picker.dismiss()
         }
     }
 
-    private fun showCustomDialog(bookId: Int, daysBorrowed: Int) {
-        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
+    private fun showCustomDialog(bookId: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_datepicker, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogView)
 
         val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
-        val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
-        val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
+        val btnAdd: TextView = dialogView.findViewById(R.id.btnAdd)
+        val btnSub: TextView = dialogView.findViewById(R.id.btnSub)
+
+        val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirmRequest)
 
 
-        tvBorrowDateText.text = "Borrow the book for $daysBorrowed days?"
 
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
+        btnAdd.setOnClickListener {
+            incrementDays(tvBorrowDateText)
+        }
+        btnSub.setOnClickListener {
+            decrementDays(tvBorrowDateText)
         }
 
         btnConfirm.setOnClickListener {
-            borrowDataToDatabase(bookId, daysBorrowed)
+            borrowDataToDatabase(bookId, tvBorrowDateText.text.toString().toInt())
             dialog.dismiss()
         }
 
         dialog.show()
+    }
+    private fun incrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        tvBorrowDateText.text = (currentDays + 1).toString()
+    }
+    private fun decrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        if (currentDays > 1) {
+            tvBorrowDateText.text = (currentDays - 1).toString()
+        }
     }
 
 
@@ -196,15 +210,10 @@ class BookInfoActivity : AppCompatActivity() {
     }
 
 
+
     private fun fetchBookDetails(bookId: Int ) {
         shimmerFrameLayout.visibility = View.VISIBLE
         shimmerFrameLayout.startShimmer()
-
-
-
-//        mainLayout.visibility = View.GONE
-
-
 
         val url = "${Constants.BASE_URL}/v0/books/$bookId"
         val jsonObjectRequest = JsonObjectRequest(
@@ -237,7 +246,7 @@ class BookInfoActivity : AppCompatActivity() {
                     .load(thumbnail)
                     .into(coverSmall)
 
-
+                shimmerFrameLayout.stopShimmer()
                 binding.tvBookName.text = name
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
