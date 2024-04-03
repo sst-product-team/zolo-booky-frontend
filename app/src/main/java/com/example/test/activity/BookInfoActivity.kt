@@ -17,6 +17,7 @@ import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
 import com.example.test.entity.BooksDetailsEntity
 import com.example.test.globalContexts.Constants
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.CalendarConstraints
@@ -75,7 +76,7 @@ class BookInfoActivity : AppCompatActivity() {
             textAuthor.text = author
             tvBookOwner.text = owner
             binding.bBorrowBook.setOnClickListener {
-                datePicker(bookId)
+                showCustomDialog(bookId)
             }
         }
 
@@ -103,35 +104,49 @@ class BookInfoActivity : AppCompatActivity() {
             val borrowedDays = calculateBorrowedDays(selectedDate)
 
             Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
-            showCustomDialog(bookId, borrowedDays.toInt()+1)
+//            showCustomDialog(bookId, borrowedDays.toInt()+1)
         }
         picker.addOnNegativeButtonClickListener {
             picker.dismiss()
         }
     }
 
-    private fun showCustomDialog(bookId: Int, daysBorrowed: Int) {
-        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_conformation, null)
+    private fun showCustomDialog(bookId: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_datepicker, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogView)
 
         val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
-        val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
-        val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
+        val btnAdd: TextView = dialogView.findViewById(R.id.btnAdd)
+        val btnSub: TextView = dialogView.findViewById(R.id.btnSub)
+
+        val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirmRequest)
 
 
-        tvBorrowDateText.text = "Borrow the book for $daysBorrowed days?"
 
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
+        btnAdd.setOnClickListener {
+            incrementDays(tvBorrowDateText)
+        }
+        btnSub.setOnClickListener {
+            decrementDays(tvBorrowDateText)
         }
 
         btnConfirm.setOnClickListener {
-            borrowDataToDatabase(bookId, daysBorrowed)
+            borrowDataToDatabase(bookId, tvBorrowDateText.text.toString().toInt())
             dialog.dismiss()
         }
 
         dialog.show()
+    }
+    private fun incrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        tvBorrowDateText.text = (currentDays + 1).toString()
+    }
+    private fun decrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        if (currentDays > 1) {
+            tvBorrowDateText.text = (currentDays - 1).toString()
+        }
     }
 
 
@@ -166,10 +181,15 @@ class BookInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
                 Log.d("BookInfoActivity", "Book borrowed successfully. Response: $response")
                 // Update UI or perform further actions if needed
+                finish()
             },
             { error ->
                 // Handle errors
                 Log.e("BookInfoActivity", "Error borrowing book: $error")
+                Toast.makeText(this, "Book requested from owner", Toast.LENGTH_SHORT).show()
+                
+                // Update UI or perform further actions if needed
+                finish()
                 // Display error message or perform other error handling steps
             }
         )
@@ -180,6 +200,8 @@ class BookInfoActivity : AppCompatActivity() {
 
 
     private fun fetchBookDetails(bookId: Int) {
+        val shimmerFrameLayout = findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container3)
+        shimmerFrameLayout.startShimmer()
         val url = "${Constants.BASE_URL}/v0/books/$bookId"
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
@@ -208,7 +230,7 @@ class BookInfoActivity : AppCompatActivity() {
                     .load(thumbnail)
                     .into(coverSmall)
 
-
+                shimmerFrameLayout.stopShimmer()
                 binding.tvBookName.text = name
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
