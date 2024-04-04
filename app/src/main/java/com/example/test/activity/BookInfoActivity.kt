@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,7 @@ import java.util.Date
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
-    private lateinit var mainLayout: LinearLayout
+    private lateinit var mainLayout: RelativeLayout
     private var book: BooksDetailsEntity = BooksDetailsEntity(
         id = -1,
         name = "",
