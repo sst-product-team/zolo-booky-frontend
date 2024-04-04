@@ -51,7 +51,6 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 //    }
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
     val book = books[position]
-
         if(book.status == "AVAILABLE"){
 
             holder.itemView.setOnLongClickListener {
