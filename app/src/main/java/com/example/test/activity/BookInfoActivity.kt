@@ -178,8 +178,8 @@ class BookInfoActivity : AppCompatActivity() {
         val addedDate = localDate.plusDays(count.toLong())
         val completionDate = addedDate.toString()
         val jsonBody = JSONObject().apply {
-            put("book_id", bookId)
-            put("borrower_id", Constants.USER_ID)
+            put("bookId", bookId)
+            put("borrowerId", Constants.USER_ID)
             put("initiation_date", localDate.toString())
             put("expected_completion_date", completionDate)
         }

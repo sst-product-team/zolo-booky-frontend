@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +29,7 @@ import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
+import kotlin.math.log
 
 
 class TabBorrowed : Fragment() {
@@ -64,7 +66,13 @@ class TabBorrowed : Fragment() {
         shimmerFrameLayout.startShimmer()
         shimmerFrameLayout2.startShimmer()
 
+        val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
 
+        val viewButton : TextView = binding.viewHistoryBtn
+        viewButton.setOnClickListener {
+
+            Log.d("onbtnVHTAG", "onViewCreated: clicked")
+        }
 
         ///// for borrowed books by borrower.
 
@@ -90,13 +98,13 @@ class TabBorrowed : Fragment() {
                 for (i in 0 until response.length()){
 
                     val appealObject = response.getJSONObject(i)
-                    val borrowerObject = appealObject.getJSONObject("borrower_id")
+                    val borrowerObject = appealObject.getJSONObject("borrowerId")
                     val borrowerId = borrowerObject.getInt("id")
                     val trans_status = appealObject.getString("trans_status")
                     if (borrowerId == USER_ID){
                         count++
                         val transId = appealObject.getInt("trans_id")
-                        val bookIdObject = appealObject.getJSONObject("book_id")
+                        val bookIdObject = appealObject.getJSONObject("bookId")
                         val bookId = bookIdObject.getInt("id")
                         val bookTitle = bookIdObject.getString("name")
                         val bookStatus = bookIdObject.getString("status")

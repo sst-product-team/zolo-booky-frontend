@@ -1,18 +1,22 @@
 package com.example.test.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.example.test.R
+import com.example.test.activity.BookInfoOwnerActivity
 import com.example.test.databinding.BooklistBinding
 import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.MyBookEntity
@@ -35,15 +39,65 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
         )
     }
 
+//    override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
+//        val book = books[position]
+//
+//        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail,book.author)
+//
+//        holder.itemView.setOnClickListener {
+//            Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
+//            showBottomSheetDialog(book)
+//        }
+//    }
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
-        val book = books[position]
+    val book = books[position]
 
-        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail,book.author)
+        if(book.status == "AVAILABLE"){
+
+            holder.itemView.setOnLongClickListener {
+                showBottomSheetDialog(book)
+                true
+            }
+        }
+
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-            showBottomSheetDialog(book)
+            val intent = Intent(context, BookInfoOwnerActivity::class.java)
+            intent.putExtra("bookId", book.id)
+            intent.putExtra("bookName", book.name)
+            intent.putExtra("bookStatus", book.status)
+            intent.putExtra("bookThumbnail", book.thumbnail)
+            intent.putExtra("bookAuthor", book.author)
+            intent.putExtra("bookOwner", book.owner.USER_NAME)
+            context.startActivity(intent)
         }
+    getNumberOfRequests(book.id) { numberOfRequests ->
+        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail, book.author, numberOfRequests)
+    }
+}
+
+    private fun getNumberOfRequests(bookId: Int, callback: (Int) -> Unit) {
+        val url = "${Constants.BASE_URL}/v0/appeals"
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                var numberOfRequests = 0
+                for (i in 0 until response.length()) {
+                    val appealObject = response.getJSONObject(i)
+                    val book = appealObject.getJSONObject("bookId")
+                    val bookIdFromAppeal = book.getInt("id")
+                    if (bookIdFromAppeal == bookId) {
+                        numberOfRequests = book.getInt("requestCount")
+                    }
+                }
+                callback(numberOfRequests)
+            },
+            { error ->
+                Log.d("NUMBER OF REQUESTS", "ERROR OCCURED")
+            }
+        )
+        queue.add(jsonArrayRequest)
     }
     private fun showBottomSheetDialog(appeal: MyBookEntity) {
         Log.d("inside sheet", "showBottomSheetDialog: ")
@@ -141,10 +195,10 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
     class RowViewHolder(private val binding: BooklistBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(title: String,owner: String, status: String, thumbnail: String , author: String ) {
+        fun bind(title: String,owner: String, status: String, thumbnail: String , author: String ,numberOfRequests:Int) {
             binding.blBkTitle.text = title
             binding.tvBlAuthor.text = author
-            binding.tvBlOwner.text = owner
+            binding.tvBlOwner.text = numberOfRequests.toString()
             binding.blBkStatus.text = status
 
             Glide.with(itemView.context)
@@ -154,4 +208,5 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
             Log.d("TAGTUG", "$title $owner $status $author")
         }
     }
+
 }
