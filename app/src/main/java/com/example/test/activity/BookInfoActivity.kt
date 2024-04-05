@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,7 @@ import java.util.Date
 class BookInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoBinding
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
-    private lateinit var mainLayout: LinearLayout
+    private lateinit var mainLayout: RelativeLayout
     private var book: BooksDetailsEntity = BooksDetailsEntity(
         id = -1,
         name = "",
@@ -177,8 +178,8 @@ class BookInfoActivity : AppCompatActivity() {
         val addedDate = localDate.plusDays(count.toLong())
         val completionDate = addedDate.toString()
         val jsonBody = JSONObject().apply {
-            put("book_id", bookId)
-            put("borrower_id", Constants.USER_ID)
+            put("bookId", bookId)
+            put("borrowerId", Constants.USER_ID)
             put("initiation_date", localDate.toString())
             put("expected_completion_date", completionDate)
         }

@@ -45,6 +45,10 @@
             android:name=".activity.PostBooksActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.BookInfoOwnerActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".notifications.NotificationService"
