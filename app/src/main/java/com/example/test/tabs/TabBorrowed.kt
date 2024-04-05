@@ -8,11 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
+
 import androidx.constraintlayout.widget.ConstraintLayout
+
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,23 +27,35 @@ import com.example.test.HistoryBottomSheet
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
+
 import com.example.test.adapter.MyRequestsAdapter
 import com.example.test.adapter.ViewHistoryAdapter
 import com.example.test.databinding.BottomsheetScrollerBinding
+
+import com.example.test.databinding.FragmentHomeBinding
+
+
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
+
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 
+import kotlin.math.log
+
+
 
 class TabBorrowed : Fragment() {
+
     private lateinit var binding:FragmentTabBorrowedBinding
+
     private lateinit var recyclerView: RecyclerView
+
     private lateinit var searchView: SearchView
     private val books = mutableListOf<ListBookEntity>()
 
@@ -70,6 +85,13 @@ class TabBorrowed : Fragment() {
         shimmerFrameLayout.startShimmer()
         shimmerFrameLayout2.startShimmer()
 
+        val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
+
+        val viewButton : TextView = binding.viewHistoryBtn
+        viewButton.setOnClickListener {
+
+            Log.d("onbtnVHTAG", "onViewCreated: clicked")
+        }
 
 
 
@@ -107,16 +129,18 @@ class TabBorrowed : Fragment() {
         var token: String
 
         Log.d("API Request URLL", url)
+
         var count =0
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
                 Log.d("API Response", response.toString())
-                val books = mutableListOf<ListAppealEntity>()
+                val booksB = mutableListOf<ListAppealEntity>()
                 val borrowerData = mutableListOf<AppealEntity>()
 
                 for (i in 0 until response.length()){
+
                     val appealObject = response.getJSONObject(i)
                     val borrowerObject = appealObject.getJSONObject("borrowerId")
                     val borrowerId = borrowerObject.getInt("id")
@@ -137,7 +161,7 @@ class TabBorrowed : Fragment() {
                         val expected_completion_date =
                             appealObject.getString("expected_completion_date")
                         val dates: String = expected_completion_date.split(" ")[0]
-                        books.add(
+                        booksB.add(
                             ListAppealEntity(
                                 transId,
                                 bookTitle,
@@ -153,8 +177,8 @@ class TabBorrowed : Fragment() {
                         )
                     }
                 }
-                Log.d("Parsed Books borroweding", "Number of books fetched: ${books.size}")
 
+                Log.d("Parsed Books borroweding", "Number of books fetched: ${books.size}")
                 Log.d("Count", count.toString())
                 shimmerFrameLayout.stopShimmer()
                 shimmerFrameLayout.visibility = View.GONE
@@ -185,7 +209,7 @@ class TabBorrowed : Fragment() {
                 }
 
 
-                val adapter = BookBorrowAdapter(requireContext(), books)
+                val adapter = BookBorrowAdapter(requireContext(), booksB)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -197,19 +221,6 @@ class TabBorrowed : Fragment() {
         )
 
         queue.add(jsonArrayRequest)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //////// for all books
@@ -247,6 +258,9 @@ class TabBorrowed : Fragment() {
                 }
                 Log.d("Parsed Books", "Number of books fetched: ${books.size}")
 
+                shimmerFrameLayout2.stopShimmer()
+                shimmerFrameLayout2.visibility = View.GONE
+
 
                 shimmerFrameLayout2.stopShimmer()
                 shimmerFrameLayout2.visibility = View.GONE
@@ -265,11 +279,6 @@ class TabBorrowed : Fragment() {
         )
 
         queue.add(jsonArrayRequest2)
-
-        //////
-
-
-
         searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -366,6 +375,7 @@ class TabBorrowed : Fragment() {
         )
 
         queue.add(jsonArrayRequest)
+
 
 
 

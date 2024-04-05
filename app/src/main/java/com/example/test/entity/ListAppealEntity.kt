@@ -9,6 +9,6 @@ data class ListAppealEntity(
     var author: String = "",
     var trans_status: String = "",
     var expected_completion_date: String = "",
-    var book_id: Int = 0,
+    var bookId: Int = 0,
     var stats_change_date: String = ""
 ):java.io.Serializable

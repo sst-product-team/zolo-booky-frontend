@@ -57,8 +57,6 @@ class PostBooksActivity: AppCompatActivity(){
     private var borrowedDays :Long= 0;
     private var selectedDate :Long= 0;
 
-    //lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
-    //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +73,7 @@ class PostBooksActivity: AppCompatActivity(){
         imageView = findViewById(R.id.edi_cover_smol)
         button = findViewById(R.id.floatingActionButton)
 
-//
+
         button.setOnClickListener {
             // calling intent on below line.
             val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
@@ -117,28 +115,43 @@ class PostBooksActivity: AppCompatActivity(){
         chooseDateButton.setOnClickListener {
             Log.d("PostBooksActivity", "chooseDateButton clicked")
 
-            val picker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
+            val dialogView = layoutInflater.inflate(R.layout.bottomsheet_datepicker, null)
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(dialogView)
 
-            picker.show(supportFragmentManager, "TAG")
-            picker.addOnPositiveButtonClickListener {
-                 selectedDate = picker.selection!!
+            val tvBorrowDateText: TextView = dialogView.findViewById(R.id.tvBorrowDateText)
+            val btnAdd: TextView = dialogView.findViewById(R.id.btnAdd)
+            val btnSub: TextView = dialogView.findViewById(R.id.btnSub)
 
-                 borrowedDays = calculateBorrowedDays(selectedDate)
-
-                Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
-
-                // Update the TextView with the selected date
-                val date = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()
-                selectedDateText.text = "$date"
+            val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirmRequest)
 
 
+
+            btnAdd.setOnClickListener {
+                incrementDays(tvBorrowDateText)
             }
-            picker.addOnNegativeButtonClickListener {
-                picker.dismiss()
+            btnSub.setOnClickListener {
+                decrementDays(tvBorrowDateText)
             }
+
+            btnConfirm.setOnClickListener {
+                borrowedDays = tvBorrowDateText.text.toString().toLong()
+                var displayTextView :TextView = findViewById(R.id.selectedDateText)
+                displayTextView.text = borrowedDays.toString() + " Days"
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+    private fun incrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        tvBorrowDateText.text = (currentDays + 1).toString()
+    }
+    private fun decrementDays(tvBorrowDateText: TextView) {
+        val currentDays = tvBorrowDateText.text.toString().toInt()
+        if (currentDays > 1) {
+            tvBorrowDateText.text = (currentDays - 1).toString()
         }
     }
 
@@ -292,17 +305,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
 
 
-    private fun calculateBorrowedDays(selectedDate: Long): Long {
-        val midnightToday = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-
-        return (selectedDate - midnightToday) / (1000 * 60 * 60 * 24)
-    }
-
 
     private fun addBookToDatabase(
         bookName: String,
@@ -320,7 +322,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
             put("name", bookName)
             put("author", bookAuthor)
             put("description", bookDescription)
-            put("availability", bookAvailability)
+            put("maxBorrow", daysBorrowed)
             put("owner", Constants.USER_ID)
             put("thumbnail",thumbnail)
         }
