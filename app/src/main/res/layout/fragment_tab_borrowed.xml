@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:id="@+id/shimmer_view_container_book_list"
             android:layout_height="match_parent"
-            app:shimmer_duration="3000">
+            app:shimmer_duration="1000">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -48,9 +48,6 @@
                     layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-
-
 
                 <include layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
@@ -69,7 +66,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="15dp"
             android:paddingTop="20dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
 
@@ -120,6 +118,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -197,27 +196,37 @@
 
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_width="match_parent"
             android:id="@+id/shimmer_view_container_book_list2"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/search_view"
             app:shimmer_duration="3000">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="40dp">
-                <include layout="@layout/booklist_shimmer"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include layout="@layout/booklist_shimmer"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include layout="@layout/booklist_shimmer"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include layout="@layout/booklist_shimmer"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    layout="@layout/booklist_shimmer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 

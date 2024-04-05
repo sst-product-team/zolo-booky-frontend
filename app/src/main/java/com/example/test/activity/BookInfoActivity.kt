@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.ActivityBookInfoBinding
+import com.example.test.databinding.ActivityMainBinding
 import com.example.test.entity.BooksDetailsEntity
 import com.example.test.globalContexts.Constants
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -30,9 +32,12 @@ import java.time.LocalDate
 import java.util.Date
 
 class BookInfoActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityBookInfoBinding
+
+
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
-    private lateinit var mainLayout: LinearLayout
+    private lateinit var mainLayout: ScrollView
     private var book: BooksDetailsEntity = BooksDetailsEntity(
         id = -1,
         name = "",
@@ -59,8 +64,8 @@ class BookInfoActivity : AppCompatActivity() {
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        shimmerFrameLayout = binding.shimmerViewContainerBookInfo
-        mainLayout = binding.mainLayoutBookInfo
+       shimmerFrameLayout = binding.shimmerInfoView
+        mainLayout = binding.scrollView2
 
         val bookId = intent.getIntExtra("bookId", 0)
         if (bookId == 0) {
@@ -197,12 +202,13 @@ class BookInfoActivity : AppCompatActivity() {
 
 
     private fun fetchBookDetails(bookId: Int ) {
+        mainLayout.visibility = View.GONE
         shimmerFrameLayout.visibility = View.VISIBLE
         shimmerFrameLayout.startShimmer()
 
 
 
-//        mainLayout.visibility = View.GONE
+
 
 
 
@@ -245,12 +251,12 @@ class BookInfoActivity : AppCompatActivity() {
 
                 shimmerFrameLayout.visibility = View.GONE
                 shimmerFrameLayout.stopShimmer()
-//                mainLayout.visibility = View.VISIBLE
+                mainLayout.visibility = View.VISIBLE
             },
             { error ->
                 Log.e("BookInfoActivity", "Error fetching book details: $error")
-                shimmerFrameLayout.visibility = View.GONE
-                shimmerFrameLayout.stopShimmer()
+//                shimmerFrameLayout.visibility = View.GONE
+//                shimmerFrameLayout.stopShimmer()
 //                mainLayout.visibility = View.VISIBLE
             })
         Volley.newRequestQueue(this).add(jsonObjectRequest)

@@ -12,6 +12,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.example.test.HistoryBottomSheet
 import com.example.test.R
 import com.example.test.databinding.BooklistBinding
 import com.example.test.entity.ListAppealEntity
@@ -42,7 +43,10 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-            showBottomSheetDialog(book)
+           showBottomSheetDialog(book)
+
+
+
         }
     }
     private fun showBottomSheetDialog(appeal: MyBookEntity) {
