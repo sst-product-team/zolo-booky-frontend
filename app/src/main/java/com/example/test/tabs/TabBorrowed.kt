@@ -1,13 +1,18 @@
 package com.example.test.tabs
 
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.cardview.widget.CardView
 
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -18,10 +23,17 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.example.test.HistoryBottomSheet
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
+
+import com.example.test.adapter.MyRequestsAdapter
+import com.example.test.adapter.ViewHistoryAdapter
+import com.example.test.databinding.BottomsheetScrollerBinding
+
 import com.example.test.databinding.FragmentHomeBinding
+
 
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
@@ -29,17 +41,24 @@ import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
+
+import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
+
 import kotlin.math.log
+
 
 
 class TabBorrowed : Fragment() {
 
     private lateinit var binding:FragmentTabBorrowedBinding
 
+    private lateinit var recyclerView: RecyclerView
 
     private lateinit var searchView: SearchView
     private val books = mutableListOf<ListBookEntity>()
-    private lateinit var recyclerView: RecyclerView
+
     private lateinit var queue: RequestQueue
     private val SEARCH_QUERY_DELAY = 500 // Milliseconds
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,17 +93,42 @@ class TabBorrowed : Fragment() {
             Log.d("onbtnVHTAG", "onViewCreated: clicked")
         }
 
+
+
+        // bottom sheets
+        val viewHistoryB : TextView = binding.viewHistoryBtn
+        viewHistoryB.setOnClickListener{
+            showCustomDialog1()
+        }
+
+
+
+
+        val myreqbtn : TextView = binding.myRequestsBtn
+        myreqbtn.setOnClickListener{
+            showCustomDialog2()
+            Log.d("yupppp","hjrfh")
+        }
+
+
+
+
+
+
         ///// for borrowed books by borrower.
 
         val recyclerView = binding.rvBorrowBookList
-
         val queue = Volley.newRequestQueue(requireContext())
+        val userId = USER_ID
+        Log.d("meraki","${userId}")
 
-        val url = "${Constants.BASE_URL}/v0/appeals"
+        val url = "${Constants.BASE_URL}/v0/appeals?borrower=${userId}"
+
+        Log.d("merahi", "${url}")
 
         var token: String
 
-        Log.d("API Request URL", url)
+        Log.d("API Request URLL", url)
 
         var count =0
 
@@ -101,7 +145,7 @@ class TabBorrowed : Fragment() {
                     val borrowerObject = appealObject.getJSONObject("borrowerId")
                     val borrowerId = borrowerObject.getInt("id")
                     val trans_status = appealObject.getString("trans_status")
-                    if (borrowerId == USER_ID){
+                    if (trans_status=="ONGOING" && borrowerId== USER_ID){
                         count++
                         val transId = appealObject.getInt("trans_id")
                         val bookIdObject = appealObject.getJSONObject("bookId")
@@ -109,6 +153,7 @@ class TabBorrowed : Fragment() {
                         val bookTitle = bookIdObject.getString("name")
                         val bookStatus = bookIdObject.getString("status")
                         val bookThumbnail = bookIdObject.getString("thumbnail")
+                        val maxBorrow = bookIdObject.getInt("maxBorrow")
                         val bookOwner = bookIdObject.getJSONObject("owner")
                         val ownerName = bookOwner.getString("name")
                         val bookAuthor = bookIdObject.getString("author")
@@ -132,13 +177,8 @@ class TabBorrowed : Fragment() {
                         )
                     }
                 }
-                Log.d("Parsed Books borrowed", "Number of books fetched: ${booksB.size}")
-                Log.d("Count", count.toString())
-                shimmerFrameLayout.stopShimmer()
-                shimmerFrameLayout.visibility = View.GONE
 
-
-
+                Log.d("Parsed Books borroweding", "Number of books fetched: ${books.size}")
                 Log.d("Count", count.toString())
                 shimmerFrameLayout.stopShimmer()
                 shimmerFrameLayout.visibility = View.GONE
@@ -157,6 +197,15 @@ class TabBorrowed : Fragment() {
 
                     binding.msg.visibility = View.VISIBLE
 
+                }
+
+                if (count==1){
+                    val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
+                    val heightInDp = 200 // desired height in dp
+                    val density = resources.displayMetrics.density
+                    val heightInPixels = (heightInDp * density).toInt()
+                    layoutParams.height = heightInPixels
+                    binding.constraintLayout4.layoutParams = layoutParams
                 }
 
 
@@ -288,6 +337,7 @@ class TabBorrowed : Fragment() {
         })
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun fetchInitialBooks() {
         recyclerView = binding.BookRecyclerView
         queue = Volley.newRequestQueue(requireContext())
@@ -326,8 +376,249 @@ class TabBorrowed : Fragment() {
 
         queue.add(jsonArrayRequest)
 
+
+
+
+
+
+
+
+
+
+
+        // logics for opening various bottomsheets based on btns
+
+
+
+
+
+
+
+
     }
 
     companion object {
+    }
+    @SuppressLint("MissingInflatedId")
+    private fun showCustomDialog1() {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.bottomsheet_scroller, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(dialogView)
+
+        var binding9 = BottomsheetScrollerBinding.inflate(layoutInflater)
+
+        val shimmerFrameLayout = dialogView.findViewById<ShimmerFrameLayout>(R.id.shimmer_scroller_view)
+        shimmerFrameLayout.startShimmer()
+
+
+
+
+
+        val recyclerViewy = dialogView.findViewById<RecyclerView>(R.id.BookRecyclerViewy)
+
+        val queue = Volley.newRequestQueue(requireContext())
+        val userId = USER_ID
+
+        val url = "${Constants.BASE_URL}/v0/appeals?borrower=${userId}"
+
+        var token: String
+
+        Log.d("API Request URLL", url)
+        var count =0
+
+        val jsonArrayRequest9 = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                Log.d("API Response", response.toString())
+                val books = mutableListOf<ListAppealEntity>()
+                val borrowerData = mutableListOf<AppealEntity>()
+
+                for (i in 0 until response.length()){
+                    val appealObject = response.getJSONObject(i)
+                    val borrowerObject = appealObject.getJSONObject("borrowerId")
+                    val borrowerId = borrowerObject.getInt("id")
+                    val trans_status = appealObject.getString("trans_status")
+                    if (trans_status=="COMPLETED"){
+                        count++
+                        val transId = appealObject.getInt("trans_id")
+                        val bookIdObject = appealObject.getJSONObject("bookId")
+                        val bookId = bookIdObject.getInt("id")
+                        val bookTitle = bookIdObject.getString("name")
+                        val bookStatus = bookIdObject.getString("status")
+                        val bookThumbnail = bookIdObject.getString("thumbnail")
+                        val maxBorrow = bookIdObject.getInt("maxBorrow")
+                        val bookOwner = bookIdObject.getJSONObject("owner")
+                        val ownerName = bookOwner.getString("name")
+                        val bookAuthor = bookIdObject.getString("author")
+                        val status_change_date = appealObject.getString("status_change_date")
+                        val expected_completion_date =
+                            appealObject.getString("expected_completion_date")
+                        val dates: String = expected_completion_date.split(" ")[0]
+                        books.add(
+                            ListAppealEntity(
+                                transId,
+                                bookTitle,
+                                bookStatus,
+                                bookThumbnail,
+                                ownerName,
+                                bookAuthor,
+                                trans_status,
+                                dates,
+                                bookId,
+                                status_change_date
+                            )
+                        )
+                    }
+                }
+                Log.d("Parsyy", "Number of books fetched: ${books.size}")
+
+                Log.d("County", count.toString())
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+
+
+
+                if(count==0){
+
+                   val textyy = dialogView.findViewById<CardView>(R.id.msg1)
+                    textyy.visibility = View.VISIBLE
+
+                    val innertxt = dialogView.findViewById<TextView>(R.id.cardtxt)
+                    innertxt.text = "You have never borrowed any books"
+                }
+
+
+                val adaptery = ViewHistoryAdapter(requireContext(), books)
+                recyclerViewy.layoutManager = LinearLayoutManager(requireContext())
+                recyclerViewy.adapter = adaptery
+                adaptery.notifyDataSetChanged()
+            },
+            { error ->
+                Log.e("API Error", error.toString())
+                Log.e("VolleyExample", "Error: $error")
+            }
+        )
+
+        queue.add(jsonArrayRequest9)
+
+
+
+
+
+        dialog.show()
+    }
+
+    private fun showCustomDialog2() {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.bottomsheet_scroller, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(dialogView)
+
+
+        var binding9 = BottomsheetScrollerBinding.inflate(layoutInflater)
+
+        val shimmerFrameLayout = dialogView.findViewById<ShimmerFrameLayout>(R.id.shimmer_scroller_view)
+        shimmerFrameLayout.startShimmer()
+
+        val text = dialogView.findViewById<TextView>(R.id.texty)
+
+        text.text = "Pending Requests"
+
+
+        val recyclerViewy = dialogView.findViewById<RecyclerView>(R.id.BookRecyclerViewy)
+
+        val queue = Volley.newRequestQueue(requireContext())
+        val userId = USER_ID
+
+        val url = "${Constants.BASE_URL}/v0/appeals?borrower=${userId}"
+
+        var token: String
+
+        Log.d("API Request URL", url)
+        var count =0
+
+        val jsonArrayRequest9 = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                Log.d("API Response", response.toString())
+                val books = mutableListOf<ListAppealEntity>()
+                val borrowerData = mutableListOf<AppealEntity>()
+
+                for (i in 0 until response.length()){
+                    val appealObject = response.getJSONObject(i)
+                    val borrowerObject = appealObject.getJSONObject("borrowerId")
+                    val borrowerId = borrowerObject.getInt("id")
+                    val trans_status = appealObject.getString("trans_status")
+                    if (trans_status =="PENDING"){
+                        count++
+                        val transId = appealObject.getInt("trans_id")
+                        val bookIdObject = appealObject.getJSONObject("bookId")
+                        val bookId = bookIdObject.getInt("id")
+                        val bookTitle = bookIdObject.getString("name")
+                        val bookStatus = bookIdObject.getString("status")
+                        val bookThumbnail = bookIdObject.getString("thumbnail")
+                        val maxBorrow = bookIdObject.getInt("maxBorrow")
+                        val bookOwner = bookIdObject.getJSONObject("owner")
+                        val ownerName = bookOwner.getString("name")
+                        val bookAuthor = bookIdObject.getString("author")
+                        val status_change_date = appealObject.getString("status_change_date")
+                        val expected_completion_date =
+                            appealObject.getString("expected_completion_date")
+                        val dates: String = expected_completion_date.split(" ")[0]
+                        books.add(
+                            ListAppealEntity(
+                                transId,
+                                bookTitle,
+                                bookStatus,
+                                bookThumbnail,
+                                ownerName,
+                                bookAuthor,
+                                trans_status,
+                                dates,
+                                bookId,
+                                status_change_date
+                            )
+                        )
+                    }
+                }
+                Log.d("Parsyy", "Number of books fetched: ${books.size}")
+
+                Log.d("County", count.toString())
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+
+
+
+
+
+
+                if(count==0){
+
+                    val textyy = dialogView.findViewById<CardView>(R.id.msg1)
+                    textyy.visibility = View.VISIBLE
+
+                    val innertxt = dialogView.findViewById<TextView>(R.id.cardtxt)
+                    innertxt.text = "You have no Pending Requests"
+                }
+
+                val adaptery = MyRequestsAdapter(requireContext(), books)
+                recyclerViewy.layoutManager = LinearLayoutManager(requireContext())
+                recyclerViewy.adapter = adaptery
+                adaptery.notifyDataSetChanged()
+            },
+            { error ->
+                Log.e("API Error", error.toString())
+                Log.e("VolleyExample", "Error: $error")
+            }
+        )
+
+        queue.add(jsonArrayRequest9)
+
+
+
+
+
+        dialog.show()
     }
 }

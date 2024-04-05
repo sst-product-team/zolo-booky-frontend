@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.example.test.HistoryBottomSheet
 import com.example.test.R
 import com.example.test.activity.BookInfoOwnerActivity
 import com.example.test.databinding.BooklistBinding
@@ -62,6 +63,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
+
             val intent = Intent(context, BookInfoOwnerActivity::class.java)
             intent.putExtra("bookId", book.id)
             intent.putExtra("bookName", book.name)
@@ -70,6 +72,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
             intent.putExtra("bookAuthor", book.author)
             intent.putExtra("bookOwner", book.owner.USER_NAME)
             context.startActivity(intent)
+
         }
     getNumberOfRequests(book.id) { numberOfRequests ->
         holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail, book.author, numberOfRequests)
