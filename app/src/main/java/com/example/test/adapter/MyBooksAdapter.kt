@@ -1,5 +1,6 @@
 package com.example.test.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -40,26 +41,17 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
         )
     }
 
-//    override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
-//        val book = books[position]
-//
-//        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail,book.author)
-//
-//        holder.itemView.setOnClickListener {
-//            Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-//            showBottomSheetDialog(book)
-//        }
-//    }
+
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
     val book = books[position]
-        if(book.status == "AVAILABLE"){
-
-            holder.itemView.setOnLongClickListener {
-                showBottomSheetDialog(book)
-                true
-            }
+    if(book.status == "AVAILABLE"){
+        holder.itemView.setOnLongClickListener {
+            showBottomSheetDialog(book)
+            true
         }
+    }
 
+        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail, book.author, book.numberOfRequests)
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
@@ -74,33 +66,12 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
             context.startActivity(intent)
 
         }
-    getNumberOfRequests(book.id) { numberOfRequests ->
-        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail, book.author, numberOfRequests)
-    }
+
+
+
 }
 
-    private fun getNumberOfRequests(bookId: Int, callback: (Int) -> Unit) {
-        val url = "${Constants.BASE_URL}/v0/appeals"
-        val jsonArrayRequest = JsonArrayRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                var numberOfRequests = 0
-                for (i in 0 until response.length()) {
-                    val appealObject = response.getJSONObject(i)
-                    val book = appealObject.getJSONObject("bookId")
-                    val bookIdFromAppeal = book.getInt("id")
-                    if (bookIdFromAppeal == bookId) {
-                        numberOfRequests = book.getInt("requestCount")
-                    }
-                }
-                callback(numberOfRequests)
-            },
-            { error ->
-                Log.d("NUMBER OF REQUESTS", "ERROR OCCURED")
-            }
-        )
-        queue.add(jsonArrayRequest)
-    }
+
     private fun showBottomSheetDialog(appeal: MyBookEntity) {
         Log.d("inside sheet", "showBottomSheetDialog: ")
         val dialogView = LayoutInflater.from(context).inflate(R.layout.bottomsheet_conformation, null)
@@ -200,7 +171,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
         fun bind(title: String,owner: String, status: String, thumbnail: String , author: String ,numberOfRequests:Int) {
             binding.blBkTitle.text = title
             binding.tvBlAuthor.text = author
-            binding.tvBlOwner.text = numberOfRequests.toString()
+            binding.tvBlOwner.text = numberOfRequests.toString()+" Requests"
             binding.blBkStatus.text = status
 
             Glide.with(itemView.context)

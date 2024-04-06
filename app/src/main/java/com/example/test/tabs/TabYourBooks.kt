@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,10 +42,16 @@ class TabYourBooks : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        val shimmerFrame = binding.shimmerViewMybooks
+        shimmerFrame.startShimmer()
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
         val queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books?size=100"
+        var count = 0
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
@@ -63,9 +70,11 @@ class TabYourBooks : Fragment() {
                         owner.getString("name"),
                         owner.getString("fcmToken")
                     )
+                    val numReq = bookObject.getInt("requestCount")
 
                     Log.d("GUCCI", Constants.USER_ID.toString())
                     if (Constants.USER_ID == owner.getInt("id")) {
+                        count++
                         books.add(
                             MyBookEntity(
                                 bookId,
@@ -73,10 +82,17 @@ class TabYourBooks : Fragment() {
                                 bookStatus,
                                 bookThumbnail,
                                 ownerEntity,
-                                author
+                                author,
+                                numReq
                             )
                         )
                     }
+                }
+                shimmerFrame.stopShimmer()
+                shimmerFrame.visibility = View.GONE
+                if (count==0){
+                    val msg  = view.findViewById<CardView>(R.id.msgO)
+                    msg.visibility = View.VISIBLE
                 }
 
                 val adapter = MyBooksAdapter(requireContext(), books)
