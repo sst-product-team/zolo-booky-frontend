@@ -1,6 +1,7 @@
 package com.example.test.activity
 
 import BorrowerListAdapter
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -12,19 +13,35 @@ import com.example.test.entity.BorrowerEntity
 import com.example.test.globalContexts.Constants
 import com.android.volley.Request
 import com.android.volley.toolbox.Volley
+import com.example.test.R
+import com.facebook.shimmer.ShimmerFrameLayout
 
 class BookInfoOwnerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoOwnerBinding
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private lateinit var borrowerAdapter: BorrowerListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
+        }
+
         binding = ActivityBookInfoOwnerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//
 
-        val rvBorrowers = binding.rvBorrowers
-        borrowerAdapter = BorrowerListAdapter(emptyList())
-        rvBorrowers.adapter = borrowerAdapter
+
+
+//        val rvBorrowers = binding.rvBorrowers
+//        borrowerAdapter = BorrowerListAdapter(emptyList())
+//        rvBorrowers.adapter = borrowerAdapter
+
+
+
+
 
         // Retrieve the book information from the intent
         val bookId = intent.getIntExtra("bookId", 0)
@@ -41,6 +58,18 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         Glide.with(this)
             .load(bookThumbnail)
             .into(binding.coverSmol)
+        Glide.with(this)
+            .load(bookThumbnail)
+            .into(binding.coverBig)
+
+
+
+
+
+
+
+
+
         var queue = Volley.newRequestQueue(this)
         val url = "${Constants.BASE_URL}/v0/appeals"
 
@@ -64,8 +93,8 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                 }
                 borrowers.sortBy { it.name }
                 Log.d("borrowers data", "onCreate: $borrowers")
-                borrowerAdapter.borrowers = borrowers
-                borrowerAdapter.notifyDataSetChanged()
+//                borrowerAdapter.borrowers = borrowers
+//                borrowerAdapter.notifyDataSetChanged()
             },
             { error ->
                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()

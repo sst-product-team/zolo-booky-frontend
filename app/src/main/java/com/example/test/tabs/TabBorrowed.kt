@@ -103,7 +103,7 @@ class TabBorrowed : Fragment() {
         val userId = USER_ID
         Log.d("meraki","${userId}")
 
-        val url = "${Constants.BASE_URL}/v0/appeals?borrower=${userId}"
+        val url = "${Constants.BASE_URL}/v0/appeals?borrower=${USER_ID}"
 
         Log.d("merahi", "${url}")
 
@@ -421,7 +421,7 @@ class TabBorrowed : Fragment() {
                     val borrowerObject = appealObject.getJSONObject("borrowerId")
                     val borrowerId = borrowerObject.getInt("id")
                     val trans_status = appealObject.getString("trans_status")
-                    if (trans_status=="COMPLETED"){
+                    if (trans_status=="COMPLETED" || trans_status=="REJECTED"){
                         count++
                         val transId = appealObject.getInt("trans_id")
                         val bookIdObject = appealObject.getJSONObject("bookId")
