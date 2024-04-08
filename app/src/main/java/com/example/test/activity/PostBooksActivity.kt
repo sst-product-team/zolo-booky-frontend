@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
+import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.PostBooksBinding
 import com.example.test.globalContexts.Constants
 //import com.google.android.gms.cast.framework.media.ImagePicker
@@ -334,6 +335,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 Log.d("POST BOOK SUCCESS", "Book added successfully. Response: $response")
                 Toast.makeText(this@PostBooksActivity, "The book is successfully added", Toast.LENGTH_LONG).show()
                 finish()
+
+
             },
             { error ->
                 // Handle errors

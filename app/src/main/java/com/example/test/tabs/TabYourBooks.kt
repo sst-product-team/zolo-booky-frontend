@@ -1,5 +1,6 @@
 package com.example.test.tabs
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,15 +15,12 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.activity.PostBooksActivity
-import com.example.test.adapter.BookRequestsAdapter
 import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.FragmentTabYourbooksBinding
-import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
+import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 class TabYourBooks : Fragment() {
@@ -43,11 +41,22 @@ class TabYourBooks : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        fetchmybooks()
+
+
+        val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
+        openPostButton.setOnClickListener{
+            val intent = Intent(activity, PostBooksActivity::class.java)
+            startActivity(intent)
+        }
+    }
+     fun fetchmybooks(){
+
 
         val shimmerFrame = binding.shimmerViewMybooks
         shimmerFrame.startShimmer()
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
         val queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books?size=100"
@@ -91,13 +100,20 @@ class TabYourBooks : Fragment() {
                 shimmerFrame.stopShimmer()
                 shimmerFrame.visibility = View.GONE
                 if (count==0){
-                    val msg  = view.findViewById<CardView>(R.id.msgO)
-                    msg.visibility = View.VISIBLE
+                    val msg  = view?.findViewById<CardView>(R.id.msgO)
+                    if (msg != null) {
+                        msg.visibility = View.VISIBLE
+                    }
                 }
 
                 val adapter = MyBooksAdapter(requireContext(), books)
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
+                if (recyclerView != null) {
+                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                }
+                if (recyclerView != null) {
+                    recyclerView.adapter = adapter
+                }
+
             },
             { error ->
                 Log.e("VolleyExample", "Error: $error")
@@ -108,15 +124,13 @@ class TabYourBooks : Fragment() {
 
 
 
-        val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
-        openPostButton.setOnClickListener{
-            val intent = Intent(activity, PostBooksActivity::class.java)
-            startActivity(intent)
-        }
     }
 
 
+
+
     companion object {
+        const val POST_BOOK_REQUEST = 123 // Any unique integer constant
     }
 
 }

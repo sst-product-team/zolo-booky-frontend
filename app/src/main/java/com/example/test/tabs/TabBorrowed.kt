@@ -170,7 +170,7 @@ class TabBorrowed : Fragment() {
                                 ownerName,
                                 bookAuthor,
                                 trans_status,
-                                dates,
+                                expected_completion_date,
                                 bookId,
                                 status_change_date
                             )
