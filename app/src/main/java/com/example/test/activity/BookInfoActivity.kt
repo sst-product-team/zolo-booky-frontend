@@ -159,27 +159,22 @@ class BookInfoActivity : AppCompatActivity() {
     }
 
     private fun getMaxNumberOfDays(bookId: Int, tvBorrowDateText: TextView, btnAdd: TextView) {
-        val url = "${Constants.BASE_URL}/v0/appeals"
-        val jsonArrayRequest = JsonArrayRequest(
+        val url = "${Constants.BASE_URL}/v0/books/$bookId"
+        val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
                 Log.d("BookInfoActivity", "Response: $response")
-                for (j in 0 until response.length()){
-                    val appealObject = response.getJSONObject(j)
-                    val book = appealObject.getJSONObject("bookId")
-                    if (book.getInt("id") == bookId){
-                        maxBorrow = book.getInt("maxBorrow")
-                    }
-                }
+                maxBorrow = response.getInt("maxBorrow")
+                Log.d("BookInfoActivity", "Max borrow days for book $bookId: $maxBorrow")
                 btnAdd.setOnClickListener {
                     incrementDays(tvBorrowDateText, maxBorrow)
                 }
             },
             { error ->
-                Log.e("BookInfoActivity", "Error fetching appeals: $error")
+                Log.e("BookInfoActivity", "Error fetching book details: $error")
             }
         )
-        Volley.newRequestQueue(this).add(jsonArrayRequest)
+        Volley.newRequestQueue(this).add(jsonObjectRequest)
     }
     private fun incrementDays(tvBorrowDateText: TextView,max:Int) {
         var currentDays = tvBorrowDateText.text.toString().toInt()
