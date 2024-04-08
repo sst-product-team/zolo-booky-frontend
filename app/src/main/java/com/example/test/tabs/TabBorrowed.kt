@@ -1,21 +1,14 @@
 package com.example.test.tabs
 
-
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
-
 import androidx.constraintlayout.widget.ConstraintLayout
-
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,60 +16,48 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.test.HistoryBottomSheet
 import com.example.test.R
 import com.example.test.adapter.BookBorrowAdapter
 import com.example.test.adapter.BookListAdapter
-
 import com.example.test.adapter.MyRequestsAdapter
 import com.example.test.adapter.ViewHistoryAdapter
 import com.example.test.databinding.BottomsheetScrollerBinding
-
-import com.example.test.databinding.FragmentHomeBinding
-
-
 import com.example.test.databinding.FragmentTabBorrowedBinding
 import com.example.test.entity.AppealEntity
 import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
-
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.button.MaterialButton
-
 import kotlin.math.log
-
-
 
 class TabBorrowed : Fragment() {
 
-    private lateinit var binding:FragmentTabBorrowedBinding
-
+    private lateinit var binding: FragmentTabBorrowedBinding
     private lateinit var recyclerView: RecyclerView
-
+    private lateinit var loadingSpinner: CardView // Add this line
     private lateinit var searchView: SearchView
     private val books = mutableListOf<ListBookEntity>()
-
     private lateinit var queue: RequestQueue
     private val SEARCH_QUERY_DELAY = 500 // Milliseconds
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private var page = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTabBorrowedBinding.inflate(inflater,container,false)
+        binding = FragmentTabBorrowedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+        queue = Volley.newRequestQueue(requireContext())
+        recyclerView = binding.BookRecyclerView
+        loadingSpinner = binding.cvProgressBar // Initialize loadingSpinner here
+        setupPagination()
+        fetchInitialBooks()
 
         // shimmer
         val shimmerFrameLayout = binding.shimmerViewContainerBookList
@@ -185,7 +166,6 @@ class TabBorrowed : Fragment() {
 
 
 
-//// need to implement something here...
                 if(count==0){
 
                     val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
@@ -226,68 +206,28 @@ class TabBorrowed : Fragment() {
         //////// for all books
 
         val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
-        val url2 = "${Constants.BASE_URL}/v0/books?size=100"
+        val loadingSpinner = view.findViewById<CardView>(R.id.cv_progress_bar)
 
-
-
+        val url2 = "${Constants.BASE_URL}/v0/books"
+        shimmerFrameLayout2.startShimmer()
+        shimmerFrameLayout2.visibility = View.VISIBLE
         Log.d("API Request URL", url2)
-
-        val jsonArrayRequest2 = JsonArrayRequest(
-            Request.Method.GET, url2, null,
-            { response ->
-                Log.d("API Response", response.toString())
-                val books = mutableListOf<ListBookEntity>()
-                for (i in 0 until response.length()) {
-                    val bookObject = response.getJSONObject(i)
-                    val ownerObject = bookObject.getJSONObject("owner")
-
-
-                    val bookId = bookObject.getInt("id")
-                    val bookTitle = bookObject.getString("name")
-                    val bookStatus = bookObject.getString("status")
-                    val bookThumbnail = bookObject.getString("thumbnail")
-                    val ownerName = ownerObject.getString("name")
-                    val bookAuthor = bookObject.getString("author")
-
-
-                    if(bookStatus=="AVAILABLE"){
-                        books.add(
-                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
-
-                        )}
-                }
-                Log.d("Parsed Books", "Number of books fetched: ${books.size}")
-
-                shimmerFrameLayout2.stopShimmer()
-                shimmerFrameLayout2.visibility = View.GONE
-
-
-                shimmerFrameLayout2.stopShimmer()
-                shimmerFrameLayout2.visibility = View.GONE
-
-
-                val adapter = BookListAdapter(books)
-                recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView2.adapter = adapter
-                adapter.notifyDataSetChanged() // Ensures the adapter knows the data has changed
-
-            },
-            { error ->
-                Log.e("API Error", error.toString())
-                Log.e("VolleyExample", "Error: $error")
-            }
-        )
-
-        queue.add(jsonArrayRequest2)
+        shimmerFrameLayout2.stopShimmer()
+        shimmerFrameLayout2.visibility = View.GONE
         searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
+
             private var lastSearchTime = 0L
             override fun onQueryTextSubmit(query: String?): Boolean {
+                loadingSpinner.visibility = View.GONE
+
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                loadingSpinner.visibility = View.GONE
+
                 if (!newText.isNullOrEmpty()) {
                     val currentMillis = System.currentTimeMillis()
                     if (currentMillis - lastSearchTime >= SEARCH_QUERY_DELAY) {
@@ -329,6 +269,8 @@ class TabBorrowed : Fragment() {
                         queue.add(jsonArrayRequest2)
                     }
                 } else {
+                    loadingSpinner.visibility = View.GONE
+
                     // Reset to initial data if search query is empty
                     fetchInitialBooks()
                 }
@@ -337,11 +279,10 @@ class TabBorrowed : Fragment() {
         })
     }
 
-    @SuppressLint("SuspiciousIndentation")
     private fun fetchInitialBooks() {
         recyclerView = binding.BookRecyclerView
         queue = Volley.newRequestQueue(requireContext())
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/books"
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
@@ -397,9 +338,50 @@ class TabBorrowed : Fragment() {
 
     }
 
+    fun loadMoreData(page: Int, loadingSpinner: CardView) {
+        var c = 0
+        loadingSpinner.visibility = View.VISIBLE
+        val recyclerView = binding.BookRecyclerView
+        val url = "${Constants.BASE_URL}/v0/books?page=$page"
+        val queue = Volley.newRequestQueue(requireContext())
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                if (response.length() <= 4) {
+                    recyclerView.clearOnScrollListeners() // Stop loading more data
+                }
+                for (i in 0 until response.length()) {
+                    val bookObject = response.getJSONObject(i)
+                    val ownerObject = bookObject.getJSONObject("owner")
+
+                    val bookId = bookObject.getInt("id")
+                    val bookTitle = bookObject.getString("name")
+                    val bookStatus = bookObject.getString("status")
+                    val bookThumbnail = bookObject.getString("thumbnail")
+                    val ownerName = ownerObject.getString("name")
+                    val bookAuthor = bookObject.getString("author")
+                    c++
+                    if (bookStatus == "AVAILABLE") {
+                        books.add(
+                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
+                        )
+                    }
+                }
+                Log.d("no of books fetched", "loadMoreData: ${response.length()}")
+                Log.d("TAGBooka", "loadMoreData: no of books added $c")
+                binding.BookRecyclerView.adapter?.notifyDataSetChanged()
+                loadingSpinner.visibility = View.GONE
+            },
+            { error ->
+                Log.e("API Error", error.toString())
+                loadingSpinner.visibility = View.GONE
+            }
+        )
+
+        queue.add(jsonArrayRequest)
+    }
     companion object {
     }
-    @SuppressLint("MissingInflatedId")
     private fun showCustomDialog1() {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.bottomsheet_scroller, null)
@@ -507,6 +489,25 @@ class TabBorrowed : Fragment() {
 
 
         dialog.show()
+    }
+    private fun setupPagination() {
+        val recyclerView2 = binding.BookRecyclerView
+        val loadingSpinner = binding.cvProgressBar
+
+        recyclerView2.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                val endHasBeenReached = lastVisibleItem + 5 >= totalItemCount
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    page++
+                    loadMoreData(page, loadingSpinner)
+                }
+            }
+        })
     }
 
     private fun showCustomDialog2() {
