@@ -104,7 +104,8 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
             val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
             val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
-
+            val btnTxt = dialogView.findViewById<TextView>(R.id.tvBorrowDateText)
+            btnTxt.text = "Delist the book ?"
             btnConfirm.text = "Delist"
             btnCancel.text = "Cancel"
 
@@ -121,7 +122,8 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
             dialogView.findViewById<TextView>(R.id.tvTitleDialogBox).text = "Do you want to list this book Again?"
             val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
             val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
-
+            val btnTxt = dialogView.findViewById<TextView>(R.id.tvBorrowDateText)
+            btnTxt.text = "List the book again?"
             btnConfirm.text = "List"
             btnCancel.text = "Cancel"
 

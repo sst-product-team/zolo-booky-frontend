@@ -17,7 +17,7 @@ class BorrowerListAdapter(var borrowers: List<BorrowerEntity>) : RecyclerView.Ad
         val borrower = borrowers[position]
         // Bind the data to the views in the layout
         holder.binding.tvBorrowerName.text = borrower.name
-        holder.binding.tvNumberOfDaysRequested.text = borrower.name+" requested for "+"maxBorrow 5"+" days"
+        holder.binding.tvNumberOfDaysRequested.text = borrower.name+" requested for "+" days"
     }
 
     override fun getItemCount() = borrowers.size
