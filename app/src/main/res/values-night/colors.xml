@@ -9,7 +9,6 @@
     <color name="greyBlue">#6489A5</color>
     <color name="greyLight">#313131</color>
     <color name="darkGrey">#1E1E1E</color>
-
     <color name="zolo_bg_main">#131315</color>
     <color name="zolo_fade_main">#4a131315</color>
     <color name="zolo_secondary">#18191C</color>
@@ -18,12 +17,9 @@
     <color name="pending_yellow">#F59C17</color>
     <color name="rejected_red">#FF4A31</color>
     <color name="completed_green">#58C75A</color>
-
     <color name="shimmer_color">#6F6F6F</color>
-
     <color name="zolo_btn_dark">#1F2026</color>
     <color name="zolo_btmsheet">#131315</color>
-
-
+    <color name="zolo_bluey">#00AEEF</color>
 
 </resources>

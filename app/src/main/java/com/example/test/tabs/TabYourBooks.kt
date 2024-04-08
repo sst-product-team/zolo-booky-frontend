@@ -19,7 +19,6 @@ import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.FragmentTabYourbooksBinding
 import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
-import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
 
 
@@ -59,7 +58,7 @@ class TabYourBooks : Fragment() {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
         val queue = Volley.newRequestQueue(requireContext())
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/books?owner=${Constants.USER_ID}"
         var count = 0
 
         val jsonArrayRequest = JsonArrayRequest(

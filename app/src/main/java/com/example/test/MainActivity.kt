@@ -1,35 +1,28 @@
 package com.example.test
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-
 import com.example.test.adapter.TabAdapter
-import com.example.test.fragment.HomeFragment
-
 import com.example.test.globalContexts.Constants
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var booksView: TextView
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var tabAdapter: TabAdapter
 
     private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
+        Log.d("FCM", "SENDING TO SERVER");
+
         val sharedPreferences = this.getSharedPreferences("Booky", Context.MODE_PRIVATE)
         Constants.USER_FCM = sharedPreferences.getString("USER_FCM", "").toString()
         Constants.USER_ID = sharedPreferences.getInt("USER_ID", -1)
@@ -40,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         val url = "${Constants.BASE_URL}/v0/users/token/${Constants.USER_ID}/${generatedToken}"
 
-        Log.d("SENDING TO SERVER", url)
+        Log.d("SENDING TO SERVER", Constants.BASE_URL)
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response ->
@@ -67,18 +60,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        Log.d("FCM", "STARTING")
         var token: String
         val queue = Volley.newRequestQueue(this)
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 token = task.result
-                Log.d("HOME-FCM", token)
-                sendTokenToServer(token, queue)
+                Log.d("FCM ABC", token)
+                sendTokenToServer(token, queue);
             } else {
                 token = "Token not generated"
                 Log.d("FCM Error: ", token)
@@ -88,11 +80,6 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
         }
-
-
-
-
-
 
 
         tabLayout = findViewById(R.id.tabLayout)
@@ -125,14 +112,11 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         })
-
-
     }
 }

@@ -105,33 +105,6 @@ class BookInfoActivity : AppCompatActivity() {
 
 
     }
-    private fun datePicker(bookId: Int) {
-        val constraintsBuilder = CalendarConstraints.Builder()
-        constraintsBuilder.setStart(MaterialDatePicker.todayInUtcMilliseconds())
-
-//        val bookAvailableTillMillis = book_available_till?.time ?: MaterialDatePicker.todayInUtcMilliseconds()
-//        constraintsBuilder.setEnd(bookAvailableTillMillis)
-
-        val picker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select date")
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-//            .setCalendarConstraints(constraintsBuilder.build())
-            .build()
-
-        picker.show(supportFragmentManager, "TAG")
-
-        picker.addOnPositiveButtonClickListener {
-            val selectedDate = picker.selection!!
-
-            val borrowedDays = calculateBorrowedDays(selectedDate)
-
-            Log.d("BookInfoActivity", "Days borrowed: $borrowedDays")
-//            showCustomDialog(bookId, borrowedDays.toInt()+1)
-        }
-        picker.addOnNegativeButtonClickListener {
-            picker.dismiss()
-        }
-    }
 
     private fun showCustomDialog(bookId: Int) {
         val dialogView = layoutInflater.inflate(R.layout.bottomsheet_datepicker, null)
@@ -190,16 +163,6 @@ class BookInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun calculateBorrowedDays(selectedDate: Long): Long {
-        val midnightToday = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-
-        return (selectedDate - midnightToday) / (1000 * 60 * 60 * 24)
-    }
 
 
     private fun borrowDataToDatabase(bookId: Int, count: Int) {

@@ -50,16 +50,6 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         mainLayout.visibility = View.GONE
         shimmerFrameLayout.visibility = View.VISIBLE
         shimmerFrameLayout.startShimmer()
-//
-
-
-
-//        val rvBorrowers = binding.rvBorrowers
-//        borrowerAdapter = BorrowerListAdapter(emptyList())
-//        rvBorrowers.adapter = borrowerAdapter
-
-
-
 
 
         // Retrieve the book information from the intent
@@ -88,7 +78,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 
 
 
-///////for vorrower recycler view
+///////for Borrower recycler view
 
         val recyclerView = binding.borrowerRecyclerView
         var queue = Volley.newRequestQueue(this)
@@ -154,8 +144,6 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                 mainLayout.visibility = View.VISIBLE
 
                 Log.d("borrowers data", "onCreate: $borrowers")
-//                borrowerAdapter.borrowers = borrowers
-//                borrowerAdapter.notifyDataSetChanged()
             },
             { error ->
                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
