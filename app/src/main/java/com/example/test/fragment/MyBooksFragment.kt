@@ -1,5 +1,6 @@
 package com.example.test.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -41,10 +42,23 @@ class MyBooksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fetch()
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
+
+
+
+        val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
+        openPostButton.setOnClickListener{
+            val intent = Intent(activity, PostBooksActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun fetch() {
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
         val queue = Volley.newRequestQueue(requireContext())
+
         val url = "${Constants.BASE_URL}/v0/books?size=100"
 
         val jsonArrayRequest = JsonArrayRequest(
@@ -53,6 +67,8 @@ class MyBooksFragment : Fragment() {
                 val books = mutableListOf<MyBookEntity>()
                 for (i in 0 until response.length()) {
                     val bookObject = response.getJSONObject(i)
+                    val num = bookObject.getInt("requestCount")
+                    val transStatus = bookObject.getString("trans_status")
                     val bookId = bookObject.getInt("id")
                     val bookTitle = bookObject.getString("name")
                     val bookStatus = bookObject.getString("status")
@@ -74,15 +90,21 @@ class MyBooksFragment : Fragment() {
                                 bookStatus,
                                 bookThumbnail,
                                 ownerEntity,
-                                author
+                                author,
+                                num
+
                             )
                         )
                     }
                 }
 
                 val adapter = MyBooksAdapter(requireContext(), books)
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
+                if (recyclerView != null) {
+                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                }
+                if (recyclerView != null) {
+                    recyclerView.adapter = adapter
+                }
             },
             { error ->
                 Log.e("VolleyExample", "Error: $error")
@@ -91,18 +113,19 @@ class MyBooksFragment : Fragment() {
 
         queue.add(jsonArrayRequest)
 
+    }
 
-
-        val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
-        openPostButton.setOnClickListener{
-            val intent = Intent(activity, PostBooksActivity::class.java)
-            startActivity(intent)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == POST_BOOK_REQUEST && resultCode == Activity.RESULT_OK) {
+            // Refresh data here
+            fetch() // Call the method to fetch data again
         }
     }
 
 
 
     companion object {
-
+        const val POST_BOOK_REQUEST = 123 // Any unique integer constant
     }
 }

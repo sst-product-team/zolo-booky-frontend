@@ -93,6 +93,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
         tabLayout = findViewById(R.id.tabLayout)
         viewPager2 = findViewById(R.id.viewPager2)
 

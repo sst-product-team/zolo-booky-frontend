@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -25,12 +29,17 @@ import com.example.test.entity.MyBookEntity
 import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+
+
+
 import org.json.JSONObject
+
 
 
 class MyBooksAdapter(private val context: Context,private val books: MutableList<MyBookEntity>) : RecyclerView.Adapter<MyBooksAdapter.RowViewHolder>() {
 
     var queue = Volley.newRequestQueue(context)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowViewHolder {
         return RowViewHolder(
             BooklistBinding.inflate(
@@ -55,15 +64,19 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-
-            val intent = Intent(context, BookInfoOwnerActivity::class.java)
-            intent.putExtra("bookId", book.id)
-            intent.putExtra("bookName", book.name)
-            intent.putExtra("bookStatus", book.status)
-            intent.putExtra("bookThumbnail", book.thumbnail)
-            intent.putExtra("bookAuthor", book.author)
-            intent.putExtra("bookOwner", book.owner.USER_NAME)
-            context.startActivity(intent)
+            if (book.status != "UNAVAILABLE") {
+                val intent = Intent(context, BookInfoOwnerActivity::class.java)
+                intent.putExtra("bookId", book.id)
+                intent.putExtra("bookName", book.name)
+                intent.putExtra("bookStatus", book.status)
+                intent.putExtra("bookThumbnail", book.thumbnail)
+                intent.putExtra("bookAuthor", book.author)
+                intent.putExtra("bookOwner", book.owner.USER_NAME)
+                context.startActivity(intent)
+            }
+            else{
+                Toast.makeText(context, "Book has been borrowed", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
@@ -173,8 +186,17 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
         fun bind(title: String,owner: String, status: String, thumbnail: String , author: String ,numberOfRequests:Int) {
             binding.blBkTitle.text = title
             binding.tvBlAuthor.text = author
-            binding.tvBlOwner.text = numberOfRequests.toString()+" Requests"
-            binding.blBkStatus.text = status
+            if (status == "AVAILABLE") {
+                binding.blBkStatus.text = numberOfRequests.toString() + " Requests"
+            }
+            else if (status == "DELISTED"){
+                binding.blBkStatus.text = "DELISTED"
+            }
+            else{
+                binding.blBkStatus.text = "BORROWED"
+            }
+            binding.tvBlOwner.visibility = View.GONE
+
 
             Glide.with(itemView.context)
                 .load(thumbnail)
@@ -182,6 +204,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
             Log.d("TAGTUG", "$title $owner $status $author")
         }
+
     }
 
 }

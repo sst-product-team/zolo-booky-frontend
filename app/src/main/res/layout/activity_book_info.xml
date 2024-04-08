@@ -153,12 +153,18 @@
                 android:id="@+id/desc_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="Description"
+
+
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="35dp"
-                android:text="Description"
-                android:textColor="@color/onlyBlack"
+
 
                 android:textSize="14dp"
+                android:textColor="@color/onlyBlack"
+
+
 
 
                 app:layout_constraintStart_toStartOf="parent"

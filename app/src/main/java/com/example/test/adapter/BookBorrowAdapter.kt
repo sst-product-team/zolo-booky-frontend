@@ -20,6 +20,10 @@ import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import org.json.JSONObject
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 class BookBorrowAdapter(private val context: Context, private val books: List<ListAppealEntity>) : RecyclerView.Adapter<BookBorrowAdapter.ViewHolder>() {
 
@@ -35,9 +39,17 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val book = books[position]
         holder.binding.blBkTitle.text = book.name
-        holder.binding.blBkStatus.text = book.trans_status
+
+        holder.binding.blBkStatus.background = null
+        holder.binding.blBkStatus.text = formatDate(book.expected_completion_date)
+
+
+
+        holder.binding.returnDateTxt.visibility = View.VISIBLE
+
         holder.binding.tvBlAuthor.text = book.author
         holder.binding.tvBlOwner.text = book.owner
 
@@ -168,4 +180,32 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
     }
 
     override fun getItemCount() = books.size
+
+
+
+    public fun formatDate(inputDate: String): String {
+        // Parse the input date string
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+        val dateTime = LocalDateTime.parse(inputDate, formatter)
+
+        // Extract day, month, and year from the parsed date
+        val day = dateTime.dayOfMonth
+        val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+        val year = dateTime.year
+
+        // Create the formatted string
+        val formattedDate = "${ordinal(day)} $month, $year"
+
+        return formattedDate
+    }
+
+    public  fun ordinal(number: Int): String {
+        return when {
+            number in 11..13 -> "${number}th"
+            number % 10 == 1 -> "${number}st"
+            number % 10 == 2 -> "${number}nd"
+            number % 10 == 3 -> "${number}rd"
+            else -> "${number}th"
+        }
+    }
 }

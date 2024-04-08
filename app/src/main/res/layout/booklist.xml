@@ -67,6 +67,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvBlAuthor" />
 
             <TextView
+                android:id="@+id/return_date_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RETURN DATE"
+                app:layout_constraintBottom_toTopOf="@+id/blBkStatus"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="10sp"
+                android:layout_marginEnd="30dp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+               />
+
+            <TextView
                 android:id="@+id/blBkStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
