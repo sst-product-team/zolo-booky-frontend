@@ -100,7 +100,7 @@ class PostBooksActivity: AppCompatActivity(){
                     bookName,
                     bookAuthor,
                     bookDescription,
-                    borrowedDays.toInt() + 1,
+                    borrowedDays.toInt(),
                     selectedDate,
                     ""
                 )

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
@@ -59,6 +60,7 @@ class BookInfoActivity : AppCompatActivity() {
     private var owner_id: Int? = 0
     private var owner: String? = ""
     private var book_available_till: Date? = null
+    var maxBorrow = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,11 +144,8 @@ class BookInfoActivity : AppCompatActivity() {
 
         val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirmRequest)
 
+        getMaxNumberOfDays(bookId, tvBorrowDateText, btnAdd)
 
-
-        btnAdd.setOnClickListener {
-            incrementDays(tvBorrowDateText)
-        }
         btnSub.setOnClickListener {
             decrementDays(tvBorrowDateText)
         }
@@ -158,9 +157,31 @@ class BookInfoActivity : AppCompatActivity() {
 
         dialog.show()
     }
-    private fun incrementDays(tvBorrowDateText: TextView) {
-        val currentDays = tvBorrowDateText.text.toString().toInt()
-        tvBorrowDateText.text = (currentDays + 1).toString()
+
+    private fun getMaxNumberOfDays(bookId: Int, tvBorrowDateText: TextView, btnAdd: TextView) {
+        val url = "${Constants.BASE_URL}/v0/books/$bookId"
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                Log.d("BookInfoActivity", "Response: $response")
+                maxBorrow = response.getInt("maxBorrow")
+                Log.d("BookInfoActivity", "Max borrow days for book $bookId: $maxBorrow")
+                btnAdd.setOnClickListener {
+                    incrementDays(tvBorrowDateText, maxBorrow)
+                }
+            },
+            { error ->
+                Log.e("BookInfoActivity", "Error fetching book details: $error")
+            }
+        )
+        Volley.newRequestQueue(this).add(jsonObjectRequest)
+    }
+    private fun incrementDays(tvBorrowDateText: TextView,max:Int) {
+        var currentDays = tvBorrowDateText.text.toString().toInt()
+        if(currentDays<max){
+            tvBorrowDateText.text = (currentDays + 1).toString()
+        }
+        Log.d("noofgdaysTAG", "incrementDays: "+tvBorrowDateText.text)
     }
     private fun decrementDays(tvBorrowDateText: TextView) {
         val currentDays = tvBorrowDateText.text.toString().toInt()
@@ -168,7 +189,6 @@ class BookInfoActivity : AppCompatActivity() {
             tvBorrowDateText.text = (currentDays - 1).toString()
         }
     }
-
 
     private fun calculateBorrowedDays(selectedDate: Long): Long {
         val midnightToday = Calendar.getInstance().apply {
@@ -244,7 +264,7 @@ class BookInfoActivity : AppCompatActivity() {
                 val coverBig = findViewById<ImageView>(R.id.cover_big)
                 val coverSmall = findViewById<ImageView>(R.id.cover_smol)
 
-                var requestBookBtn: MaterialButton = findViewById(R.id.bBorrowBook)
+                val requestBookBtn: MaterialButton = findViewById(R.id.bBorrowBook)
 
                 if (owner.getInt("id") == Constants.USER_ID) {
                     requestBookBtn.visibility = View.GONE
@@ -263,18 +283,41 @@ class BookInfoActivity : AppCompatActivity() {
                 binding.tvDescription.text = description
                 binding.textAuthor.text = author
                 binding.tvBookOwner.text = owner.getString("name")
-
+                checkPreviousRequest(bookId);
                 shimmerFrameLayout.visibility = View.GONE
                 shimmerFrameLayout.stopShimmer()
                 mainLayout.visibility = View.VISIBLE
             },
             { error ->
                 Log.e("BookInfoActivity", "Error fetching book details: $error")
-//                shimmerFrameLayout.visibility = View.GONE
-//                shimmerFrameLayout.stopShimmer()
-//                mainLayout.visibility = View.VISIBLE
             })
         Volley.newRequestQueue(this).add(jsonObjectRequest)
+    }
+    fun checkPreviousRequest(bookId: Int) {
+        val url = "${Constants.BASE_URL}/v0/appeals"
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                Log.d("BookInfoActivity", "Response: $response")
+                for (j in 0 until response.length()){
+                    val appealObject = response.getJSONObject(j)
+                    val book = appealObject.getJSONObject("bookId")
+                    val bookIdFromAppeal = book.getInt("id")
+                    if (bookIdFromAppeal == bookId) {
+                        val borrower = appealObject.getJSONObject("borrowerId")
+                        val borrowerId = borrower.getInt("id")
+                        if (borrowerId == Constants.USER_ID) {
+                            Log.d("BookInfoActivity", "Setting visibility to GONE")
+                            binding.bBorrowBook.visibility = View.GONE
+                        }
+                    }
+                }
+            },
+            { error ->
+                Log.e("BookInfoActivity", "Error fetching appeals: $error")
+            }
+        )
+        Volley.newRequestQueue(this).add(jsonArrayRequest)
     }
 
 }
