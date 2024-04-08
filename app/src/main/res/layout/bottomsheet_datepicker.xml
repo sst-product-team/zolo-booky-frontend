@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         app:cornerRadius="5dp"
         android:backgroundTint="@color/zolo_btn_dark"
-        android:text="Confirm Request"
+        android:text="Confirm"
         android:textColor="@color/zolo_bluey"
         app:layout_constraintEnd_toEndOf="@+id/btnAdd"
         android:layout_marginTop="40dp"

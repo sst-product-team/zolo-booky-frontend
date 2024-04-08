@@ -40,20 +40,10 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
         )
     }
 
-//    override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
-//        val book = books[position]
-//
-//        holder.bind(book.name, book.owner.USER_NAME, book.status, book.thumbnail,book.author)
-//
-//        holder.itemView.setOnClickListener {
-//            Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-//            showBottomSheetDialog(book)
-//        }
-//    }
-    override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
-    val book = books[position]
-        if(book.status == "AVAILABLE"){
 
+    override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
+        val book = books[position]
+        if(book.status == "AVAILABLE"||book.status == "DELISTED"){
             holder.itemView.setOnLongClickListener {
                 showBottomSheetDialog(book)
                 true
@@ -114,7 +104,8 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
             val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
             val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
-
+            val btnTxt = dialogView.findViewById<TextView>(R.id.tvBorrowDateText)
+            btnTxt.text = "Delist the book ?"
             btnConfirm.text = "Delist"
             btnCancel.text = "Cancel"
 
@@ -131,7 +122,8 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
             dialogView.findViewById<TextView>(R.id.tvTitleDialogBox).text = "Do you want to list this book Again?"
             val btnCancel: MaterialButton = dialogView.findViewById(R.id.btnCancel)
             val btnConfirm: MaterialButton = dialogView.findViewById(R.id.btnConfirm)
-
+            val btnTxt = dialogView.findViewById<TextView>(R.id.tvBorrowDateText)
+            btnTxt.text = "List the book again?"
             btnConfirm.text = "List"
             btnCancel.text = "Cancel"
 
