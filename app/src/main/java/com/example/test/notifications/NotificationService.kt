@@ -15,6 +15,7 @@ import com.example.test.R
 import com.example.test.globalContexts.Constants.isAccepted
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.example.test.tabs.TabBorrowed
 
 const val channelId="notification_channel"
 const val channelName="com.example.test"
@@ -47,7 +48,7 @@ class NotificationService: FirebaseMessagingService() {
 
 
         intent.putExtra("notification_type", title)
-        Log.d("notty",title)
+        Log.d("ryva1",title)
 
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
@@ -70,11 +71,15 @@ class NotificationService: FirebaseMessagingService() {
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
-
+        val x = getFirstThreeWords(title)
+        Log.d("ryva2",x)
 
         when (getFirstThreeWords(title)) {
             "Request accepted for" -> {
-               isAccepted = true
+                Log.d("ryva3","detected")
+                isAccepted = true
+                val intent = Intent("com.example.test.RELOAD_ACTION")
+                applicationContext.sendBroadcast(intent)
             }
 
             // Add more cases as needed

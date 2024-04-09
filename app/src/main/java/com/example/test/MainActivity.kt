@@ -82,7 +82,13 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        val extras = intent.extras
+        if (extras != null) {
+            for (key in extras.keySet()) {
+                val value = extras.get(key)
+                Log.d("notty", "$key: $value")
+            }
+        }
 
 
         super.onCreate(savedInstanceState)

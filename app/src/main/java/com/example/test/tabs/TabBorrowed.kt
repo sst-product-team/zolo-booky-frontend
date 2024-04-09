@@ -1,5 +1,9 @@
 package com.example.test.tabs
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -181,24 +185,49 @@ class TabBorrowed : Fragment() {
             }
         })
     }
+    private val reloadBorrowedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            reloadBorrowed()
+        }
+    }
 
+    private val reloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            reloadBorrowed()
+        }
+    }
 
     override fun onResume() {
         super.onResume()
         // This method will be called every time the fragment becomes visible
-       if (isAccepted == true) {
-           reloadBorrowed()
-       }
-        isAccepted = false
-        Log.d("elephat","i am called")
+//        if (isAccepted == true) {
+//           reloadBorrowed()
+//        }
+//        isAccepted = false
+
+        context?.registerReceiver(reloadReceiver, IntentFilter("com.example.test.RELOAD_ACTION"))
+
     }
 
-    fun reloadBorrowed(){
+    override fun onPause() {
+        super.onPause()
+//        if (isAccepted == true) {
+//            reloadBorrowed()
+//            Log.d("pausy","called")
+//        }
+//        isAccepted = false
+
+        context?.unregisterReceiver(reloadReceiver)
+
+    }
+
+    public fun reloadBorrowed(){
         ///// for borrowed books by borrower.
 
         val shimmerFrameLayout = binding.shimmerViewContainerBookList
         shimmerFrameLayout.startShimmer()
         binding.rvBorrowBookList.visibility = View.GONE
+        binding.msg.visibility = View.GONE
         shimmerFrameLayout.visibility = View.VISIBLE
 
 

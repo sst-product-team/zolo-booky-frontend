@@ -72,7 +72,9 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
             }
 
             btnConfirm.setOnClickListener {
+                dialog.dismiss()
                 acceptaAppeal(appeal,dialog)
+
             }
         }
 

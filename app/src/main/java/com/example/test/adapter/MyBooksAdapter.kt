@@ -64,7 +64,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
 
         holder.itemView.setOnClickListener {
             Log.d("clickey", "onBindViewHolder: clicked on: ${books[position]}")
-            if (book.status != "UNAVAILABLE") {
+
                 val intent = Intent(context, BookInfoOwnerActivity::class.java)
                 intent.putExtra("bookId", book.id)
                 intent.putExtra("bookName", book.name)
@@ -73,10 +73,7 @@ class MyBooksAdapter(private val context: Context,private val books: MutableList
                 intent.putExtra("bookAuthor", book.author)
                 intent.putExtra("bookOwner", book.owner.USER_NAME)
                 context.startActivity(intent)
-            }
-            else{
-                Toast.makeText(context, "Book has been borrowed", Toast.LENGTH_SHORT).show()
-            }
+
 
         }
 
