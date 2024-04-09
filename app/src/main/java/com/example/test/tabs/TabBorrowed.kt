@@ -360,6 +360,9 @@ class TabBorrowed : Fragment() {
 
 
     private fun fetchInitialBooks() {
+        val shimmerFrameLayout = binding.shimmerViewContainerBookList2
+        shimmerFrameLayout.startShimmer()
+
         recyclerView = binding.BookRecyclerView
         queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books"
@@ -398,24 +401,7 @@ class TabBorrowed : Fragment() {
         queue.add(jsonArrayRequest)
 
 
-
-
-
-
-
-
-
-
-
-        // logics for opening various bottomsheets based on btns
-
-
-
-
-
-
-
-
+        shimmerFrameLayout.stopShimmer()
     }
 
     fun loadMoreData(page: Int, loadingSpinner: CardView) {
