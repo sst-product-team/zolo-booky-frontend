@@ -131,8 +131,7 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
         btnConfirm.setOnClickListener {
             returnBook(appeal)
             dialog.dismiss()
-            val intent = Intent("com.example.test.RELOAD_ACTION")
-            context.sendBroadcast(intent)
+
 
         }
 
@@ -150,12 +149,16 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
             { response ->
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
                 Toast.makeText(context, "Book returned successfully", Toast.LENGTH_SHORT).show()
+                val intent = Intent("com.example.test.RELOAD_ACTION")
+                context.sendBroadcast(intent)
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
             }
         )
         queue.add(jsonObjectRequest)
+
+
 
     }
 
