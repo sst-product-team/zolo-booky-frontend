@@ -87,6 +87,9 @@ class NotificationService: FirebaseMessagingService() {
 
                 val intent = Intent("com.example.test.RELOAD_ACTION")
                 applicationContext.sendBroadcast(intent)
+
+                val intent2 = Intent("com.example.test.RELOAD_SEARCH")
+                applicationContext.sendBroadcast(intent2)
             }
 
             "Book request" -> {
@@ -110,6 +113,27 @@ class NotificationService: FirebaseMessagingService() {
 
         }
 
+        when(getLastTwoWords(title)){
+            "return completed." -> {
+                Log.d("ryva5","detected")
+                isAccepted = true
+
+                val intent = Intent("com.example.test.RELOAD_YOURBOOKS")
+                applicationContext.sendBroadcast(intent)
+
+                val intent2 = Intent("com.example.test.RELOAD_SEARCH")
+                applicationContext.sendBroadcast(intent2)
+            }
+
+            "book recieved." -> {
+                Log.d("ryva6","detected")
+                isAccepted = true
+
+                val intent2 = Intent("com.example.test.RELOAD_SEARCH")
+                applicationContext.sendBroadcast(intent2)
+            }
+        }
+
         notificationManager.notify(0, builder.build())
 
     }
@@ -118,6 +142,14 @@ class NotificationService: FirebaseMessagingService() {
         val words = title.split(" ")
         return if (words.size >= 2) {
             "${words[0]} ${words[1]}"
+        } else {
+            title
+        }
+    }
+    private fun getLastTwoWords(title: String): String {
+        val words = title.split(" ")
+        return if (words.size >= 2) {
+            "${words[words.size - 2]} ${words[words.size - 1]}"
         } else {
             title
         }

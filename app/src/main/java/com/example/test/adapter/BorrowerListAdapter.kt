@@ -102,6 +102,15 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
                 Toast.makeText(context, "Request rejected.", Toast.LENGTH_SHORT).show()
 
+                val intent = Intent("com.example.test.RELOAD_OWNERINFO")
+                context.sendBroadcast(intent)
+
+                val intent2 = Intent("com.example.test.RELOAD_YOURBOOKS")
+                context.sendBroadcast(intent2)
+
+                val intent3 = Intent("com.example.test.RELOAD_SEARCH")
+                context.sendBroadcast(intent3)
+
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
@@ -109,10 +118,7 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
         )
         queue.add(jsonObjectRequest)
 
-        val intent = Intent("com.example.test.RELOAD_OWNERINFO")
-        context.sendBroadcast(intent)
 
-       isPosted = true
     }
 
 
@@ -127,6 +133,14 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
             { response ->
                 Log.d("APPEAL UPDATE", "APPEAL UPDATED")
                 Toast.makeText(context, "Request approved.", Toast.LENGTH_SHORT).show()
+                val intent = Intent("com.example.test.RELOAD_OWNERINFO")
+                context.sendBroadcast(intent)
+
+                val intent2 = Intent("com.example.test.RELOAD_YOURBOOKS")
+                context.sendBroadcast(intent2)
+
+                val intent3 = Intent("com.example.test.RELOAD_SEARCH")
+                context.sendBroadcast(intent3)
             },
             { error ->
                 Log.d("APPEAL UPDATE", "ERROR OCCURED")
@@ -134,10 +148,7 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
         )
         queue.add(jsonObjectRequest)
 
-        val intent = Intent("com.example.test.RELOAD_OWNERINFO")
-        context.sendBroadcast(intent)
 
-        isPosted = true
     }
 
     override fun getItemCount() = borrowers.size
