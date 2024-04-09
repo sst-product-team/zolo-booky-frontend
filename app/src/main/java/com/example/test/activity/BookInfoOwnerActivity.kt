@@ -44,6 +44,11 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         binding = ActivityBookInfoOwnerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val backButton = binding.tvbackToYourBooks
+        backButton.setOnClickListener {
+            finish()
+        }
+
         shimmerFrameLayout = binding.shimmerInfoView
         mainLayout = binding.topPart
 

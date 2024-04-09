@@ -131,7 +131,7 @@ class TabYourBooks : Fragment() {
 
 
     companion object {
-        const val POST_BOOK_REQUEST = 123 // Any unique integer constant
+
     }
 
 }

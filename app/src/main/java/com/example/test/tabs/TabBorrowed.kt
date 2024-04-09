@@ -273,6 +273,8 @@ class TabBorrowed : Fragment() {
 
                     // Reset to initial data if search query is empty
                     fetchInitialBooks()
+
+                    //onscroll lagana hai
                 }
                 return true
             }

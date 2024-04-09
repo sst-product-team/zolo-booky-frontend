@@ -72,6 +72,11 @@ class BookInfoActivity : AppCompatActivity() {
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val backButton = binding.tvbackToHome
+        backButton.setOnClickListener {
+            finish()
+        }
+
        shimmerFrameLayout = binding.shimmerInfoView
         mainLayout = binding.scrollView2
 

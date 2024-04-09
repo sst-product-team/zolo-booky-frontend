@@ -82,6 +82,11 @@ class PostBooksActivity: AppCompatActivity(){
             startActivityForResult(intent, 1)
         }
 
+        val backButton = findViewById<TextView>(R.id.tvbackFromPost)
+        backButton.setOnClickListener {
+            finish()
+        }
+
 
         //
         val addButton = findViewById<Button>(R.id.postBookButton)
