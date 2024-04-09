@@ -36,7 +36,6 @@
 > - [🧩 Modules](#-modules)
 > - [🚀 Getting Started](#-getting-started)
 >   - [⚙️ Installation](#️-installation)
->   - [🤖 Running zolo-booky-frontend](#-running-zolo-booky-frontend)
 > - [🤝 Contributing](#-contributing)
 > - [👏 Acknowledgments](#-acknowledgments)
 
@@ -44,13 +43,18 @@
 
 ## 📍 Overview
 
-TODO `overview`
+Introducing Zolo Booky, a mobile application designed specifically for bachelor residents in coliving PGs. Developed using Kotlin, it streamlines the process of sharing books among users. With features such as browsing, borrowing, and lending books, Zolo Booky aims to facilitate a sense of community among residents through the exchange of literature. Experience the convenience of organized book management with Zolo Booky.
 
 ---
 
 ## 📦 Features
 
-TODO `features`
+- Allows owners to lend books by adding it.
+- Allows borrowers to borrow book.
+- Sends notification to users on critical events like(someone adds books, someone borrows books, someone returns books, request gets rejected, etc..)
+- It uses firebase to send notifications and also creates the userContext;
+- Images are stored using blob storage.
+- Implemented auto refresh on events like(new books added, books get accepted, etc..)
 
 ---
 
@@ -107,122 +111,122 @@ TODO `features`
 
 <details closed><summary>.</summary>
 
-| File                                                                                                             | Summary                                          |
+| File                                                                                                             |                                           |
 | ---                                                                                                              | ---                                              |
-| [settings.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/settings.gradle.kts)   | TODO `settings.gradle.kts`  |
-| [google-services.json](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/google-services.json) | TODO `google-services.json` |
-| [build.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/build.gradle.kts)         | TODO `build.gradle.kts`     |
-| [gradlew.bat](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/gradlew.bat)                   | TODO `gradlew.bat`          |
+| [settings.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/settings.gradle.kts)   | `settings.gradle.kts`  |
+| [google-services.json](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/google-services.json) |`google-services.json` |
+| [build.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/build.gradle.kts)         |  `build.gradle.kts`     |
+| [gradlew.bat](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/gradlew.bat)                   |  `gradlew.bat`          |
 
 </details>
 
 <details closed><summary>app</summary>
 
-| File                                                                                                                 | Summary                                              |
+| File                                                                                                                 |                                               |
 | ---                                                                                                                  | ---                                                  |
-| [proguard-rules.pro](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/proguard-rules.pro)     | TODO `app/proguard-rules.pro`   |
-| [google-services.json](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/google-services.json) | TODO `app/google-services.json` |
-| [build.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/build.gradle.kts)         | TODO `app/build.gradle.kts`     |
+| [proguard-rules.pro](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/proguard-rules.pro)     |  `app/proguard-rules.pro`   |
+| [google-services.json](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/google-services.json) |  `app/google-services.json` |
+| [build.gradle.kts](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/build.gradle.kts)         |  `app/build.gradle.kts`     |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test</summary>
 
-| File                                                                                                                                                  | Summary                                                                              |
+| File                                                                                                                                                  |                                                                               |
 | ---                                                                                                                                                   | ---                                                                                  |
-| [MainActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/MainActivity.kt)             | TODO `app/src/main/java/com/example/test/MainActivity.kt`       |
-| [SplashScreen.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/SplashScreen.kt)             | TODO `app/src/main/java/com/example/test/SplashScreen.kt`       |
-| [HistoryBottomSheet.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/HistoryBottomSheet.kt) | TODO `app/src/main/java/com/example/test/HistoryBottomSheet.kt` |
+| [MainActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/MainActivity.kt)             |  `app/src/main/java/com/example/test/MainActivity.kt`       |
+| [SplashScreen.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/SplashScreen.kt)             |  `app/src/main/java/com/example/test/SplashScreen.kt`       |
+| [HistoryBottomSheet.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/HistoryBottomSheet.kt) |  `app/src/main/java/com/example/test/HistoryBottomSheet.kt` |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.tabs</summary>
 
-| File                                                                                                                                           | Summary                                                                             |
+| File                                                                                                                                           |                                                                              |
 | ---                                                                                                                                            | ---                                                                                 |
-| [TabBorrowed.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/tabs/TabBorrowed.kt)   | TODO `app/src/main/java/com/example/test/tabs/TabBorrowed.kt`  |
-| [TabYourBooks.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/tabs/TabYourBooks.kt) | TODO `app/src/main/java/com/example/test/tabs/TabYourBooks.kt` |
+| [TabBorrowed.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/tabs/TabBorrowed.kt)   |  `app/src/main/java/com/example/test/tabs/TabBorrowed.kt`  |
+| [TabYourBooks.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/tabs/TabYourBooks.kt) |  `app/src/main/java/com/example/test/tabs/TabYourBooks.kt` |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.globalContexts</summary>
 
-| File                                                                                                                                               | Summary                                                                                    |
+| File                                                                                                                                               |                                                                                     |
 | ---                                                                                                                                                | ---                                                                                        |
-| [Constants.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/globalContexts/Constants.kt) | TODO `app/src/main/java/com/example/test/globalContexts/Constants.kt` |
+| [Constants.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/globalContexts/Constants.kt) |  `app/src/main/java/com/example/test/globalContexts/Constants.kt` |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.notifications</summary>
 
-| File                                                                                                                                                                  | Summary                                                                                             |
+| File                                                                                                                                                                  |                                                                                              |
 | ---                                                                                                                                                                   | ---                                                                                                 |
-| [NotificationService.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/notifications/NotificationService.kt) | TODO `app/src/main/java/com/example/test/notifications/NotificationService.kt` |
+| [NotificationService.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/notifications/NotificationService.kt) |  `app/src/main/java/com/example/test/notifications/NotificationService.kt` |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.activity</summary>
 
-| File                                                                                                                                                                 | Summary                                                                                          |
+| File                                                                                                                                                                 |                                                                                           |
 | ---                                                                                                                                                                  | ---                                                                                              |
-| [BookInfoOwnerActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/BookInfoOwnerActivity.kt) | TODO `app/src/main/java/com/example/test/activity/BookInfoOwnerActivity.kt` |
-| [PostBooksActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/PostBooksActivity.kt)         | TODO `app/src/main/java/com/example/test/activity/PostBooksActivity.kt`     |
-| [BookInfoActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/BookInfoActivity.kt)           | TODO `app/src/main/java/com/example/test/activity/BookInfoActivity.kt`      |
+| [BookInfoOwnerActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/BookInfoOwnerActivity.kt) |  `app/src/main/java/com/example/test/activity/BookInfoOwnerActivity.kt` |
+| [PostBooksActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/PostBooksActivity.kt)         |  `app/src/main/java/com/example/test/activity/PostBooksActivity.kt`     |
+| [BookInfoActivity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/activity/BookInfoActivity.kt)           |  `app/src/main/java/com/example/test/activity/BookInfoActivity.kt`      |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.entity</summary>
 
-| File                                                                                                                                                         | Summary                                                                                     |
+| File                                                                                                                                                         |                                                                                      |
 | ---                                                                                                                                                          | ---                                                                                         |
-| [UserEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/UserEntity.kt)                 | TODO `app/src/main/java/com/example/test/entity/UserEntity.kt`         |
-| [BooksDetailsEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/BooksDetailsEntity.kt) | TODO `app/src/main/java/com/example/test/entity/BooksDetailsEntity.kt` |
-| [MyBookEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/MyBookEntity.kt)             | TODO `app/src/main/java/com/example/test/entity/MyBookEntity.kt`       |
-| [AppealEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/AppealEntity.kt)             | TODO `app/src/main/java/com/example/test/entity/AppealEntity.kt`       |
-| [ListAppealEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/ListAppealEntity.kt)     | TODO `app/src/main/java/com/example/test/entity/ListAppealEntity.kt`   |
-| [BorrowerEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/BorrowerEntity.kt)         | TODO `app/src/main/java/com/example/test/entity/BorrowerEntity.kt`     |
-| [ListBookEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/ListBookEntity.kt)         | TODO `app/src/main/java/com/example/test/entity/ListBookEntity.kt`     |
+| [UserEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/UserEntity.kt)                 |  `app/src/main/java/com/example/test/entity/UserEntity.kt`         |
+| [BooksDetailsEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/BooksDetailsEntity.kt) |  `app/src/main/java/com/example/test/entity/BooksDetailsEntity.kt` |
+| [MyBookEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/MyBookEntity.kt)             |  `app/src/main/java/com/example/test/entity/MyBookEntity.kt`       |
+| [AppealEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/AppealEntity.kt)             |  `app/src/main/java/com/example/test/entity/AppealEntity.kt`       |
+| [ListAppealEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/ListAppealEntity.kt)     |  `app/src/main/java/com/example/test/entity/ListAppealEntity.kt`   |
+| [BorrowerEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/BorrowerEntity.kt)         |  `app/src/main/java/com/example/test/entity/BorrowerEntity.kt`     |
+| [ListBookEntity.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/entity/ListBookEntity.kt)         |  `app/src/main/java/com/example/test/entity/ListBookEntity.kt`     |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.fragment</summary>
 
-| File                                                                                                                                                               | Summary                                                                                         |
+| File                                                                                                                                                               |                                                                                          |
 | ---                                                                                                                                                                | ---                                                                                             |
-| [HomeFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/HomeFragment.kt)                 | TODO `app/src/main/java/com/example/test/fragment/HomeFragment.kt`         |
-| [MyBooksFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/MyBooksFragment.kt)           | TODO `app/src/main/java/com/example/test/fragment/MyBooksFragment.kt`      |
-| [TransactionsFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/TransactionsFragment.kt) | TODO `app/src/main/java/com/example/test/fragment/TransactionsFragment.kt` |
+| [HomeFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/HomeFragment.kt)                 |  `app/src/main/java/com/example/test/fragment/HomeFragment.kt`         |
+| [MyBooksFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/MyBooksFragment.kt)           |  `app/src/main/java/com/example/test/fragment/MyBooksFragment.kt`      |
+| [TransactionsFragment.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/fragment/TransactionsFragment.kt) |  `app/src/main/java/com/example/test/fragment/TransactionsFragment.kt` |
 
 </details>
 
 <details closed><summary>app.src.main.java.com.example.test.adapter</summary>
 
-| File                                                                                                                                                            | Summary                                                                                       |
+| File                                                                                                                                                            |                                                                                        |
 | ---                                                                                                                                                             | ---                                                                                           |
-| [BookBorrowAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookBorrowAdapter.kt)     | TODO `app/src/main/java/com/example/test/adapter/BookBorrowAdapter.kt`   |
-| [MyBooksAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/MyBooksAdapter.kt)           | TODO `app/src/main/java/com/example/test/adapter/MyBooksAdapter.kt`      |
-| [ViewHistoryAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/ViewHistoryAdapter.kt)   | TODO `app/src/main/java/com/example/test/adapter/ViewHistoryAdapter.kt`  |
-| [BookListAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookListAdapter.kt)         | TODO `app/src/main/java/com/example/test/adapter/BookListAdapter.kt`     |
-| [MyRequestsAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/MyRequestsAdapter.kt)     | TODO `app/src/main/java/com/example/test/adapter/MyRequestsAdapter.kt`   |
-| [BorrowerListAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BorrowerListAdapter.kt) | TODO `app/src/main/java/com/example/test/adapter/BorrowerListAdapter.kt` |
-| [BookRequestsAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookRequestsAdapter.kt) | TODO `app/src/main/java/com/example/test/adapter/BookRequestsAdapter.kt` |
-| [TabAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/TabAdapter.kt)                   | TODO `app/src/main/java/com/example/test/adapter/TabAdapter.kt`          |
+| [BookBorrowAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookBorrowAdapter.kt)     |  `app/src/main/java/com/example/test/adapter/BookBorrowAdapter.kt`   |
+| [MyBooksAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/MyBooksAdapter.kt)           |  `app/src/main/java/com/example/test/adapter/MyBooksAdapter.kt`      |
+| [ViewHistoryAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/ViewHistoryAdapter.kt)   |  `app/src/main/java/com/example/test/adapter/ViewHistoryAdapter.kt`  |
+| [BookListAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookListAdapter.kt)         |  `app/src/main/java/com/example/test/adapter/BookListAdapter.kt`     |
+| [MyRequestsAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/MyRequestsAdapter.kt)     |  `app/src/main/java/com/example/test/adapter/MyRequestsAdapter.kt`   |
+| [BorrowerListAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BorrowerListAdapter.kt) |  `app/src/main/java/com/example/test/adapter/BorrowerListAdapter.kt` |
+| [BookRequestsAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/BookRequestsAdapter.kt) |  `app/src/main/java/com/example/test/adapter/BookRequestsAdapter.kt` |
+| [TabAdapter.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/main/java/com/example/test/adapter/TabAdapter.kt)                   |  `app/src/main/java/com/example/test/adapter/TabAdapter.kt`          |
 
 </details>
 
 <details closed><summary>app.src.androidTest.java.com.example.test</summary>
 
-| File                                                                                                                                                                   | Summary                                                                                          |
+| File                                                                                                                                                                   |                                                                                           |
 | ---                                                                                                                                                                    | ---                                                                                              |
-| [ExampleInstrumentedTest.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/androidTest/java/com/example/test/ExampleInstrumentedTest.kt) | TODO `app/src/androidTest/java/com/example/test/ExampleInstrumentedTest.kt` |
+| [ExampleInstrumentedTest.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/androidTest/java/com/example/test/ExampleInstrumentedTest.kt) |  `app/src/androidTest/java/com/example/test/ExampleInstrumentedTest.kt` |
 
 </details>
 
 <details closed><summary>app.src.test.java.com.example.test</summary>
 
-| File                                                                                                                                            | Summary                                                                           |
+| File                                                                                                                                            |                                                                            |
 | ---                                                                                                                                             | ---                                                                               |
-| [ExampleUnitTest.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/test/java/com/example/test/ExampleUnitTest.kt) | TODO `app/src/test/java/com/example/test/ExampleUnitTest.kt` |
+| [ExampleUnitTest.kt](https://github.com/sst-product-team/zolo-booky-frontend/blob/master/app/src/test/java/com/example/test/ExampleUnitTest.kt) |  `app/src/test/java/com/example/test/ExampleUnitTest.kt` |
 
 </details>
 
@@ -234,7 +238,7 @@ TODO `features`
 
 Ensure you have the following dependencies installed on your system:
 
-* **Kotlin**: `version x.y.z`
+* **Kotlin**: `version 1.x`
 
 ### ⚙️ Installation
 
@@ -250,19 +254,19 @@ git clone git@github.com:sst-product-team/zolo-booky-frontend.git
 cd zolo-booky-frontend
 ```
 
-3. Install the dependencies:
+3. Install apk into Smartphone/Virtual Device:
 
 ```sh
-gradle build
+./gradlew installDebug
 ```
 
-### 🤖 Running zolo-booky-frontend
-
-Use the following command to run zolo-booky-frontend:
+### Building the apk
 
 ```sh
-java -jar build/libs/myapp.jar
+./gradlew assembleDebug
 ```
+
+**Ensure the server is running...Before using the app.**
 
 ## 🤝 Contributing
 
@@ -301,7 +305,10 @@ Once your PR is reviewed and approved, it will be merged into the main branch.
 
 ## 👏 Acknowledgments
 
-- List any resources, contributors, inspiration, etc. here.
+- Team
+  - [@cyb3rh4wk](https://github.com/cyb3rh4wk)
+  - [@aatmik-panse](https://github.com/aatmik-panse)
+  - [@pradyutf](https://github.com/pradyutf)
 
 [**Return**](#-quick-links)
 
