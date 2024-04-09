@@ -83,6 +83,11 @@ class PostBooksActivity: AppCompatActivity(){
             startActivityForResult(intent, 1)
         }
 
+        val backButton = findViewById<TextView>(R.id.tvbackFromPost)
+        backButton.setOnClickListener {
+            finish()
+        }
+
 
         //
         val addButton = findViewById<Button>(R.id.postBookButton)
@@ -212,12 +217,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
         //randomness or file name
         val randomString = UUID.randomUUID().toString()
-//        val fileName = bookImagePart?.headers?.get("Content-Disposition")
-//            ?.split(";")
-//            ?.find { it.trim().startsWith("filename=") }
-//            ?.substringAfter("filename=")
-//            ?.trim()
-//            ?.removeSurrounding("\"")
         val fileNameWithExtension = "${UUID.randomUUID()}"
 
         // Create the multipart request body with the image file
@@ -261,13 +260,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     }
 
     private fun parseThumbnailString(responseBody: String?): String? {
-        // Implement parsing logic here based on the response body structure
-        // For example, if the response is a JSON object {"thumbnail": "thumbnail_value"}
-        // You can parse it like this:
-        // val jsonObject = JSONObject(responseBody)
-        // return jsonObject.optString("thumbnail")
 
-        // Replace this with your actual parsing logic
         return responseBody
     }
 
@@ -299,7 +292,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
             dialog.dismiss()
             uploadImageAndGetThumbnail(bookName,bookAuthor,bookDescription,daysBorrowed, selectedDate)
 
-//
+
         }
 
         dialog.show()

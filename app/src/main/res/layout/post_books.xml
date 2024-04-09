@@ -31,19 +31,25 @@
                 app:layout_constraintTop_toTopOf="parent">
 
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/cover_big"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:alpha="0.1"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    android:src="@drawable/image2"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintHorizontal_bias="0.0"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.0" />-->
+                <TextView
+                    android:id="@+id/tvbackFromPost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/baseline_arrow_back_ios_24"
+                    android:textColor="@color/zolo_bluey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Post Book"
+                    android:textColor="@color/zolo_bluey"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvbackFromPost"
+                    app:layout_constraintStart_toEndOf="@+id/tvbackFromPost"
+                    app:layout_constraintTop_toTopOf="@+id/tvbackFromPost" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/edi_cover_smol"
@@ -79,37 +85,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                android:id="@+id/constraintLayout2"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_margin="10dp"-->
-            <!--                android:layout_marginStart="15dp"-->
-            <!--                android:layout_marginEnd="15dp"-->
-            <!--                app:layout_constraintEnd_toStartOf="@+id/constraintLayout"-->
-            <!--                app:layout_constraintStart_toEndOf="@+id/constraintLayout"-->
-            <!--                app:layout_constraintTop_toTopOf="parent">-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/back_bttn"-->
-            <!--                    android:layout_width="25dp"-->
-            <!--                    android:layout_height="25dp"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent"-->
-            <!--                    app:srcCompat="@drawable/baseline_arrow_back_24" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginLeft="15dp"-->
-            <!--                    android:text="Book Details"-->
-            <!--                    android:textColor="@color/onlyBlack"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintStart_toEndOf="@+id/back_bttn"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"

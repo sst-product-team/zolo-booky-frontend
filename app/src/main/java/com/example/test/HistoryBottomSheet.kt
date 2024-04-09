@@ -24,11 +24,6 @@ import com.example.test.globalContexts.Constants
 
 class HistoryBottomSheet: DialogFragment() {
     private lateinit var binding: BottomsheetScrollerBinding
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ViewHistoryAdapter // Replace YourAdapter with the name of your adapter class
-
-    private val books = mutableListOf<ListBookEntity>()
-    private lateinit var queue: RequestQueue
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +44,6 @@ class HistoryBottomSheet: DialogFragment() {
 
         val url = "${Constants.BASE_URL}/v0/appeals"
 
-        var token: String
-
         Log.d("API Request URL", url)
         var count =0
 
@@ -59,7 +52,6 @@ class HistoryBottomSheet: DialogFragment() {
             { response ->
                 Log.d("API Response", response.toString())
                 val books = mutableListOf<ListAppealEntity>()
-                val borrowerData = mutableListOf<AppealEntity>()
 
                 for (i in 0 until response.length()){
                     val appealObject = response.getJSONObject(i)
@@ -100,25 +92,6 @@ class HistoryBottomSheet: DialogFragment() {
                 Log.d("Parsed Books borrowed", "Number of books fetched: ${books.size}")
 
                 Log.d("Count", count.toString())
-//                shimmerFrameLayout.stopShimmer()
-//                shimmerFrameLayout.visibility = View.GONE
-
-
-
-//// need to implement something here...
-//                if(count==0){
-//
-//                    val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
-//                    val heightInDp = 200 // desired height in dp
-//                    val density = resources.displayMetrics.density
-//                    val heightInPixels = (heightInDp * density).toInt()
-//                    layoutParams.height = heightInPixels
-//                    binding.constraintLayout4.layoutParams = layoutParams
-//
-//                    binding.msg.visibility = View.VISIBLE
-//
-//                }
-
 
                 val adapter = ViewHistoryAdapter(requireContext(), books)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -133,6 +106,5 @@ class HistoryBottomSheet: DialogFragment() {
 
         queue.add(jsonArrayRequest)
 
-
     }
-    }
+}
