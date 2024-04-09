@@ -43,7 +43,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.6.2")
     implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
     implementation("com.android.volley:volley:1.2.1")
-
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
@@ -62,18 +61,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
-
     implementation("com.facebook.shimmer:shimmer:0.5.0")
-
-    //implementation("com.theartofdev.edmodo:android-image-cropper:2.8.+")
-
-//    implementation ("com.github.dhaval2404:imagepicker:2.1")
-//    implementation ("com.github.dhaval2404:imagepicker-support:1.7.1")
-
 }
 
 apply(plugin = "com.android.application")
