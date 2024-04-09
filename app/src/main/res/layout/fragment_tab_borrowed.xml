@@ -24,7 +24,7 @@
             android:layout_marginStart="15dp"
             android:paddingTop="20dp"
             android:paddingBottom="5dp"
-            android:text="Books you have borrowed"
+            android:text="@string/books_you_have_borrowed"
             android:textColor="@color/black"
             android:textSize="15sp"
 
@@ -63,7 +63,7 @@
             android:id="@+id/view_history_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View History"
+            android:text="@string/view_history"
             android:textColor="@color/zolo_bluey"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No currently Borrowed Books by you"
+                android:text="@string/no_currently_borrowed_books_by_you_2"
                 android:layout_gravity="center"
                 android:textColor="@color/zolo_sec_text"
                 android:textSize="12sp"/>
@@ -137,7 +137,7 @@
             android:layout_marginStart="15dp"
             android:paddingTop="20dp"
             android:paddingBottom="5dp"
-            android:text="Find your next book"
+            android:text="@string/find_your_next_book"
             android:textColor="@color/black"
             android:textSize="15sp"
 
@@ -149,7 +149,7 @@
             android:id="@+id/my_requests_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Requests"
+            android:text="@string/my_requests"
             android:textColor="@color/zolo_bluey"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,7 +232,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No new books for you"
+                android:text="@string/no_new_books_for_you"
                 android:layout_gravity="center"
                 android:textColor="@color/zolo_sec_text"
                 android:textSize="12sp"/>

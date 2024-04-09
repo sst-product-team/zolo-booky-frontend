@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="This is a message"
+            android:text="@string/this_is_a_message"
             android:textSize="14sp"
             android:layout_marginTop="4dp"/>
 
