@@ -106,37 +106,30 @@ class TabBorrowed : Fragment() {
 
 
     }
-    private val reloadBorrowedReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            reloadBorrowed()
-        }
-    }
+
 
     private val reloadReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             reloadBorrowed()
+            Log.d("ryva5","fetched")
         }
     }
 
     override fun onResume() {
         super.onResume()
-        // This method will be called every time the fragment becomes visible
-//        if (isAccepted == true) {
-//           reloadBorrowed()
-//        }
-//        isAccepted = false
 
-        context?.registerReceiver(reloadReceiver, IntentFilter("com.example.test.RELOAD_ACTION"))
+        context?.registerReceiver(
+            reloadReceiver,
+            IntentFilter("com.example.test.RELOAD_ACTION"),
+            null,
+            null,
+            Context.RECEIVER_EXPORTED
+        )
 
     }
 
     override fun onPause() {
         super.onPause()
-//        if (isAccepted == true) {
-//            reloadBorrowed()
-//            Log.d("pausy","called")
-//        }
-//        isAccepted = false
 
         context?.unregisterReceiver(reloadReceiver)
 

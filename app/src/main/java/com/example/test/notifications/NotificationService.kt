@@ -54,14 +54,20 @@ class NotificationService: FirebaseMessagingService() {
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
         // channel id, channel name
+
+        val bigTextStyle = NotificationCompat.BigTextStyle()
+            .setBigContentTitle(title)
+            .bigText(message)
+
         var builder: NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000))
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
+            .setStyle(bigTextStyle)
 
-        builder = builder.setContent(getRemoteView(title, message))
+       // builder = builder.setContent(getRemoteView(title, message))
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -78,11 +84,20 @@ class NotificationService: FirebaseMessagingService() {
             "Request accepted for" -> {
                 Log.d("ryva3","detected")
                 isAccepted = true
+
                 val intent = Intent("com.example.test.RELOAD_ACTION")
                 applicationContext.sendBroadcast(intent)
             }
 
-            // Add more cases as needed
+            "Book request for" -> {
+                Log.d("ryva4","detected")
+                isAccepted = true
+
+                val intent = Intent("com.example.test.RELOAD_YOURBOOKS")
+                applicationContext.sendBroadcast(intent)
+            }
+
+
         }
 
         notificationManager.notify(0, builder.build())
