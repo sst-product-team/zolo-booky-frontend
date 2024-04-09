@@ -224,6 +224,34 @@
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <androidx.cardview.widget.CardView
+            android:visibility="gone"
+            android:id="@+id/msg9"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/zolo_secondary"
+            android:backgroundTint="@color/zolo_secondary"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="35dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="4dp"
+            app:circularflow_defaultRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_view"
+            tools:context=".fragment.homeFragment"
+            tools:ignore="MissingConstraints"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No new books for you"
+                android:layout_gravity="center"
+                android:textColor="@color/zolo_sec_text"
+                android:textSize="12sp"/>
+        </androidx.cardview.widget.CardView>
+
 
 
         <androidx.recyclerview.widget.RecyclerView

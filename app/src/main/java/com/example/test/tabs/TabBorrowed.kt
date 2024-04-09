@@ -54,17 +54,22 @@ class TabBorrowed : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         queue = Volley.newRequestQueue(requireContext())
+
+        // shimmer
+
+        val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
+        // Starting the shimmer effect before making the API request
+
+        shimmerFrameLayout2.startShimmer()
+
+
+
         recyclerView = binding.BookRecyclerView
         loadingSpinner = binding.cvProgressBar // Initialize loadingSpinner here
         setupPagination()
         fetchInitialBooks()
 
-        // shimmer
-        val shimmerFrameLayout = binding.shimmerViewContainerBookList
-        val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
-        // Starting the shimmer effect before making the API request
-        shimmerFrameLayout.startShimmer()
-        shimmerFrameLayout2.startShimmer()
+
 
         val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
 
@@ -94,9 +99,101 @@ class TabBorrowed : Fragment() {
 
 
 
+        reloadBorrowed()
 
 
+
+        //////// for searching all books
+
+        val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
+        val loadingSpinner = view.findViewById<CardView>(R.id.cv_progress_bar)
+
+
+        val url2 = "${Constants.BASE_URL}/v0/books"
+        shimmerFrameLayout2.startShimmer()
+        shimmerFrameLayout2.visibility = View.VISIBLE
+        Log.d("API Request URL", url2)
+        shimmerFrameLayout2.stopShimmer()
+        shimmerFrameLayout2.visibility = View.GONE
+        searchView = binding.searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+            private var lastSearchTime = 0L
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                loadingSpinner.visibility = View.GONE
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadingSpinner.visibility = View.GONE
+
+                if (!newText.isNullOrEmpty()) {
+                    val currentMillis = System.currentTimeMillis()
+                    if (currentMillis - lastSearchTime >= SEARCH_QUERY_DELAY) {
+                        lastSearchTime = currentMillis
+                        val url2 = "${Constants.BASE_URL}/v0/search/books?name=$newText"
+                        val jsonArrayRequest2 = JsonArrayRequest(
+                            Request.Method.GET, url2, null,
+                            { response ->
+                                books.clear() // Ensure books list is cleared before adding new results
+                                for (i in 0 until response.length()) {
+                                    val bookObject = response.getJSONObject(i)
+                                    val ownerObject = bookObject.getJSONObject("owner")
+
+                                    val bookId = bookObject.getInt("id")
+                                    val bookTitle = bookObject.getString("name")
+                                    val bookStatus = bookObject.getString("status")
+                                    val bookThumbnail = bookObject.getString("thumbnail")
+                                    val ownerName = ownerObject.getString("name")
+                                    val bookAuthor = bookObject.getString("author")
+
+                                    Log.d("on search ", "onQueryTextChange: $books")
+
+                                    if (bookStatus == "AVAILABLE") {
+
+                                        books.add(
+                                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
+                                        )
+                                    }
+                                }
+
+                                val adapter = BookListAdapter(books)
+                                recyclerView2.layoutManager = LinearLayoutManager(requireContext())
+                                recyclerView2.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            },
+                            { error ->
+                                Log.e("API Error", error.toString())
+                            }
+                        )
+                        queue.add(jsonArrayRequest2)
+                    }
+                } else {
+                    loadingSpinner.visibility = View.GONE
+
+                    // Reset to initial data if search query is empty
+                    fetchInitialBooks()
+                }
+                return true
+            }
+        })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        // This method will be called every time the fragment becomes visible
+        reloadBorrowed()
+        Log.d("elephat","i am called")
+    }
+
+    fun reloadBorrowed(){
         ///// for borrowed books by borrower.
+
+        val shimmerFrameLayout = binding.shimmerViewContainerBookList
+        shimmerFrameLayout.startShimmer()
 
         val recyclerView = binding.rvBorrowBookList
         val queue = Volley.newRequestQueue(requireContext())
@@ -202,81 +299,6 @@ class TabBorrowed : Fragment() {
 
         queue.add(jsonArrayRequest)
 
-
-        //////// for all books
-
-        val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
-        val loadingSpinner = view.findViewById<CardView>(R.id.cv_progress_bar)
-
-        val url2 = "${Constants.BASE_URL}/v0/books"
-        shimmerFrameLayout2.startShimmer()
-        shimmerFrameLayout2.visibility = View.VISIBLE
-        Log.d("API Request URL", url2)
-        shimmerFrameLayout2.stopShimmer()
-        shimmerFrameLayout2.visibility = View.GONE
-        searchView = binding.searchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-
-            private var lastSearchTime = 0L
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
-
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
-
-                if (!newText.isNullOrEmpty()) {
-                    val currentMillis = System.currentTimeMillis()
-                    if (currentMillis - lastSearchTime >= SEARCH_QUERY_DELAY) {
-                        lastSearchTime = currentMillis
-                        val url2 = "${Constants.BASE_URL}/v0/search/books?name=$newText"
-                        val jsonArrayRequest2 = JsonArrayRequest(
-                            Request.Method.GET, url2, null,
-                            { response ->
-                                books.clear() // Ensure books list is cleared before adding new results
-                                for (i in 0 until response.length()) {
-                                    val bookObject = response.getJSONObject(i)
-                                    val ownerObject = bookObject.getJSONObject("owner")
-
-                                    val bookId = bookObject.getInt("id")
-                                    val bookTitle = bookObject.getString("name")
-                                    val bookStatus = bookObject.getString("status")
-                                    val bookThumbnail = bookObject.getString("thumbnail")
-                                    val ownerName = ownerObject.getString("name")
-                                    val bookAuthor = bookObject.getString("author")
-
-                                    Log.d("on search ", "onQueryTextChange: $books")
-
-                                    if (bookStatus == "AVAILABLE") {
-                                        books.add(
-                                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
-                                        )
-                                    }
-                                }
-
-                                val adapter = BookListAdapter(books)
-                                recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-                                recyclerView2.adapter = adapter
-                                adapter.notifyDataSetChanged()
-                            },
-                            { error ->
-                                Log.e("API Error", error.toString())
-                            }
-                        )
-                        queue.add(jsonArrayRequest2)
-                    }
-                } else {
-                    loadingSpinner.visibility = View.GONE
-
-                    // Reset to initial data if search query is empty
-                    fetchInitialBooks()
-                }
-                return true
-            }
-        })
     }
 
     private fun fetchInitialBooks() {

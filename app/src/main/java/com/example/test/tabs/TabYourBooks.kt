@@ -21,6 +21,7 @@ import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
 import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 class TabYourBooks : Fragment() {
@@ -47,14 +48,22 @@ class TabYourBooks : Fragment() {
         val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
         openPostButton.setOnClickListener{
             val intent = Intent(activity, PostBooksActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, POST_BOOK_REQUEST)
         }
     }
-     fun fetchmybooks(){
+
+    override fun onResume() {
+        super.onResume()
+        // This method will be called every time the fragment becomes visible
+        fetchmybooks()
+        Log.d("elephant","i am called")
+    }
+      fun fetchmybooks(){
 
 
-        val shimmerFrame = binding.shimmerViewMybooks
-        shimmerFrame.startShimmer()
+          val shimmerFrame = view?.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_mybooks)
+          shimmerFrame?.startShimmer()
+          Log.d("elephant","me too")
 
         val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
@@ -97,8 +106,8 @@ class TabYourBooks : Fragment() {
                         )
                     }
                 }
-                shimmerFrame.stopShimmer()
-                shimmerFrame.visibility = View.GONE
+                shimmerFrame?.stopShimmer()
+                shimmerFrame?.visibility = View.GONE
                 if (count==0){
                     val msg  = view?.findViewById<CardView>(R.id.msgO)
                     if (msg != null) {
@@ -113,6 +122,7 @@ class TabYourBooks : Fragment() {
                 if (recyclerView != null) {
                     recyclerView.adapter = adapter
                 }
+                adapter.notifyDataSetChanged()
 
             },
             { error ->
