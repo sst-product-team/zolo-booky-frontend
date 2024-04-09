@@ -272,9 +272,9 @@ class TabBorrowed : Fragment() {
                     loadingSpinner.visibility = View.GONE
 
                     // Reset to initial data if search query is empty
+                    setupPagination()
                     fetchInitialBooks()
 
-                    //onscroll lagana hai
                 }
                 return true
             }
