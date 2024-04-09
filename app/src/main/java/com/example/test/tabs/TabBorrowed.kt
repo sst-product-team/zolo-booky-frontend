@@ -64,7 +64,7 @@ class TabBorrowed : Fragment() {
 
         val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
         // Starting the shimmer effect before making the API request
-
+        shimmerFrameLayout2.visibility = View.VISIBLE
         shimmerFrameLayout2.startShimmer()
 
 
@@ -73,32 +73,30 @@ class TabBorrowed : Fragment() {
         loadingSpinner = binding.cvProgressBar // Initialize loadingSpinner here
         setupPagination()
         fetchInitialBooks()
-
+        shimmerFrameLayout2.stopShimmer()
+        shimmerFrameLayout2.visibility = View.GONE
 
 
         val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
 
-        val viewButton : TextView = binding.viewHistoryBtn
+        val viewButton: TextView = binding.viewHistoryBtn
         viewButton.setOnClickListener {
 
             Log.d("onbtnVHTAG", "onViewCreated: clicked")
         }
 
 
-
         // bottom sheets
-        val viewHistoryB : TextView = binding.viewHistoryBtn
-        viewHistoryB.setOnClickListener{
+        val viewHistoryB: TextView = binding.viewHistoryBtn
+        viewHistoryB.setOnClickListener {
             showCustomDialog1()
         }
 
 
-
-
-        val myreqbtn : TextView = binding.myRequestsBtn
-        myreqbtn.setOnClickListener{
+        val myreqbtn: TextView = binding.myRequestsBtn
+        myreqbtn.setOnClickListener {
             showCustomDialog2()
-            Log.d("yupppp","hjrfh")
+            Log.d("yupppp", "hjrfh")
         }
 
 
@@ -107,83 +105,6 @@ class TabBorrowed : Fragment() {
         reloadBorrowed()
 
 
-
-        //////// for searching all books
-
-        val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
-        val loadingSpinner = view.findViewById<CardView>(R.id.cv_progress_bar)
-
-
-        val url2 = "${Constants.BASE_URL}/v0/books"
-        shimmerFrameLayout2.startShimmer()
-        shimmerFrameLayout2.visibility = View.VISIBLE
-        Log.d("API Request URL", url2)
-        shimmerFrameLayout2.stopShimmer()
-        shimmerFrameLayout2.visibility = View.GONE
-        searchView = binding.searchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-
-            private var lastSearchTime = 0L
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
-
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
-
-                if (!newText.isNullOrEmpty()) {
-                    val currentMillis = System.currentTimeMillis()
-                    if (currentMillis - lastSearchTime >= SEARCH_QUERY_DELAY) {
-                        lastSearchTime = currentMillis
-                        val url2 = "${Constants.BASE_URL}/v0/search/books?name=$newText"
-                        val jsonArrayRequest2 = JsonArrayRequest(
-                            Request.Method.GET, url2, null,
-                            { response ->
-                                books.clear() // Ensure books list is cleared before adding new results
-                                for (i in 0 until response.length()) {
-                                    val bookObject = response.getJSONObject(i)
-                                    val ownerObject = bookObject.getJSONObject("owner")
-
-                                    val bookId = bookObject.getInt("id")
-                                    val bookTitle = bookObject.getString("name")
-                                    val bookStatus = bookObject.getString("status")
-                                    val bookThumbnail = bookObject.getString("thumbnail")
-                                    val ownerName = ownerObject.getString("name")
-                                    val bookAuthor = bookObject.getString("author")
-
-                                    Log.d("on search ", "onQueryTextChange: $books")
-
-                                    if (bookStatus == "AVAILABLE") {
-
-                                        books.add(
-                                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
-                                        )
-                                    }
-                                }
-
-                                val adapter = BookListAdapter(books)
-                                recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-                                recyclerView2.adapter = adapter
-                                adapter.notifyDataSetChanged()
-                            },
-                            { error ->
-                                Log.e("API Error", error.toString())
-                            }
-                        )
-                        queue.add(jsonArrayRequest2)
-                    }
-                } else {
-                    loadingSpinner.visibility = View.GONE
-
-                    // Reset to initial data if search query is empty
-                    fetchInitialBooks()
-                }
-                return true
-            }
-        })
     }
 
 
@@ -342,14 +263,98 @@ class TabBorrowed : Fragment() {
             { error ->
                 Log.e("API Error", error.toString())
                 Log.e("VolleyExample", "Error: $error")
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
             }
         )
 
         queue.add(jsonArrayRequest)
 
+
+        //////// for all books
+
+        val recyclerView2 = view?.findViewById<RecyclerView>(R.id.BookRecyclerView)
+        val loadingSpinner = view?.findViewById<CardView>(R.id.cv_progress_bar)
+
+
+
+        val url2 = "${Constants.BASE_URL}/v0/books"
+        searchView = binding.searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+            private var lastSearchTime = 0L
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                loadingSpinner?.visibility = View.GONE
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadingSpinner?.visibility = View.GONE
+
+                if (!newText.isNullOrEmpty()) {
+                    val currentMillis = System.currentTimeMillis()
+                    if (currentMillis - lastSearchTime >= SEARCH_QUERY_DELAY) {
+                        lastSearchTime = currentMillis
+                        val url2 = "${Constants.BASE_URL}/v0/search/books?name=$newText"
+                        val jsonArrayRequest2 = JsonArrayRequest(
+                            Request.Method.GET, url2, null,
+                            { response ->
+                                books.clear() // Ensure books list is cleared before adding new results
+                                for (i in 0 until response.length()) {
+                                    val bookObject = response.getJSONObject(i)
+                                    val ownerObject = bookObject.getJSONObject("owner")
+
+                                    val bookId = bookObject.getInt("id")
+                                    val bookTitle = bookObject.getString("name")
+                                    val bookStatus = bookObject.getString("status")
+                                    val bookThumbnail = bookObject.getString("thumbnail")
+                                    val ownerName = ownerObject.getString("name")
+                                    val bookAuthor = bookObject.getString("author")
+
+                                    Log.d("on search ", "onQueryTextChange: $books")
+
+                                    if (bookStatus == "AVAILABLE") {
+                                        books.add(
+                                            ListBookEntity(bookId, bookTitle, bookStatus, bookThumbnail, ownerName, bookAuthor)
+                                        )
+                                    }
+                                }
+
+                                val adapter = BookListAdapter(books)
+                                recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
+                                recyclerView2?.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            },
+                            { error ->
+                                Log.e("API Error", error.toString())
+                            }
+                        )
+                        queue.add(jsonArrayRequest2)
+                    }
+                } else {
+
+                    clearAndSetupPagination(recyclerView2)
+                }
+                return true
+            }
+        })
+    }
+    fun clearAndSetupPagination(recyclerView2:RecyclerView?) {
+        books.clear()
+        recyclerView2?.clearOnScrollListeners()
+        page = 0
+        fetchInitialBooks()
+        setupPagination() // Re-attach pagination logic
     }
 
+
     private fun fetchInitialBooks() {
+        val shimmerFrameLayout = binding.shimmerViewContainerBookList2
+        shimmerFrameLayout.startShimmer()
+        shimmerFrameLayout.visibility = View.VISIBLE
+
         recyclerView = binding.BookRecyclerView
         queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books"
@@ -375,6 +380,8 @@ class TabBorrowed : Fragment() {
                     }
                 }
 
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
                 val adapter = BookListAdapter(books)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
@@ -382,30 +389,15 @@ class TabBorrowed : Fragment() {
             },
             { error ->
                 Log.e("API Error", error.toString())
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
             }
         )
 
         queue.add(jsonArrayRequest)
 
 
-
-
-
-
-
-
-
-
-
-        // logics for opening various bottomsheets based on btns
-
-
-
-
-
-
-
-
+        shimmerFrameLayout.stopShimmer()
     }
 
     fun loadMoreData(page: Int, loadingSpinner: CardView) {

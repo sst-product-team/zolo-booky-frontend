@@ -22,7 +22,6 @@ import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.FragmentTabYourbooksBinding
 import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
-import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
 
 import com.example.test.globalContexts.Constants.isPosted
@@ -109,9 +108,9 @@ class TabYourBooks : Fragment() {
 
 
         val queue = Volley.newRequestQueue(requireContext())
-        val url = "${Constants.BASE_URL}/v0/books?size=100"
+        val url = "${Constants.BASE_URL}/v0/books?owner=${Constants.USER_ID}"
+         Log.d("TAGid", "fetchmybooks: ${Constants.USER_ID}")
         var count = 0
-
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
@@ -132,7 +131,7 @@ class TabYourBooks : Fragment() {
                     val numReq = bookObject.getInt("requestCount")
 
                     Log.d("GUCCI", Constants.USER_ID.toString())
-                    if (Constants.USER_ID == owner.getInt("id")) {
+
                         count++
                         books.add(
                             MyBookEntity(
@@ -145,7 +144,7 @@ class TabYourBooks : Fragment() {
                                 numReq
                             )
                         )
-                    }
+
                 }
                 shimmerFrame?.stopShimmer()
                 shimmerFrame?.visibility = View.GONE
@@ -175,6 +174,8 @@ class TabYourBooks : Fragment() {
             },
             { error ->
                 Log.e("VolleyExample", "Error: $error")
+                shimmerFrame?.stopShimmer()
+                shimmerFrame?.visibility = View.GONE
             }
         )
 
@@ -188,7 +189,7 @@ class TabYourBooks : Fragment() {
 
 
     companion object {
-        const val POST_BOOK_REQUEST = 123 // Any unique integer constant
+        const val POST_BOOK_REQUEST = 123
     }
 
 }

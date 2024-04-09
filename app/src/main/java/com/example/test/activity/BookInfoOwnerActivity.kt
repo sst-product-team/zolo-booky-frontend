@@ -49,7 +49,14 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         }
 
         binding = ActivityBookInfoOwnerBinding.inflate(layoutInflater)
+        
+        
         setContentView(binding.root)
+         val backButton = binding.tvbackToYourBooks
+        backButton.setOnClickListener {
+            finish()
+        }
+
 
 
         fetch()
@@ -110,22 +117,13 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 
 
     fun fetch(){
+
         shimmerFrameLayout = binding.shimmerInfoView
         mainLayout = binding.topPart
 
         mainLayout.visibility = View.GONE
         shimmerFrameLayout.visibility = View.VISIBLE
         shimmerFrameLayout.startShimmer()
-//
-
-
-
-//        val rvBorrowers = binding.rvBorrowers
-//        borrowerAdapter = BorrowerListAdapter(emptyList())
-//        rvBorrowers.adapter = borrowerAdapter
-
-
-
 
 
         // Retrieve the book information from the intent
@@ -154,7 +152,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 
 
 
-///////for vorrower recycler view
+///////for Borrower recycler view
 
         val recyclerView = binding.borrowerRecyclerView
         val requestsView = binding.reqCons
@@ -243,9 +241,8 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                 shimmerFrameLayout.stopShimmer()
                 mainLayout.visibility = View.VISIBLE
 
-                Log.d("appy", "onCreate: $borrowers")
-//                borrowerAdapter.borrowers = borrowers
-//                borrowerAdapter.notifyDataSetChanged()
+                Log.d("borrowers data", "onCreate: $borrowers")
+
             },
             { error ->
                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()

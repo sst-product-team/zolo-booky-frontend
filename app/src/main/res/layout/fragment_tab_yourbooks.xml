@@ -71,8 +71,6 @@
         android:text="Add Books"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:onClick="openPostActivity"
-
         android:backgroundTint="@color/zolo_secondary"
         app:cornerRadius="5dp"
         android:textColor="@color/zolo_bluey"
