@@ -144,8 +144,8 @@ class TabYourBooks : Fragment() {
             },
             { error ->
                 Log.e("VolleyExample", "Error: $error")
-                shimmerFrame.stopShimmer()
-                shimmerFrame.visibility = View.GONE
+                shimmerFrame?.stopShimmer()
+                shimmerFrame?.visibility = View.GONE
             }
         )
 
@@ -159,7 +159,7 @@ class TabYourBooks : Fragment() {
 
 
     companion object {
-
+        const val POST_BOOK_REQUEST = 123
     }
 
 }

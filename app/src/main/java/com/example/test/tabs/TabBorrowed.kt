@@ -328,8 +328,11 @@ class TabBorrowed : Fragment() {
 
         //////// for all books
 
-        val recyclerView2 = view.findViewById<RecyclerView>(R.id.BookRecyclerView)
-        val loadingSpinner = view.findViewById<CardView>(R.id.cv_progress_bar)
+        val recyclerView2 = view?.findViewById<RecyclerView>(R.id.BookRecyclerView)
+        val loadingSpinner = view?.findViewById<CardView>(R.id.cv_progress_bar)
+
+        val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
+
 
         val url2 = "${Constants.BASE_URL}/v0/books"
         shimmerFrameLayout2.startShimmer()
@@ -343,13 +346,13 @@ class TabBorrowed : Fragment() {
 
             private var lastSearchTime = 0L
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
+                loadingSpinner?.visibility = View.GONE
 
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                loadingSpinner.visibility = View.GONE
+                loadingSpinner?.visibility = View.GONE
 
                 if (!newText.isNullOrEmpty()) {
                     val currentMillis = System.currentTimeMillis()
@@ -381,8 +384,8 @@ class TabBorrowed : Fragment() {
                                 }
 
                                 val adapter = BookListAdapter(books)
-                                recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-                                recyclerView2.adapter = adapter
+                                recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
+                                recyclerView2?.adapter = adapter
                                 adapter.notifyDataSetChanged()
                             },
                             { error ->
@@ -392,7 +395,7 @@ class TabBorrowed : Fragment() {
                         queue.add(jsonArrayRequest2)
                     }
                 } else {
-                    loadingSpinner.visibility = View.GONE
+                    loadingSpinner?.visibility = View.GONE
 
                     // Reset to initial data if search query is empty
                     setupPagination()
