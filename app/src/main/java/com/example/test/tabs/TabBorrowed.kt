@@ -64,7 +64,7 @@ class TabBorrowed : Fragment() {
 
         val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
         // Starting the shimmer effect before making the API request
-
+        shimmerFrameLayout2.visibility = View.VISIBLE
         shimmerFrameLayout2.startShimmer()
 
 
@@ -73,6 +73,8 @@ class TabBorrowed : Fragment() {
         loadingSpinner = binding.cvProgressBar // Initialize loadingSpinner here
         setupPagination()
         fetchInitialBooks()
+        shimmerFrameLayout2.stopShimmer()
+        shimmerFrameLayout2.visibility = View.GONE
 
 
         val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
@@ -268,6 +270,8 @@ class TabBorrowed : Fragment() {
             { error ->
                 Log.e("API Error", error.toString())
                 Log.e("VolleyExample", "Error: $error")
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
             }
         )
 
@@ -279,15 +283,9 @@ class TabBorrowed : Fragment() {
         val recyclerView2 = view?.findViewById<RecyclerView>(R.id.BookRecyclerView)
         val loadingSpinner = view?.findViewById<CardView>(R.id.cv_progress_bar)
 
-        val shimmerFrameLayout2 = binding.shimmerViewContainerBookList2
 
 
         val url2 = "${Constants.BASE_URL}/v0/books"
-        shimmerFrameLayout2.startShimmer()
-        shimmerFrameLayout2.visibility = View.VISIBLE
-        Log.d("API Request URL", url2)
-        shimmerFrameLayout2.stopShimmer()
-        shimmerFrameLayout2.visibility = View.GONE
         searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -362,6 +360,7 @@ class TabBorrowed : Fragment() {
     private fun fetchInitialBooks() {
         val shimmerFrameLayout = binding.shimmerViewContainerBookList2
         shimmerFrameLayout.startShimmer()
+        shimmerFrameLayout.visibility = View.VISIBLE
 
         recyclerView = binding.BookRecyclerView
         queue = Volley.newRequestQueue(requireContext())
@@ -395,6 +394,8 @@ class TabBorrowed : Fragment() {
             },
             { error ->
                 Log.e("API Error", error.toString())
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
             }
         )
 
