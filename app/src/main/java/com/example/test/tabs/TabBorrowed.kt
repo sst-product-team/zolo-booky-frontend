@@ -28,6 +28,7 @@ import com.example.test.entity.ListAppealEntity
 import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
+import com.example.test.globalContexts.Constants.isAccepted
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.math.log
@@ -185,7 +186,10 @@ class TabBorrowed : Fragment() {
     override fun onResume() {
         super.onResume()
         // This method will be called every time the fragment becomes visible
-        reloadBorrowed()
+       if (isAccepted == true) {
+           reloadBorrowed()
+       }
+        isAccepted = false
         Log.d("elephat","i am called")
     }
 
@@ -194,6 +198,9 @@ class TabBorrowed : Fragment() {
 
         val shimmerFrameLayout = binding.shimmerViewContainerBookList
         shimmerFrameLayout.startShimmer()
+        binding.rvBorrowBookList.visibility = View.GONE
+        shimmerFrameLayout.visibility = View.VISIBLE
+
 
         val recyclerView = binding.rvBorrowBookList
         val queue = Volley.newRequestQueue(requireContext())
@@ -263,6 +270,7 @@ class TabBorrowed : Fragment() {
 
 
 
+
                 if(count==0){
 
                     val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
@@ -275,6 +283,16 @@ class TabBorrowed : Fragment() {
                     binding.msg.visibility = View.VISIBLE
 
                 }
+                else{
+                    binding.msg.visibility = View.GONE
+                    val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
+                    val heightInDp = 300 // desired height in dp
+                    val density = resources.displayMetrics.density
+                    val heightInPixels = (heightInDp * density).toInt()
+                    layoutParams.height = heightInPixels
+                    binding.constraintLayout4.layoutParams = layoutParams
+                }
+
 
                 if (count==1){
                     val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
@@ -284,8 +302,16 @@ class TabBorrowed : Fragment() {
                     layoutParams.height = heightInPixels
                     binding.constraintLayout4.layoutParams = layoutParams
                 }
+                if(count>1){
+                    val layoutParams = binding.constraintLayout4.layoutParams as ConstraintLayout.LayoutParams
+                    val heightInDp = 300 // desired height in dp
+                    val density = resources.displayMetrics.density
+                    val heightInPixels = (heightInDp * density).toInt()
+                    layoutParams.height = heightInPixels
+                    binding.constraintLayout4.layoutParams = layoutParams
+                }
 
-
+                binding.rvBorrowBookList.visibility= View.VISIBLE
                 val adapter = BookBorrowAdapter(requireContext(), booksB)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter

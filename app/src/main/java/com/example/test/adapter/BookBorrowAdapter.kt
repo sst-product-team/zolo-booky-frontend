@@ -20,6 +20,7 @@ import com.example.test.globalContexts.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import org.json.JSONObject
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -183,10 +184,15 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
 
 
 
-    public fun formatDate(inputDate: String): String {
-        // Parse the input date string
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-        val dateTime = LocalDateTime.parse(inputDate, formatter)
+    fun formatDate(inputDate: String): String {
+
+        // Find the date part by splitting the input string
+        val datePart = inputDate.split(" ")[0]
+        Log.d("chkker","${datePart}")
+
+        // Parse the date part
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateTime = LocalDate.parse(datePart, formatter)
 
         // Extract day, month, and year from the parsed date
         val day = dateTime.dayOfMonth
@@ -197,9 +203,10 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
         val formattedDate = "${ordinal(day)} $month, $year"
 
         return formattedDate
+
     }
 
-    public  fun ordinal(number: Int): String {
+    fun ordinal(number: Int): String {
         return when {
             number in 11..13 -> "${number}th"
             number % 10 == 1 -> "${number}st"

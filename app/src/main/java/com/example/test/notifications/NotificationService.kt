@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.example.test.MainActivity
 import com.example.test.R
+import com.example.test.globalContexts.Constants.isAccepted
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -20,6 +21,7 @@ const val channelName="com.example.test"
 class NotificationService: FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Log.d("notty","hello world")
         if(remoteMessage.notification != null) {
             generateNotification(remoteMessage.notification!!.title!!, remoteMessage.notification!!.body!!)
         }
@@ -43,6 +45,10 @@ class NotificationService: FirebaseMessagingService() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
+
+        intent.putExtra("notification_type", title)
+        Log.d("notty",title)
+
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
@@ -65,7 +71,25 @@ class NotificationService: FirebaseMessagingService() {
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
+
+        when (getFirstThreeWords(title)) {
+            "Request accepted for" -> {
+               isAccepted = true
+            }
+
+            // Add more cases as needed
+        }
+
         notificationManager.notify(0, builder.build())
 
+    }
+
+    private fun getFirstThreeWords(title: String): String {
+        val words = title.split(" ")
+        return if (words.size >= 3) {
+            "${words[0]} ${words[1]} ${words[2]}"
+        } else {
+            title
+        }
     }
 }

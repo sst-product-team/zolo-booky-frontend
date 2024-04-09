@@ -5,4 +5,8 @@ object Constants {
     var USER_ID = -1
     var USER_NAME = ""
     var USER_FCM = ""
+    var isPosted = false
+
+
+    var isAccepted = false
 }

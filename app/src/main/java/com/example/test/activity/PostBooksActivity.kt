@@ -22,6 +22,7 @@ import com.example.test.R
 import com.example.test.adapter.MyBooksAdapter
 import com.example.test.databinding.PostBooksBinding
 import com.example.test.globalContexts.Constants
+import com.example.test.globalContexts.Constants.isPosted
 //import com.google.android.gms.cast.framework.media.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -334,6 +335,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 // Handling the response from the server
                 Log.d("POST BOOK SUCCESS", "Book added successfully. Response: $response")
                 Toast.makeText(this@PostBooksActivity, "The book is successfully added", Toast.LENGTH_LONG).show()
+
+                isPosted = true
                 finish()
 
 
