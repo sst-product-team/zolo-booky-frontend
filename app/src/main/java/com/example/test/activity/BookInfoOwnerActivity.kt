@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.databinding.FragmentTabYourbooksBinding
 import com.facebook.shimmer.ShimmerFrameLayout
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -86,8 +87,13 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 ///////for Borrower recycler view
 
         val recyclerView = binding.borrowerRecyclerView
+        val requestsView = binding.reqCons
+        val returnView = binding.cardy2
+
         var queue = Volley.newRequestQueue(this)
         val url = "${Constants.BASE_URL}/v0/appeals?book=${bookId}"
+
+        var completiondate = ""
 
 
         Log.d("appy",url)
@@ -105,7 +111,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                     val appealObject = response.getJSONObject(i)
                     val trans_status = appealObject.getString("trans_status")
                     val status = appealObject.getJSONObject("bookId").getString("status")
-
+                    completiondate = appealObject.getString("expected_completion_date")
 
 
                     if (trans_status == "PENDING") {
@@ -115,6 +121,8 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                         val inDate = appealObject.getString("initiation_date")
                         val retDate = appealObject.getString("expected_completion_date")
                         val transId = appealObject.getInt("trans_id")
+
+
 
                         val borrower = BorrowerEntity(
                             id = borrowerId,
@@ -132,16 +140,25 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                         borrowers.sortBy { it.name }
                     }
                 }
-
+                returnView.visibility = View.GONE
 
 
                 if (count ==0 && bookStatus == "AVAILABLE"){
                     recyclerView.visibility = View.GONE
                     binding.textView2.text = "No Requests on this Book"
+                    returnView.visibility = View.GONE
                 }
                 if (bookStatus=="DELISTED"){
                     recyclerView.visibility = View.GONE
                     binding.textView2.text = "This Book is Currently Delisted"
+                    returnView.visibility = View.GONE
+                }
+                if(bookStatus=="UNAVAILABLE"){
+                    requestsView.visibility = View.GONE
+                    returnView.visibility = View.VISIBLE
+                    binding.date.text = formatDate(completiondate)
+
+
                 }
 
 
@@ -168,9 +185,14 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 
 
     fun formatDate(inputDate: String): String {
-        // Parse the input date string
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-        val dateTime = LocalDateTime.parse(inputDate, formatter)
+
+        // Find the date part by splitting the input string
+        val datePart = inputDate.split(" ")[0]
+        Log.d("chkker","${datePart}")
+
+        // Parse the date part
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateTime = LocalDate.parse(datePart, formatter)
 
         // Extract day, month, and year from the parsed date
         val day = dateTime.dayOfMonth
@@ -181,6 +203,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         val formattedDate = "${ordinal(day)} $month, $year"
 
         return formattedDate
+
     }
 
     fun ordinal(number: Int): String {
