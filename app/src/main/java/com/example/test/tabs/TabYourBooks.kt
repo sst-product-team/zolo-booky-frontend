@@ -20,6 +20,8 @@ import com.example.test.databinding.FragmentTabYourbooksBinding
 import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
 import com.example.test.globalContexts.Constants
+import com.example.test.globalContexts.Constants.isPosted
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 class TabYourBooks : Fragment() {
@@ -46,16 +48,34 @@ class TabYourBooks : Fragment() {
         val openPostButton = view.findViewById<Button>(R.id.addbooksButton)
         openPostButton.setOnClickListener{
             val intent = Intent(activity, PostBooksActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, POST_BOOK_REQUEST)
         }
     }
-     fun fetchmybooks(){
+
+    override fun onResume() {
+        super.onResume()
+        // This method will be called every time the fragment becomes visible
+        if (isPosted == true){
+            fetchmybooks()
+            Log.d("elephant","i am fetch called")
+        }
+        Log.d("elephant","i am called")
+        isPosted = false
+    }
+
+      fun fetchmybooks(){
+
+          val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
+          val shimmerFrame = view?.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_mybooks)
+          val msg  = view?.findViewById<CardView>(R.id.msgO)
+          shimmerFrame?.visibility = View.VISIBLE
+          recyclerView?.visibility = View.GONE
+          msg?.visibility = View.GONE
+          shimmerFrame?.startShimmer()
+          Log.d("elephant","me too")
 
 
-        val shimmerFrame = binding.shimmerViewMybooks
-        shimmerFrame.startShimmer()
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
 
         val queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books?owner=${Constants.USER_ID}"
@@ -96,14 +116,21 @@ class TabYourBooks : Fragment() {
                         )
 
                 }
-                shimmerFrame.stopShimmer()
-                shimmerFrame.visibility = View.GONE
+                shimmerFrame?.stopShimmer()
+                shimmerFrame?.visibility = View.GONE
                 if (count==0){
                     val msg  = view?.findViewById<CardView>(R.id.msgO)
                     if (msg != null) {
                         msg.visibility = View.VISIBLE
                     }
                 }
+                else{
+                    val msg  = view?.findViewById<CardView>(R.id.msgO)
+                    if (msg != null) {
+                        msg.visibility = View.GONE
+                    }
+                }
+                recyclerView?.visibility = View.VISIBLE
 
                 val adapter = MyBooksAdapter(requireContext(), books)
                 if (recyclerView != null) {
@@ -112,6 +139,7 @@ class TabYourBooks : Fragment() {
                 if (recyclerView != null) {
                     recyclerView.adapter = adapter
                 }
+                adapter.notifyDataSetChanged()
 
             },
             { error ->

@@ -20,8 +20,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var tabAdapter: TabAdapter
 
+
+    private var tokenSentToServer = false
+
     private fun sendTokenToServer(generatedToken: String, queue: RequestQueue) {
-        Log.d("FCM", "SENDING TO SERVER");
+
+        if (tokenSentToServer) {
+            Log.d("FCM", "Token already sent to server")
+            return
+        }
 
         val sharedPreferences = this.getSharedPreferences("Booky", Context.MODE_PRIVATE)
         Constants.USER_FCM = sharedPreferences.getString("USER_FCM", "").toString()
@@ -57,25 +64,47 @@ class MainActivity : AppCompatActivity() {
             }
         )
         queue.add(jsonObjectRequest)
+
+
+        tokenSentToServer = true
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d("FCM", "STARTING")
         var token: String
         val queue = Volley.newRequestQueue(this)
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                token = task.result
-                Log.d("FCM ABC", token)
-                sendTokenToServer(token, queue);
-            } else {
-                token = "Token not generated"
-                Log.d("FCM Error: ", token)
+
+
+
+        val sharedPreferences = this.getSharedPreferences("Booky", Context.MODE_PRIVATE)
+        if (sharedPreferences.contains("USER_FCM")) {
+            token = sharedPreferences.getString("USER_FCM", "").toString()
+            Log.d("HOME-FCM", token)
+            sendTokenToServer(token, queue)
+        } else {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    token = task.result
+                    Log.d("HOME-FCM", token)
+                    sendTokenToServer(token, queue)
+                } else {
+                    token = "Token not generated"
+                    Log.d("FCM Error: ", token)
+                }
             }
         }
+
+
+
+
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(this.getResources().getColor(R.color.zolo_bg_main));
