@@ -1,7 +1,10 @@
 package com.example.test.tabs
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -52,6 +55,13 @@ class TabYourBooks : Fragment() {
         }
     }
 
+
+    private val reloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            fetchmybooks()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         // This method will be called every time the fragment becomes visible
@@ -61,6 +71,25 @@ class TabYourBooks : Fragment() {
         }
         Log.d("elephant","i am called")
         isPosted = false
+
+
+        context?.registerReceiver(
+            reloadReceiver,
+            IntentFilter("com.example.test.RELOAD_YOURBOOKS"),
+            null,
+            null,
+            Context.RECEIVER_NOT_EXPORTED
+        )
+    }
+
+
+
+
+    override fun onPause() {
+        super.onPause()
+
+        context?.unregisterReceiver(reloadReceiver)
+
     }
 
       fun fetchmybooks(){

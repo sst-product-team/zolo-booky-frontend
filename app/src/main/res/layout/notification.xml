@@ -2,48 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:backgroundTint="@color/white">
+    android:padding="16dp"
+    android:background="@android:color/black">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/logo"
+        android:layout_marginEnd="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        >
-        <ImageView
-            android:id="@+id/app_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-
-            android:src="@drawable/logo"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp" />
+        android:layout_toEndOf="@id/app_logo"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:text="Title"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/app_logo" />
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/message"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:text="This is a message"
-            android:textSize="10sp"
-            android:layout_below="@id/title"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/app_logo"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
