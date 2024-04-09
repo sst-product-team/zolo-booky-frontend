@@ -1,6 +1,10 @@
 package com.example.test.activity
 
 import BorrowerListAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -22,11 +26,13 @@ import com.android.volley.toolbox.Volley
 import com.example.test.R
 import com.example.test.databinding.FragmentTabYourbooksBinding
 import com.facebook.shimmer.ShimmerFrameLayout
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+
 
 class BookInfoOwnerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookInfoOwnerBinding
@@ -43,12 +49,74 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         }
 
         binding = ActivityBookInfoOwnerBinding.inflate(layoutInflater)
+        
+        
         setContentView(binding.root)
-
-        val backButton = binding.tvbackToYourBooks
+         val backButton = binding.tvbackToYourBooks
         backButton.setOnClickListener {
             finish()
         }
+
+
+
+        fetch()
+
+
+    }
+
+
+    private val reloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            fetch()
+        }
+    }
+    private val popBack = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            onDialogDismissed()
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        // This method will be called every time the fragment becomes visible
+        if (Constants.isPosted == true){
+            fetch()
+            Log.d("elephant","i am fetch called")
+        }
+        Log.d("elephant","i am called")
+        Constants.isPosted = false
+
+
+        this.registerReceiver(
+            reloadReceiver,
+            IntentFilter("com.example.test.RELOAD_OWNERINFO"),
+            null,
+            null,
+            Context.RECEIVER_NOT_EXPORTED
+        )
+
+        this.registerReceiver(
+            popBack,
+            IntentFilter("com.example.test.RELOAD_POP"),
+            null,
+            null,
+            Context.RECEIVER_NOT_EXPORTED
+        )
+    }
+
+
+
+
+    override fun onPause() {
+        super.onPause()
+        this.unregisterReceiver(reloadReceiver)
+        this.unregisterReceiver(popBack)
+
+    }
+
+
+    fun fetch(){
 
         shimmerFrameLayout = binding.shimmerInfoView
         mainLayout = binding.topPart
@@ -61,7 +129,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         // Retrieve the book information from the intent
         val bookId = intent.getIntExtra("bookId", 0)
         val bookName = intent.getStringExtra("bookName")
-        val bookStatus = intent.getStringExtra("bookStatus")
+        var bookStatus = intent.getStringExtra("bookStatus")
         val transStatus = intent.getStringExtra("transStatus")
         val bookThumbnail = intent.getStringExtra("bookThumbnail")
         val bookAuthor = intent.getStringExtra("bookAuthor")
@@ -113,6 +181,8 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                     val status = appealObject.getJSONObject("bookId").getString("status")
                     completiondate = appealObject.getString("expected_completion_date")
 
+                    bookStatus = status
+
 
                     if (trans_status == "PENDING") {
                         val borrowerObject = appealObject.getJSONObject("borrowerId")
@@ -163,6 +233,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
 
 
                 val adapter = BorrowerListAdapter(this,borrowers)
+                adapter.notifyDataSetChanged()
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.adapter=adapter
 
@@ -181,6 +252,12 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         queue.add(jsonArrayRequest)
 
 
+    }
+
+     fun onDialogDismissed() {
+        // Handle the dialog dismissal action here (e.g., navigate to the previous fragment)
+        // Example:
+        supportFragmentManager.popBackStack()
     }
 
 

@@ -8,4 +8,5 @@ object Constants {
     var USER_FCM = ""
     var isPosted = false
     var isAccepted = false
+
 }

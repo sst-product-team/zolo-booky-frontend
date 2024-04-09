@@ -1,6 +1,7 @@
 package com.example.test.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -129,6 +131,9 @@ class BookBorrowAdapter(private val context: Context, private val books: List<Li
         btnConfirm.setOnClickListener {
             returnBook(appeal)
             dialog.dismiss()
+            val intent = Intent("com.example.test.RELOAD_ACTION")
+            context.sendBroadcast(intent)
+
         }
 
         dialog.show()

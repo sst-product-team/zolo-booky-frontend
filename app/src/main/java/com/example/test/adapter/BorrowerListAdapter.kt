@@ -1,4 +1,5 @@
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.test.databinding.BorrowerDetailsBinding
 import com.example.test.entity.BorrowerEntity
 import com.example.test.entity.ListAppealEntity
 import com.example.test.globalContexts.Constants
+import com.example.test.globalContexts.Constants.isPosted
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import org.json.JSONObject
@@ -69,12 +71,18 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
             btnCancel.setOnClickListener {
                 dialog.dismiss()
                 rejectAppeal(appeal,dialog)
+
+                val intent = Intent("com.example.test.RELOAD_POP")
+                context.sendBroadcast(intent)
+
             }
 
             btnConfirm.setOnClickListener {
                 dialog.dismiss()
                 acceptaAppeal(appeal,dialog)
 
+                val intent = Intent("com.example.test.RELOAD_POP")
+                context.sendBroadcast(intent)
             }
         }
 
@@ -100,6 +108,11 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
             }
         )
         queue.add(jsonObjectRequest)
+
+        val intent = Intent("com.example.test.RELOAD_OWNERINFO")
+        context.sendBroadcast(intent)
+
+       isPosted = true
     }
 
 
@@ -120,6 +133,11 @@ class BorrowerListAdapter(private val context: Context, private val borrowers: M
             }
         )
         queue.add(jsonObjectRequest)
+
+        val intent = Intent("com.example.test.RELOAD_OWNERINFO")
+        context.sendBroadcast(intent)
+
+        isPosted = true
     }
 
     override fun getItemCount() = borrowers.size
