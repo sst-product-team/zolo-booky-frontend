@@ -121,7 +121,7 @@
                 android:layout_margin="15dp"
                 android:background="@color/shimmer_color"
                 android:lineHeight="20dp"
-                android:text="                                                                                                                                                                                                          "
+                android:text="@string/big_blank"
                 android:textColor="#ADADAD"
                 android:textSize="11dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +161,7 @@
         android:paddingTop="17dp"
         android:paddingBottom="17dp"
 
-        android:text="Request this Book"
+        android:text="@string/request_this_book"
         android:textColor="@color/zolo_bluey"
         android:textSize="12dp"
         app:cornerRadius="5dp"

@@ -137,7 +137,7 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="24dp"
 
-                    android:text="Harry Potter"
+                    android:text=""
                     android:textColor="@color/onlyBlack"
                     android:textSize="17dp"
                     android:textStyle="bold"
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Kev Freeman"
+                    android:text=""
                     android:textColor="@color/zolo_sec_text"
                     android:textSize="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,10 +165,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:text="Description"
+                android:text="@string/description"
 
 
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="35dp"
 
 
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:lineHeight="20dp"
-                android:text="vgjnkjn bkn klb kngklnb k gkb knjkgnbjgjbjgbinnn nvgjnjgnbjngnjjlnfglkjnklgfjnjk jngbjnjgf igiogf iogfomgf oofgjoigf oijfoijoijfgv "
+                android:text=""
                 android:textColor="#ADADAD"
                 android:textSize="11dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="16dp"
-                    android:text="OWNER"
+                    android:text="@string/owner"
                     android:textColor="@color/onlyBlack"
                     android:textSize="12dp"
 
@@ -225,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Pradyut"
+                    android:text=""
                     android:textColor="#ADADAD"
                     android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -255,7 +255,7 @@
 
 
         android:onClick="openNumberPickerPopup"
-        android:text="Request this Book"
+        android:text="@string/request_this_book"
         android:textColor="@color/zolo_bluey"
         app:rippleColor="@color/greyLight"
         android:textSize="12dp"

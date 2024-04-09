@@ -14,7 +14,7 @@
         android:id="@+id/maintext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Books Section"
+        android:text="@string/books_section"
         android:gravity="center_vertical"
         android:paddingTop="30dp"
         android:paddingBottom="10dp"

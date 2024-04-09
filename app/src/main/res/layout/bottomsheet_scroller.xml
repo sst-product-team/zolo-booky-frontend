@@ -11,7 +11,7 @@
         android:id="@+id/texty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your History"
+        android:text="@string/your_history"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="25dp"
@@ -85,7 +85,7 @@
             android:id="@+id/cardtxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No currently Borrowed Books by you"
+            android:text="@string/no_currently_borrowed_books_by_you"
             android:layout_gravity="center"
             android:textColor="@color/zolo_sec_text"
             android:textSize="12sp"/>

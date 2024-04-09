@@ -44,7 +44,7 @@
 
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="8dp"
-                android:text="BookTitle"
+                android:text="@string/booktitle"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Owned by you"
+                android:text="@string/owned_by_you"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/req_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/req_author" />
@@ -66,7 +66,7 @@
                 android:id="@+id/req_BkStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Available"
+                android:text="@string/available"
                 android:textSize="10sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_green_dark"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Author"
+                android:text="@string/author"
                 app:layout_constraintStart_toEndOf="@+id/req_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/req_BkTitle" />
 
