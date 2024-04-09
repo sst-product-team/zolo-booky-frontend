@@ -33,6 +33,7 @@ import com.example.test.entity.ListBookEntity
 import com.example.test.globalContexts.Constants
 import com.example.test.globalContexts.Constants.USER_ID
 import com.example.test.globalContexts.Constants.isAccepted
+import com.example.test.globalContexts.Constants.isSearchUpdated
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.math.log
@@ -114,13 +115,35 @@ class TabBorrowed : Fragment() {
             Log.d("ryva5","fetched")
         }
     }
+    private val reloadSearch = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val recyclerView2 = view?.findViewById<RecyclerView>(R.id.BookRecyclerView)
+            clearAndSetupPagination(recyclerView2)
+            Log.d("ryva5","fetched")
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
 
+        if (isSearchUpdated== true){
+            val recyclerView2 = view?.findViewById<RecyclerView>(R.id.BookRecyclerView)
+            clearAndSetupPagination(recyclerView2)
+            isSearchUpdated = false
+        }
+
         context?.registerReceiver(
             reloadReceiver,
             IntentFilter("com.example.test.RELOAD_ACTION"),
+            null,
+            null,
+            Context.RECEIVER_EXPORTED
+        )
+
+        context?.registerReceiver(
+            reloadSearch,
+            IntentFilter("com.example.test.RELOAD_SEARCH"),
             null,
             null,
             Context.RECEIVER_EXPORTED
@@ -132,6 +155,7 @@ class TabBorrowed : Fragment() {
         super.onPause()
 
         context?.unregisterReceiver(reloadReceiver)
+        context?.unregisterReceiver(reloadSearch)
 
     }
 
@@ -341,6 +365,10 @@ class TabBorrowed : Fragment() {
             }
         })
     }
+
+
+
+
     fun clearAndSetupPagination(recyclerView2:RecyclerView?) {
         books.clear()
         recyclerView2?.clearOnScrollListeners()

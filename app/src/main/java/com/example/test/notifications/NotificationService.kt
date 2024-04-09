@@ -81,7 +81,7 @@ class NotificationService: FirebaseMessagingService() {
         Log.d("ryva2",x)
 
         when (getFirstThreeWords(title)) {
-            "Request accepted for" -> {
+            "Request accepted" -> {
                 Log.d("ryva3","detected")
                 isAccepted = true
 
@@ -89,7 +89,7 @@ class NotificationService: FirebaseMessagingService() {
                 applicationContext.sendBroadcast(intent)
             }
 
-            "Book request for" -> {
+            "Book request" -> {
                 Log.d("ryva4","detected")
                 isAccepted = true
 
@@ -98,6 +98,13 @@ class NotificationService: FirebaseMessagingService() {
 
                 val intent2 = Intent("com.example.test.RELOAD_OWNERINFO")
                 applicationContext.sendBroadcast(intent2)
+            }
+            "New BookAlert!!" -> {
+                Log.d("ryva3","detected")
+
+
+                val intent = Intent("com.example.test.RELOAD_SEARCH")
+                applicationContext.sendBroadcast(intent)
             }
 
 
@@ -109,8 +116,8 @@ class NotificationService: FirebaseMessagingService() {
 
     private fun getFirstThreeWords(title: String): String {
         val words = title.split(" ")
-        return if (words.size >= 3) {
-            "${words[0]} ${words[1]} ${words[2]}"
+        return if (words.size >= 2) {
+            "${words[0]} ${words[1]}"
         } else {
             title
         }

@@ -7,6 +7,7 @@ object Constants {
     var USER_NAME = ""
     var USER_FCM = ""
     var isPosted = false
+    var isSearchUpdated = false
     var isAccepted = false
 
 }

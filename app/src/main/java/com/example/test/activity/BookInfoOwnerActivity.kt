@@ -257,7 +257,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
      fun onDialogDismissed() {
         // Handle the dialog dismissal action here (e.g., navigate to the previous fragment)
         // Example:
-        supportFragmentManager.popBackStack()
+        finish()
     }
 
 
