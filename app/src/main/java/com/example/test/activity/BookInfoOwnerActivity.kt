@@ -94,6 +94,9 @@ class BookInfoOwnerActivity : AppCompatActivity() {
         var queue = Volley.newRequestQueue(this)
         val url = "${Constants.BASE_URL}/v0/appeals?book=${bookId}"
 
+
+        Log.d("appy",url)
+
         var count = 0;
 
 
@@ -108,9 +111,9 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                     val trans_status = appealObject.getString("trans_status")
                     val status = appealObject.getJSONObject("bookId").getString("status")
 
-                    if (transStatus == "PENDING") {
 
 
+                    if (trans_status == "PENDING") {
                         val borrowerObject = appealObject.getJSONObject("borrowerId")
                         val borrowerId = borrowerObject.getInt("id")
                         val borrowerName = borrowerObject.getString("name")
@@ -135,6 +138,8 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                     }
                 }
 
+
+
                 if (count ==0 && bookStatus == "AVAILABLE"){
                     recyclerView.visibility = View.GONE
                     binding.textView2.text = "No Requests on this Book"
@@ -153,7 +158,7 @@ class BookInfoOwnerActivity : AppCompatActivity() {
                 shimmerFrameLayout.stopShimmer()
                 mainLayout.visibility = View.VISIBLE
 
-                Log.d("borrowers data", "onCreate: $borrowers")
+                Log.d("appy", "onCreate: $borrowers")
 //                borrowerAdapter.borrowers = borrowers
 //                borrowerAdapter.notifyDataSetChanged()
             },
