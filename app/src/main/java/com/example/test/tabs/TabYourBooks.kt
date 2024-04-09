@@ -21,6 +21,7 @@ import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
 import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
+import com.example.test.globalContexts.Constants.isPosted
 import com.facebook.shimmer.ShimmerFrameLayout
 
 
@@ -55,17 +56,27 @@ class TabYourBooks : Fragment() {
     override fun onResume() {
         super.onResume()
         // This method will be called every time the fragment becomes visible
-        fetchmybooks()
+        if (isPosted == true){
+            fetchmybooks()
+            Log.d("elephant","i am fetch called")
+        }
         Log.d("elephant","i am called")
+        isPosted = false
     }
+
       fun fetchmybooks(){
 
-
+          val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
           val shimmerFrame = view?.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_mybooks)
+          val msg  = view?.findViewById<CardView>(R.id.msgO)
+          shimmerFrame?.visibility = View.VISIBLE
+          recyclerView?.visibility = View.GONE
+          msg?.visibility = View.GONE
           shimmerFrame?.startShimmer()
           Log.d("elephant","me too")
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.MyBooksRecyclerView)
+
+
 
         val queue = Volley.newRequestQueue(requireContext())
         val url = "${Constants.BASE_URL}/v0/books?size=100"
@@ -114,6 +125,13 @@ class TabYourBooks : Fragment() {
                         msg.visibility = View.VISIBLE
                     }
                 }
+                else{
+                    val msg  = view?.findViewById<CardView>(R.id.msgO)
+                    if (msg != null) {
+                        msg.visibility = View.GONE
+                    }
+                }
+                recyclerView?.visibility = View.VISIBLE
 
                 val adapter = MyBooksAdapter(requireContext(), books)
                 if (recyclerView != null) {
