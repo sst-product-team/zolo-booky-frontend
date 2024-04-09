@@ -56,7 +56,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvBorrowDateText"
         app:layout_constraintStart_toEndOf="@+id/tvBorrowDateText"
         app:layout_constraintTop_toTopOf="@+id/tvBorrowDateText" />
-        />
 
     <TextView
         android:id="@+id/btnSub"

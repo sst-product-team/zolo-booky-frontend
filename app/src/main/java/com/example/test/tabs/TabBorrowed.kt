@@ -380,6 +380,8 @@ class TabBorrowed : Fragment() {
                     }
                 }
 
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
                 val adapter = BookListAdapter(books)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapter
