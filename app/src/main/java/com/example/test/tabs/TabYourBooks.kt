@@ -24,6 +24,7 @@ import com.example.test.entity.MyBookEntity
 import com.example.test.entity.UserEntity
 import com.example.test.fragment.MyBooksFragment
 import com.example.test.globalContexts.Constants
+
 import com.example.test.globalContexts.Constants.isPosted
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -70,6 +71,7 @@ class TabYourBooks : Fragment() {
             fetchmybooks()
             Log.d("elephant","i am fetch called")
         }
+
         Log.d("elephant","i am called")
         isPosted = false
 
@@ -88,7 +90,6 @@ class TabYourBooks : Fragment() {
 
     override fun onPause() {
         super.onPause()
-
         context?.unregisterReceiver(reloadReceiver)
 
     }

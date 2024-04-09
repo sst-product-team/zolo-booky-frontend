@@ -95,6 +95,9 @@ class NotificationService: FirebaseMessagingService() {
 
                 val intent = Intent("com.example.test.RELOAD_YOURBOOKS")
                 applicationContext.sendBroadcast(intent)
+
+                val intent2 = Intent("com.example.test.RELOAD_OWNERINFO")
+                applicationContext.sendBroadcast(intent2)
             }
 
 

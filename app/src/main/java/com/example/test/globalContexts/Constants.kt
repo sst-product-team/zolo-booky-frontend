@@ -9,4 +9,5 @@ object Constants {
 
 
     var isAccepted = false
+
 }
